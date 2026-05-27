@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IT Security Foundations: Core Concepts – Study Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d1117; --surface: #161b22; --surface2: #1c2330; --border: #30363d;
+    --accent: #00e5ff; --accent2: #ff6b35; --accent3: #7ee787; --accent4: #d2a8ff;
+    --text: #e6edf3; --muted: #8b949e; --heading: #f0f6fc;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 400; line-height: 1.7; padding: 2rem 1rem; }
+  header { text-align: center; padding: 3rem 1rem 2rem; border-bottom: 1px solid var(--border); margin-bottom: 2.5rem; }
+  header .label { font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; letter-spacing: 0.2em; color: var(--accent); text-transform: uppercase; margin-bottom: 0.75rem; }
+  header h1 { font-size: clamp(1.8rem, 5vw, 3rem); font-weight: 700; color: var(--heading); letter-spacing: -0.02em; margin-bottom: 0.5rem; }
+  header .subtitle { color: var(--muted); font-size: 0.95rem; }
+  .container { max-width: 960px; margin: 0 auto; }
+  .toc { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem 2rem; margin-bottom: 3rem; }
+  .toc h2 { font-family: 'IBM Plex Mono', monospace; font-size: 0.8rem; color: var(--accent); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 1rem; }
+  .toc ol { columns: 2; column-gap: 2rem; padding-left: 1.2rem; }
+  .toc li { margin-bottom: 0.4rem; font-size: 0.92rem; break-inside: avoid; }
+  .toc a { color: var(--accent4); text-decoration: none; }
+  .toc a:hover { color: var(--accent); }
+  .chapter { margin-bottom: 3rem; }
+  .chapter-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border); }
+  .chapter-num { font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; color: var(--accent2); background: rgba(255,107,53,0.12); border: 1px solid rgba(255,107,53,0.3); border-radius: 4px; padding: 0.15rem 0.5rem; white-space: nowrap; }
+  .chapter h2 { font-size: 1.4rem; font-weight: 700; color: var(--heading); letter-spacing: -0.01em; }
+  .section { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; margin-bottom: 1.25rem; }
+  .section h3 { font-size: 1rem; font-weight: 700; color: var(--accent); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+  .section h3::before { content: ''; display: inline-block; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; flex-shrink: 0; }
+  .term { font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem; background: rgba(0,229,255,0.08); border: 1px solid rgba(0,229,255,0.25); color: var(--accent); border-radius: 4px; padding: 0.1rem 0.45rem; white-space: nowrap; }
+  ul.notes { list-style: none; padding: 0; }
+  ul.notes li { padding: 0.35rem 0 0.35rem 1.2rem; position: relative; font-size: 0.93rem; border-bottom: 1px solid rgba(48,54,61,0.5); }
+  ul.notes li:last-child { border-bottom: none; }
+  ul.notes li::before { content: '›'; position: absolute; left: 0; color: var(--accent2); font-weight: 700; }
+  .stages { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 0.75rem; margin-top: 0.75rem; }
+  .stage-card { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 0.75rem 1rem; }
+  .stage-card .num { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--accent2); margin-bottom: 0.25rem; }
+  .stage-card .name { font-weight: 700; font-size: 0.88rem; color: var(--heading); margin-bottom: 0.25rem; }
+  .stage-card .desc { font-size: 0.8rem; color: var(--muted); line-height: 1.4; }
+  table.data { width: 100%; border-collapse: collapse; font-size: 0.88rem; margin-top: 0.5rem; }
+  table.data th { font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; text-align: left; padding: 0.4rem 0.75rem; border-bottom: 1px solid var(--border); }
+  table.data td { padding: 0.6rem 0.75rem; border-bottom: 1px solid rgba(48,54,61,0.4); vertical-align: top; }
+  table.data td strong { color: var(--heading); }
+  .cia-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.75rem; margin-top: 0.75rem; }
+  .cia-card { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 1rem 1.1rem; border-left: 3px solid var(--accent); }
+  .cia-card.integrity { border-left-color: var(--accent3); }
+  .cia-card.availability { border-left-color: var(--accent4); }
+  .cia-card .cia-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--muted); margin-bottom: 0.25rem; }
+  .cia-card .cia-name { font-weight: 700; font-size: 0.95rem; color: var(--heading); margin-bottom: 0.4rem; }
+  .cia-card .cia-def { font-size: 0.82rem; color: var(--text); line-height: 1.5; margin-bottom: 0.5rem; }
+  .cia-card .cia-example { font-size: 0.78rem; color: var(--muted); line-height: 1.4; border-top: 1px solid var(--border); padding-top: 0.4rem; margin-top: 0.4rem; }
+  footer { text-align: center; padding: 2rem; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); margin-top: 3rem; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <div class="label">Study Guide</div>
+  <h1>IT Security Foundations</h1>
+  <p class="subtitle">Lisa Bock · LinkedIn Learning · 6 Chapters · 100% exam score</p>
+</header>
+
+<nav class="toc">
+  <h2>Contents</h2>
+  <ol>
+    <li><a href="#ch1">Chapter 1: Core Security Principles</a></li>
+    <li><a href="#ch2">Chapter 2: Understanding Malware</a></li>
+    <li><a href="#ch3">Chapter 3: Breaching Your System</a></li>
+    <li><a href="#ch4">Chapter 4: Internet Security</a></li>
+    <li><a href="#ch5">Chapter 5: Mobile and Wireless Security</a></li>
+    <li><a href="#ch6">Chapter 6: Secure Devices and Applications</a></li>
+  </ol>
+</nav>
+
+
+<!-- CHAPTER 1 -->
+<div class="chapter" id="ch1">
+  <div class="chapter-header">
+    <span class="chapter-num">CH 1</span>
+    <h2>Core Security Principles</h2>
+  </div>
+
+  <div class="section">
+    <h3>The CIA Triad</h3>
+    <p style="font-size:0.9rem; color:var(--muted); margin-bottom:1rem;">A widely recognised information assurance model. The goal is to keep data private, unchanged, and available.</p>
+    <div class="cia-grid">
+      <div class="cia-card">
+        <div class="cia-label">C</div>
+        <div class="cia-name">Confidentiality</div>
+        <div class="cia-def">Keeping private information private by preventing unauthorised access.</div>
+        <div class="cia-example">Violation: A hacker reading emails on a government mail server, or someone accessing a patient's medical file without authorisation.</div>
+      </div>
+      <div class="cia-card integrity">
+        <div class="cia-label">I</div>
+        <div class="cia-name">Integrity</div>
+        <div class="cia-def">Protecting data from unauthorised change — either maliciously or accidentally.</div>
+        <div class="cia-example">Violation: A student changing their algebra grade from a C to an A, or someone altering an account balance.</div>
+      </div>
+      <div class="cia-card availability">
+        <div class="cia-label">A</div>
+        <div class="cia-name">Availability</div>
+        <div class="cia-def">Ensuring data and services are accessible to authorised users when needed.</div>
+        <div class="cia-example">Threats: DDoS attacks (flood systems to lock out legitimate users using botnets) and ransomware (holds data hostage until ransom is paid).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h3>Protecting the CIA Triad</h3>
+    <table class="data">
+      <thead><tr><th>Goal</th><th>Method</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Confidentiality</strong></td><td>Verify identity (passwords/PINs, smart cards, fingerprints, passkeys, authenticator apps). Assign permissions so only authorised users access data. Use encryption to scramble data — readable only with a key.</td></tr>
+        <tr><td><strong>Integrity</strong></td><td>Use software that monitors for suspicious activity and notifies if unauthorised changes are made to data.</td></tr>
+        <tr><td><strong>Availability</strong></td><td>Keep systems current and patched. Back up regularly and store data in an offsite location.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <h3>Risk, Threats and Vulnerabilities</h3>
+    <ul class="notes">
+      <li><strong>Risk</strong> — when a person, place, or thing is open or exposed to harm. Formula: <span class="term">Risk = Threats × Vulnerabilities</span></li>
+      <li><strong>Threat</strong> — anything that can exploit a vulnerability, intentionally or accidentally, to obtain, damage, or destroy an asset. Threats are generally difficult to control.</li>
+      <li><strong>Vulnerability</strong> — a security flaw or weakness in a system that can be exploited. Most vulnerabilities can be fixed.</li>
+      <li><strong>Assets</strong> — tangible (computers, printers) or intangible (databases, trade secrets, company records).</li>
+      <li>If there is no vulnerability, there is no risk. Reducing vulnerabilities reduces overall risk.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h3>Social Engineering</h3>
+    <ul class="notes">
+      <li>Cybercriminals use social engineering to trick people into revealing information or completing an action they wouldn't normally do.</li>
+      <li><strong>Methods:</strong> phishing (email), vishing (phone), instant messaging/SMS, dumpster diving, shoulder surfing, and simple persuasion.</li>
+      <li>Dangerous because it requires no technical skill — simple persuasion is enough to breach a system.</li>
+      <li><strong>Scareware</strong> — a spoofed ransomware message. Appears as a pop-up or redirect claiming the user has a virus, designed to trick them into clicking a malicious link or contacting a fake support number.</li>
+      <li><strong>Best practices:</strong> use strong passwords/passphrases, don't trust unsolicited contacts online, don't share card details over IM or email, disable push notifications.</li>
+    </ul>
+  </div>
+</div>
+
+
+<!-- CHAPTER 2 -->
+<div class="chapter" id="ch2">
+  <div class="chapter-header">
+    <span class="chapter-num">CH 2</span>
+    <h2>Understanding Malware</h2>
+  </div>
+
+  <div class="section">
+    <h3>Types of Malware</h3>
+    <table class="data">
+      <thead><tr><th>Type</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Virus</strong></td><td>Self-replicates but needs a transport agent (e.g. email attachment, flash drive, downloaded file) to spread to another host.</td></tr>
+        <tr><td><strong>Worm</strong></td><td>Self-propagating — spreads independently without a transport agent. Consumes memory, processing, and bandwidth.</td></tr>
+        <tr><td><strong>Ransomware</strong></td><td>Holds data hostage until a ransom is paid. Can block system access, encrypt files, stop applications, or destroy files if unpaid.</td></tr>
+        <tr><td><strong>Spyware</strong></td><td>Records keystrokes and activity (browsing habits, passwords, email accounts) and sends the data to a remote collection site, usually without the user's knowledge.</td></tr>
+        <tr><td><strong>Bot</strong></td><td>Malware created to complete a specific task. Usually part of a <strong>botnet</strong> (an army of bots) controlled by a bot master that triggers attacks at a predefined time.</td></tr>
+        <tr><td><strong>Rootkit</strong></td><td>A collection of programs that infiltrates a system, creates a backdoor, and remains undetected — allowing a hacker to take administrator-level control.</td></tr>
+        <tr><td><strong>Adware</strong></td><td>Tracks browsing activity and sends advertising data to a collection site. Often bundled with free software.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <h3>OS Defences Against Malware</h3>
+    <table class="data">
+      <thead><tr><th>OS</th><th>Built-in Tools</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>macOS</strong></td>
+          <td>Constantly monitors the system. Blocks malware from executing. Prevents unauthorised app access to critical files. Tools: <span class="term">Notarization</span> and <span class="term">XProtect</span> — signatures updated daily, prompts user to remove detected malware.</td>
+        </tr>
+        <tr>
+          <td><strong>Linux</strong></td>
+          <td><span class="term">ClamAV</span> (cross-platform open-source antivirus), <span class="term">LMD</span> (Linux Malware Detect — best combined with ClamAV). For rootkits: <span class="term">Rootkit Hunter</span> and <span class="term">chkrootkit</span>.</td>
+        </tr>
+        <tr>
+          <td><strong>Windows</strong></td>
+          <td><span class="term">Microsoft Defender</span> — activates automatically if no other antimalware is detected. <span class="term">DEP</span> (Data Execution Prevention) — prevents malware executing code from memory reserved for Windows. <span class="term">Microsoft Safety Scanner</span> — free downloadable tool to remove malware (not a replacement for antimalware).</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<!-- CHAPTER 3 -->
+<div class="chapter" id="ch3">
+  <div class="chapter-header">
+    <span class="chapter-num">CH 3</span>
+    <h2>Breaching Your System</h2>
+  </div>
+
+  <div class="section">
+    <h3>Trojans</h3>
+    <ul class="notes">
+      <li>A program that appears innocent but is designed to cause malicious activity or provide a backdoor to a system.</li>
+      <li>Uses a <strong>wrapper</strong> — the malware is hidden inside something enticing, such as a game, utility, or message.</li>
+      <li>Modern Trojans are modular — can steal passwords, embed rootkits, or launch ransomware.</li>
+      <li>Avoid executable files from unknown sources: <span class="term">.exe</span> <span class="term">.bat</span> <span class="term">.vbs</span> <span class="term">.scr</span></li>
+      <li><strong>Best practices:</strong> avoid risky websites, don't download free system optimisers or games from unknown sources, use antimalware that updates automatically.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h3>Rootkits and Logic Bombs</h3>
+    <ul class="notes">
+      <li>Rootkits can remain undetected for months or even years.</li>
+      <li>A rootkit is <strong>not a virus</strong> — it may have no identifiable signature, allowing it to evade antimalware detection.</li>
+      <li>Can gather intelligence by monitoring email, chats, passwords, and data transactions, then send that information to a remote server.</li>
+      <li>A <strong>logic bomb</strong> can be left behind by a rootkit — triggers an attack at a predefined time.</li>
+      <li><strong>How rootkits get in:</strong> drive-by downloads, phishing with a macro-enabled Word doc, stolen credentials, or embedded on a flash drive.</li>
+      <li><strong>Best practices:</strong> strong passwords on admin accounts, caution with email attachments, patch and update OS and applications.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h3>Zero-Day Attacks</h3>
+    <ul class="notes">
+      <li>A <strong>zero-day vulnerability</strong> is a flaw in software that is unknown to the vendor.</li>
+      <li>A <strong>zero-day attack</strong> occurs when a hacker exploits the security hole before the vendor becomes aware of it.</li>
+      <li>Antimalware cannot detect it — there is no signature to use and compare.</li>
+      <li>Once the vendor discovers the vulnerability, they develop and release a patch — but systems remain at risk until the patch is applied.</li>
+      <li><strong>Protection:</strong> use anomaly/profile-based detection (monitors malware-like behaviour rather than signatures), keep browser updated, think before you click.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h3>IoT Threats</h3>
+    <ul class="notes">
+      <li>IoT devices collect and exchange data but have large <strong>attack surfaces</strong> — entry points including weak/missing passwords, outdated software, and physical access.</li>
+      <li><strong>Attack vectors</strong> include gaining access to wireless signals or open ports.</li>
+      <li><strong>Manufacturer responsibilities:</strong> continuous security updates, password protection, dedicated vulnerability reporting, timely resolution of weaknesses.</li>
+      <li>Research devices before purchase and keep firmware updated.</li>
+    </ul>
+  </div>
+</div>
+
+
+<!-- CHAPTER 4 -->
+<div class="chapter" id="ch4">
+  <div class="chapter-header">
+    <span class="chapter-num">CH 4</span>
+    <h2>Internet Security</h2>
+  </div>
+
+  <div class="section">
+    <h3>Cloud Computing Models</h3>
+    <div class="stages">
+      <div class="stage-card">
+        <div class="num">IaaS</div>
+        <div class="name">Infrastructure as a Service</div>
+        <div class="desc">Servers, storage, network firewalls, data centre facilities.</div>
+      </div>
+      <div class="stage-card">
+        <div class="num">PaaS</div>
+        <div class="name">Platform as a Service</div>
+        <div class="desc">Development tools, database management, business analytics, OS environment.</div>
+      </div>
+      <div class="stage-card">
+        <div class="num">SaaS</div>
+        <div class="name">Software as a Service</div>
+        <div class="desc">Hosted applications. E.g. Microsoft Office 365.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h3>Secure Connections and HTTPS</h3>
+    <ul class="notes">
+      <li>HTTPS uses <span class="term">TLS</span> to encrypt data between you and the website — both sides exchange a shared key before any information is transferred.</li>
+      <li>HTTPS does not mean a website is safe — only use sites you know and trust.</li>
+      <li><strong>Best practices:</strong> check for HTTPS in the address bar, verify contact information (address, phone, social media), look for a privacy policy, use a trusted and updated browser.</li>
+      <li>A <strong>privacy policy</strong> outlines what data a site collects, how it uses it, and how it is kept.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h3>Cookies</h3>
+    <ul class="notes">
+      <li>Small text files placed on a device to store state information — preserve preferences and sign-in information to make browsing easier.</li>
+      <li>HTTP is a <strong>stateless protocol</strong> — cookies are used to maintain session state across requests.</li>
+      <li><strong>Third-party cookies</strong> — set by a domain other than the one you're visiting. Used to track activity across sites for advertising. Avoid these.</li>
+      <li><strong>Best practice:</strong> set cookies to delete on exit, block third-party cookies, use browser enhanced tracking protection.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h3>Browser Security</h3>
+    <ul class="notes">
+      <li><strong>Drive-by download</strong> — a malicious program installed unintentionally by simply clicking the wrong control.</li>
+      <li><strong>Drive-by mining</strong> — cryptomining software installed on your machine that sends results to a malicious party.</li>
+      <li>A secure browser: blocks trackers and third-party cookies, uses blocklists for phishing and malware sites, checks reputation of downloads, restricts risky add-ons and plugins.</li>
+      <li><strong>Private browsing</strong> — deletes passwords, search history, and browsing data when the tab or window is closed. Does not make you anonymous.</li>
+      <li><strong>Best practices:</strong> avoid storing logins/passwords in the browser, disable location services, auto-clear history on close, keep browser updated.</li>
+    </ul>
+  </div>
+</div>
+
+
+<!-- CHAPTER 5 -->
+<div class="chapter" id="ch5">
+  <div class="chapter-header">
+    <span class="chapter-num">CH 5</span>
+    <h2>Mobile and Wireless Security</h2>
+  </div>
+
+  <div class="section">
+    <h3>Securing Wi-Fi</h3>
+    <ul class="notes">
+      <li><span class="term">SSID</span> (Service Set Identifier) — the network name. Broadcast by default (beaconing) so nearby devices can see the network.</li>
+      <li><strong>Disabling SSID broadcast</strong> hides the network — users must manually enter the network name and password to connect.</li>
+      <li>Change the router default password immediately — default passwords are publicly listed on sites like routerpasswords.com.</li>
+      <li>Disable remote access on the access point to prevent remote configuration.</li>
+      <li>Activate <span class="term">WPA2</span> or <span class="term">WPA3</span> encryption — WPA3 is the strongest as of 2018. Periodically change encryption keys.</li>
+      <li>Disable <span class="term">UPnP</span> (Universal Plug and Play) — designed to help devices find each other, but can be exploited as a vulnerability.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h3>Pre-Shared Keys and Encryption</h3>
+    <ul class="notes">
+      <li><strong>Pre-shared key</strong> — all authorised entities share the same key (password or passphrase) to encrypt and secure traffic.</li>
+      <li>Both parties must have the same shared key to encrypt and decrypt data. The key must be kept secret.</li>
+      <li><span class="term">WPA</span> (Wi-Fi Protected Access) — the most used wireless encryption protocol. Use WPA2 or WPA3 where possible.</li>
+      <li>A passphrase provides stronger security than a password — longer and harder to crack.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h3>MAC Address Filtering</h3>
+    <ul class="notes">
+      <li>Each device has a unique MAC address (12 digits separated by colons) that identifies it on a network.</li>
+      <li><strong>MAC address filtering</strong> — configure the router to allow only specific MAC addresses to join the network, restricting access to registered devices only.</li>
+      <li>An <strong>access point (WAP)</strong> is a station cabled to a LAN that connects wireless devices to an existing network. Each has an SSID.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h3>Mobile Device Threats</h3>
+    <ul class="notes">
+      <li>Threats include phishing/vishing, spoofing, spyware, and connecting to unsecured Wi-Fi networks.</li>
+      <li><strong>Wi-Fi Pineapple</strong> — a fake access point set up as an open network trap. Positioned between the victim and the real access point to steal credentials and other information (man-in-the-middle attack). Can be purchased for under $200.</li>
+      <li><strong>Best practices:</strong> keep OS and software updated, don't jailbreak your phone, use a password/passphrase/biometric, set an idle timeout, only download apps from trusted sources (Apple iTunes, Google Play, Amazon Appstore), review app permissions before installing, disable geotagging, avoid unsecured networks.</li>
+    </ul>
+  </div>
+</div>
+
+
+<!-- CHAPTER 6 -->
+<div class="chapter" id="ch6">
+  <div class="chapter-header">
+    <span class="chapter-num">CH 6</span>
+    <h2>Secure Devices and Applications</h2>
+  </div>
+
+  <div class="section">
+    <h3>Encryption</h3>
+    <ul class="notes">
+      <li>Scrambles data into an unreadable format using an algorithm and a key. <strong>Plaintext</strong> → encrypted → <strong>ciphertext</strong>. Decryption reverses the process.</li>
+      <li><strong>BitLocker Drive Encryption</strong> — encrypts entire drives or logical volumes to protect data at rest.</li>
+    </ul>
+    <table class="data" style="margin-top:1rem;">
+      <thead><tr><th>Type</th><th>How it works</th><th>Algorithms</th><th>Use cases</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Symmetric</strong></td>
+          <td>Single shared key used by both parties to encrypt and decrypt. Both must have the same key before communication.</td>
+          <td><span class="term">DES</span>, <span class="term">AES</span></td>
+          <td>Confidential online communications, HTTPS</td>
+        </tr>
+        <tr>
+          <td><strong>Asymmetric</strong></td>
+          <td>Two mathematically related keys. Public key shared with everyone. Private key never shared. Also called public key encryption.</td>
+          <td><span class="term">RSA</span>, <span class="term">PGP</span></td>
+          <td>Digital signatures, securely exchanging a secret key, confidentiality</td>
+        </tr>
+        <tr>
+          <td><strong>Hybrid</strong></td>
+          <td>Combines both types. Most common in practice.</td>
+          <td>Both</td>
+          <td>Securing and exchanging data in most real-world systems</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <h3>Hashing</h3>
+    <ul class="notes">
+      <li>A <strong>one-way function</strong> — takes a variable length input and produces a fixed length output (the <strong>message digest</strong>). Cannot reverse a hash to recover the original data.</li>
+      <li>Used for: authenticating messages, monitoring data integrity, and storing passwords.</li>
+      <li>Any change in the data changes the hash value — used to detect unauthorised modifications.</li>
+      <li><strong>Testing integrity:</strong> store the original hash, then compare with a newly generated hash. If values differ, integrity has been violated.</li>
+      <li>Popular family: <span class="term">SHA</span> (Secure Hash Algorithm). <span class="term">SHA-256</span> and above are considered secure. <span class="term">SHA-1</span> is not recommended.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h3>Cryptographic Security Services</h3>
+    <table class="data">
+      <thead><tr><th>Service</th><th>Goal</th><th>How it's achieved</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Confidentiality</strong></td><td>Keep private information private</td><td>Encrypt the data</td></tr>
+        <tr><td><strong>Integrity</strong></td><td>Ensure data has not been altered</td><td>Create a hash message digest</td></tr>
+        <tr><td><strong>Authentication</strong></td><td>Confirm identity of a system object</td><td><span class="term">MAC</span> (Message Authentication Code) — an encrypted message digest</td></tr>
+        <tr><td><strong>Accountability</strong></td><td>Positively identify an entity</td><td>Digital signature — signs data using the owner's private key</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <h3>Applications Using Cryptographic Techniques</h3>
+    <ul class="notes">
+      <li><strong>VPN</strong> (Virtual Private Network) — creates a secure encrypted tunnel between two endpoints across an insecure network.</li>
+      <li><strong>HTTPS</strong> — encrypts communication between browser and web server using TLS.</li>
+      <li><strong>Blockchain</strong> — a shared, immutable ledger for recording transactions using multiple cryptographic techniques.</li>
+      <li><strong>S/MIME</strong> (Secure Multipurpose Internet Mail Extensions) — secures email by providing confidentiality, authentication, and integrity.</li>
+      <li><strong>Email threats:</strong> malware can be embedded within an email to run malicious code when opened. Also used for spam, spoofing, and phishing attacks. Think before clicking any link or attachment.</li>
+    </ul>
+  </div>
+</div>
+
+
+<footer>
+  IT Security Foundations: Core Concepts · Lisa Bock · LinkedIn Learning
+</footer>
+
+</div>
+</body>
+</html>
