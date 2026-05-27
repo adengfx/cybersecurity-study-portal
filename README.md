@@ -8,7 +8,7 @@ A lightweight, static HTML study hub with a dark-themed interface. Each course g
 
 ## How it was built
 
-Vibecoded with Claude — I paste in raw course notes, and Claude builds the study guides in a consistent style, updates the index, and keeps everything organised across sessions.
+Vibecoded with Claude from my course notes.
 
 ## Courses so far
 
@@ -16,6 +16,7 @@ Vibecoded with Claude — I paste in raw course notes, and Claude builds the stu
 |---|---|---|---|
 | Cybersecurity Foundations | LinkedIn Learning | 77% | NASBA |
 | Networking Basics | LinkedIn Learning | — | — |
+| IT Security Foundations: Core Concepts | LinkedIn Learning | 100% | NASBA |
 
 ## Stack
 
