@@ -701,6 +701,8 @@
   document.getElementById('retryMissedBtn').addEventListener('click', () => {
     currentQuestions = shuffle(wrongAnswers.map(w => w.q));
     currentIndex = 0; score = 0; wrongAnswers = [];
+    document.getElementById('timedOptions').style.display = 'none';
+    document.getElementById('countOptions').style.display = 'none';
     showScreen('quizScreen');
     renderQuestion();
   });
@@ -708,6 +710,8 @@
   document.getElementById('retryBtn').addEventListener('click', () => {
     currentQuestions = shuffle(currentQuestions);
     currentIndex = 0; score = 0; wrongAnswers = [];
+    document.getElementById('timedOptions').style.display = 'none';
+    document.getElementById('countOptions').style.display = 'none';
     showScreen('quizScreen');
     renderQuestion();
   });
