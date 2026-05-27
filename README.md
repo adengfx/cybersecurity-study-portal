@@ -2,6 +2,8 @@
 
 A personal study portal for tracking progress through cybersecurity courses and certifications — built as part of an active learning journey into the field.
 
+🌐 **Live site:** https://adengfx.github.io/cybersecurity-study-portal/
+
 ## What it is
 
 A lightweight, static HTML study hub with a dark-themed interface. Each course gets its own study guide with structured notes, key terms, tables, and concept breakdowns. An index page tracks completed courses, exam scores, and certifications earned.
