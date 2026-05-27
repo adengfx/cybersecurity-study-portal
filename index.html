@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,251 +7,104 @@
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0d1117;
-    --surface: #161b22;
-    --surface2: #1c2330;
-    --border: #30363d;
-    --accent: #00e5ff;
-    --accent2: #ff6b35;
-    --accent3: #7ee787;
-    --accent4: #d2a8ff;
-    --text: #e6edf3;
-    --muted: #8b949e;
-    --heading: #f0f6fc;
+    --bg: #0d1117; --surface: #161b22; --surface2: #1c2330; --border: #30363d;
+    --accent: #00e5ff; --accent2: #ff6b35; --accent3: #7ee787; --accent4: #d2a8ff;
+    --text: #e6edf3; --muted: #8b949e; --heading: #f0f6fc;
   }
-
+  [data-theme="light"] {
+    --bg: #f6f8fa; --surface: #ffffff; --surface2: #f0f2f5; --border: #d0d7de;
+    --accent: #0077aa; --accent2: #d04a00; --accent3: #1a7f37; --accent4: #6e40c9;
+    --text: #24292f; --muted: #57606a; --heading: #1f2328;
+  }
   * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; min-height: 100vh; padding: 2rem 1rem 4rem; transition: background 0.2s, color 0.2s; }
+  .container { max-width: 860px; margin: 0 auto; }
 
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    min-height: 100vh;
-    padding: 2rem 1rem 4rem;
-  }
+  /* Header */
+  header { padding: 3rem 0 2.5rem; border-bottom: 1px solid var(--border); margin-bottom: 2rem; }
+  .header-inner { display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+  .header-left { flex: 1; }
+  .logo { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; letter-spacing: 0.2em; color: var(--accent); text-transform: uppercase; margin-bottom: 0.6rem; }
+  h1 { font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 700; color: var(--heading); letter-spacing: -0.02em; line-height: 1.1; }
+  .header-right { display: flex; align-items: flex-start; gap: 1.5rem; flex-shrink: 0; }
+  .stats { display: flex; gap: 1.5rem; }
+  .stat { text-align: right; }
+  .stat-num { font-family: 'IBM Plex Mono', monospace; font-size: 1.4rem; font-weight: 600; color: var(--heading); line-height: 1; }
+  .stat-label { font-size: 0.75rem; color: var(--muted); margin-top: 0.2rem; }
 
-  .container {
-    max-width: 860px;
-    margin: 0 auto;
+  /* Theme toggle */
+  .theme-btn {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 6px;
+    color: var(--muted); cursor: pointer; font-size: 1rem; width: 34px; height: 34px;
+    display: flex; align-items: center; justify-content: center;
+    transition: border-color 0.15s, color 0.15s; flex-shrink: 0;
   }
+  .theme-btn:hover { border-color: var(--accent); color: var(--accent); }
 
-  /* ── Header ── */
-  header {
-    padding: 3rem 0 2.5rem;
-    border-bottom: 1px solid var(--border);
-    margin-bottom: 3rem;
+  /* Toolbar */
+  .toolbar { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; flex-wrap: wrap; }
+  .search-wrap { flex: 1; min-width: 200px; position: relative; }
+  .search-wrap input {
+    width: 100%; background: var(--surface); border: 1px solid var(--border);
+    border-radius: 6px; padding: 0.5rem 0.75rem 0.5rem 2.2rem;
+    color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 0.88rem;
+    outline: none; transition: border-color 0.15s;
   }
-  .header-inner {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 1rem;
-  }
-  .logo {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.72rem;
-    letter-spacing: 0.2em;
-    color: var(--accent);
-    text-transform: uppercase;
-    margin-bottom: 0.6rem;
-  }
-  h1 {
-    font-size: clamp(1.6rem, 4vw, 2.4rem);
-    font-weight: 700;
-    color: var(--heading);
-    letter-spacing: -0.02em;
-    line-height: 1.1;
-  }
-  .stats {
-    display: flex;
-    gap: 1.5rem;
-    flex-shrink: 0;
-  }
-  .stat {
-    text-align: right;
-  }
-  .stat-num {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 1.4rem;
-    font-weight: 600;
-    color: var(--heading);
-    line-height: 1;
-  }
-  .stat-label {
-    font-size: 0.75rem;
-    color: var(--muted);
-    margin-top: 0.2rem;
-  }
+  .search-wrap input:focus { border-color: var(--accent); }
+  .search-wrap input::placeholder { color: var(--muted); }
+  .search-icon { position: absolute; left: 0.7rem; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 0.85rem; pointer-events: none; }
+  .section-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
 
-  /* ── Section label ── */
-  .section-label {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.68rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 1rem;
-  }
+  /* Group label */
+  .group-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin: 1.5rem 0 0.6rem; padding-bottom: 0.4rem; border-bottom: 1px solid var(--border); }
+  .group-label:first-child { margin-top: 0; }
 
-  /* ── Course card ── */
-  .courses {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    margin-bottom: 3rem;
-  }
-
+  /* Course cards */
+  .courses { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 3rem; }
   .course-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 1.5rem;
-    text-decoration: none;
-    color: inherit;
-    display: grid;
-    grid-template-columns: 1fr auto;
-    grid-template-rows: auto auto;
-    gap: 0.5rem 1.5rem;
-    transition: border-color 0.15s, background 0.15s;
-    position: relative;
-    overflow: hidden;
+    background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+    padding: 1.25rem 1.5rem; text-decoration: none; color: inherit;
+    display: grid; grid-template-columns: 1fr auto; grid-template-rows: auto auto;
+    gap: 0.4rem 1.5rem; transition: border-color 0.15s, background 0.15s;
+    position: relative; overflow: hidden;
   }
-  .course-card::before {
-    content: '';
-    position: absolute;
-    left: 0; top: 0; bottom: 0;
-    width: 3px;
-    background: var(--accent);
-    border-radius: 10px 0 0 10px;
-  }
-  .course-card:hover {
-    border-color: var(--accent);
-    background: var(--surface2);
-  }
-  .course-card.locked {
-    opacity: 0.45;
-    pointer-events: none;
-    cursor: default;
-  }
-  .course-card.locked::before {
-    background: var(--border);
-  }
-
-  .course-title {
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--heading);
-    grid-column: 1;
-    grid-row: 1;
-  }
-  .course-meta {
-    font-size: 0.82rem;
-    color: var(--muted);
-    grid-column: 1;
-    grid-row: 2;
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-    align-items: center;
-  }
-  .course-meta span {
-    display: flex;
-    align-items: center;
-    gap: 0.3rem;
-  }
-
-  .course-right {
-    grid-column: 2;
-    grid-row: 1 / 3;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    justify-content: center;
-    gap: 0.5rem;
-  }
-
-  /* Score badge */
-  .score {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 1.1rem;
-    font-weight: 600;
-  }
+  .course-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--accent); border-radius: 10px 0 0 10px; }
+  .course-card:hover { border-color: var(--accent); background: var(--surface2); }
+  .course-card.hidden { display: none; }
+  .course-title { font-size: 1rem; font-weight: 700; color: var(--heading); grid-column: 1; grid-row: 1; }
+  .course-meta { font-size: 0.82rem; color: var(--muted); grid-column: 1; grid-row: 2; display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center; }
+  .course-right { grid-column: 2; grid-row: 1 / 3; display: flex; flex-direction: column; align-items: flex-end; justify-content: center; gap: 0.5rem; }
+  .score { font-family: 'IBM Plex Mono', monospace; font-size: 1.1rem; font-weight: 600; }
   .score.pass { color: var(--accent3); }
   .score.pending { color: var(--muted); font-size: 0.8rem; }
+  .pill { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; letter-spacing: 0.08em; padding: 0.2rem 0.55rem; border-radius: 20px; white-space: nowrap; }
+  .pill.complete { background: rgba(126,231,135,0.1); border: 1px solid rgba(126,231,135,0.3); color: var(--accent3); }
+  .cert-tag { font-size: 0.72rem; color: var(--accent4); background: rgba(210,168,255,0.08); border: 1px solid rgba(210,168,255,0.2); border-radius: 4px; padding: 0.1rem 0.4rem; font-family: 'IBM Plex Mono', monospace; }
 
-  /* Status pill */
-  .pill {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.08em;
-    padding: 0.2rem 0.55rem;
-    border-radius: 20px;
-    white-space: nowrap;
+  /* Glossary link card */
+  .glossary-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+    padding: 1.1rem 1.5rem; text-decoration: none; color: inherit;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 1rem; transition: border-color 0.15s, background 0.15s; margin-bottom: 3rem;
   }
-  .pill.complete {
-    background: rgba(126,231,135,0.1);
-    border: 1px solid rgba(126,231,135,0.3);
-    color: var(--accent3);
-  }
-  .pill.inprogress {
-    background: rgba(0,229,255,0.08);
-    border: 1px solid rgba(0,229,255,0.25);
-    color: var(--accent);
-  }
-  .pill.todo {
-    background: rgba(139,148,158,0.1);
-    border: 1px solid rgba(139,148,158,0.2);
-    color: var(--muted);
-  }
+  .glossary-card:hover { border-color: var(--accent); background: var(--surface2); }
+  .glossary-card-left { display: flex; align-items: center; gap: 0.75rem; }
+  .glossary-icon { font-size: 1.1rem; }
+  .glossary-title { font-weight: 700; color: var(--heading); font-size: 0.95rem; }
+  .glossary-sub { font-size: 0.8rem; color: var(--muted); margin-top: 0.1rem; }
+  .glossary-arrow { color: var(--muted); font-size: 1rem; }
 
-  /* cert tag */
-  .cert-tag {
-    font-size: 0.72rem;
-    color: var(--accent4);
-    background: rgba(210,168,255,0.08);
-    border: 1px solid rgba(210,168,255,0.2);
-    border-radius: 4px;
-    padding: 0.1rem 0.4rem;
-    font-family: 'IBM Plex Mono', monospace;
-  }
+  /* Placeholder */
+  .add-card { border: 1px dashed var(--border); border-radius: 10px; padding: 1.25rem 1.5rem; display: flex; align-items: center; gap: 0.75rem; color: var(--muted); font-size: 0.88rem; }
+  .add-icon { width: 28px; height: 28px; border-radius: 50%; border: 1px dashed var(--border); display: flex; align-items: center; justify-content: center; font-size: 1rem; color: var(--border); flex-shrink: 0; }
 
-  /* ── Coming soon placeholder ── */
-  .add-card {
-    border: 1px dashed var(--border);
-    border-radius: 10px;
-    padding: 1.25rem 1.5rem;
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    color: var(--muted);
-    font-size: 0.88rem;
-  }
-  .add-icon {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    border: 1px dashed var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1rem;
-    color: var(--border);
-    flex-shrink: 0;
-  }
+  /* No results */
+  .no-results { display: none; padding: 2rem; text-align: center; color: var(--muted); font-size: 0.9rem; }
 
-  /* ── Footer ── */
-  footer {
-    border-top: 1px solid var(--border);
-    padding-top: 1.5rem;
-    font-size: 0.78rem;
-    color: var(--muted);
-    font-family: 'IBM Plex Mono', monospace;
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
+  footer { border-top: 1px solid var(--border); padding-top: 1.5rem; font-size: 0.78rem; color: var(--muted); font-family: 'IBM Plex Mono', monospace; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
+  footer a { color: var(--accent); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
 </style>
 </head>
 <body>
@@ -259,34 +112,62 @@
 
   <header>
     <div class="header-inner">
-      <div>
+      <div class="header-left">
         <div class="logo">Study Portal</div>
         <h1>Cybersecurity<br>Learning Hub</h1>
       </div>
-      <div class="stats">
-        <div class="stat">
-          <div class="stat-num">3</div>
-          <div class="stat-label">Completed</div>
+      <div class="header-right">
+        <div class="stats">
+          <div class="stat">
+            <div class="stat-num">3</div>
+            <div class="stat-label">Completed</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">100%</div>
+            <div class="stat-label">Best Score</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">7h 12m</div>
+            <div class="stat-label">Study Hours</div>
+          </div>
         </div>
-        <div class="stat">
-          <div class="stat-num">100%</div>
-          <div class="stat-label">Best Score</div>
-        </div>
+        <button class="theme-btn" id="themeBtn" title="Toggle theme">🌙</button>
       </div>
     </div>
   </header>
 
-  <!-- Courses -->
-  <div class="section-label">Courses</div>
-  <div class="courses">
+  <!-- Glossary shortcut -->
+  <a class="glossary-card" href="glossary.html">
+    <div class="glossary-card-left">
+      <span class="glossary-icon">📖</span>
+      <div>
+        <div class="glossary-title">Glossary</div>
+        <div class="glossary-sub">All key terms across every course in one place</div>
+      </div>
+    </div>
+    <span class="glossary-arrow">→</span>
+  </a>
 
-    <!-- Course 1 — complete -->
-    <a class="course-card" href="cybersecurity_foundations_study_guide.html">
+  <!-- Courses -->
+  <div class="toolbar">
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="searchInput" placeholder="Search courses…" autocomplete="off">
+    </div>
+    <div class="section-label">Courses</div>
+  </div>
+
+  <div class="courses" id="courseList">
+
+    <div class="group-label" data-group="Security Fundamentals">Security Fundamentals</div>
+
+    <a class="course-card" href="cybersecurity_foundations_study_guide.html" data-title="Cybersecurity Foundations">
       <div class="course-title">Cybersecurity Foundations</div>
       <div class="course-meta">
         <span>LinkedIn Learning</span>
         <span class="cert-tag">NASBA cert</span>
         <span>27 May 2026</span>
+        <span>3h 31m</span>
       </div>
       <div class="course-right">
         <span class="score pass">77%</span>
@@ -294,26 +175,13 @@
       </div>
     </a>
 
-    <!-- Course 2 — complete -->
-    <a class="course-card" href="networking_basics_study_guide.html">
-      <div class="course-title">Networking Basics</div>
-      <div class="course-meta">
-        <span>LinkedIn Learning</span>
-        <span>24 May 2026</span>
-      </div>
-      <div class="course-right">
-        <span class="score pending">No exam yet</span>
-        <span class="pill complete">✓ Complete</span>
-      </div>
-    </a>
-
-    <!-- Course 3 — complete -->
-    <a class="course-card" href="it_security_foundations_study_guide.html">
+    <a class="course-card" href="it_security_foundations_study_guide.html" data-title="IT Security Foundations Core Concepts">
       <div class="course-title">IT Security Foundations: Core Concepts</div>
       <div class="course-meta">
         <span>LinkedIn Learning</span>
         <span class="cert-tag">NASBA cert</span>
         <span>27 May 2026</span>
+        <span>1h 52m</span>
       </div>
       <div class="course-right">
         <span class="score pass">100%</span>
@@ -321,7 +189,23 @@
       </div>
     </a>
 
-    <!-- Placeholder -->
+    <div class="group-label" data-group="Networking">Networking</div>
+
+    <a class="course-card" href="networking_basics_study_guide.html" data-title="Networking Basics">
+      <div class="course-title">Networking Basics</div>
+      <div class="course-meta">
+        <span>LinkedIn Learning</span>
+        <span>24 May 2026</span>
+        <span>1h 49m</span>
+      </div>
+      <div class="course-right">
+        <span class="score pending">No exam yet</span>
+        <span class="pill complete">✓ Complete</span>
+      </div>
+    </a>
+
+    <div class="no-results" id="noResults">No courses match your search.</div>
+
     <div class="add-card">
       <div class="add-icon">+</div>
       Next course notes will appear here once added.
@@ -331,9 +215,61 @@
 
   <footer>
     <span>Study Portal · Cybersecurity track</span>
-    <span>Open index.html to navigate between courses</span>
+    <a href="https://adengfx.github.io/cybersecurity-study-portal/" target="_blank">adengfx.github.io/cybersecurity-study-portal</a>
   </footer>
 
 </div>
+
+<script>
+  // Theme toggle — respects system preference, manual override saved to localStorage
+  const btn = document.getElementById('themeBtn');
+  const html = document.documentElement;
+  const systemDark = window.matchMedia('(prefers-color-scheme: dark)');
+  const saved = localStorage.getItem('theme');
+  const theme = saved || (systemDark.matches ? 'dark' : 'light');
+  html.setAttribute('data-theme', theme);
+  btn.textContent = theme === 'dark' ? '☀️' : '🌙';
+  btn.addEventListener('click', () => {
+    const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    btn.textContent = next === 'dark' ? '☀️' : '🌙';
+  });
+  // Auto-update if system preference changes and no manual override
+  systemDark.addEventListener('change', e => {
+    if (!localStorage.getItem('theme')) {
+      const next = e.matches ? 'dark' : 'light';
+      html.setAttribute('data-theme', next);
+      btn.textContent = next === 'dark' ? '☀️' : '🌙';
+    }
+  });
+
+  // Search
+  const input = document.getElementById('searchInput');
+  const noResults = document.getElementById('noResults');
+  input.addEventListener('input', () => {
+    const q = input.value.toLowerCase().trim();
+    const cards = document.querySelectorAll('.course-card');
+    const groups = document.querySelectorAll('.group-label');
+    let visible = 0;
+    cards.forEach(card => {
+      const title = card.getAttribute('data-title').toLowerCase();
+      const show = !q || title.includes(q);
+      card.classList.toggle('hidden', !show);
+      if (show) visible++;
+    });
+    // Hide group labels if all cards in group hidden
+    groups.forEach(group => {
+      let next = group.nextElementSibling;
+      let anyVisible = false;
+      while (next && !next.classList.contains('group-label') && !next.classList.contains('add-card') && !next.classList.contains('no-results')) {
+        if (!next.classList.contains('hidden')) anyVisible = true;
+        next = next.nextElementSibling;
+      }
+      group.style.display = anyVisible ? '' : 'none';
+    });
+    noResults.style.display = visible === 0 && q ? 'block' : 'none';
+  });
+</script>
 </body>
 </html>

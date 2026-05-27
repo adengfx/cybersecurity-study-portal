@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Glossary – Study Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d1117; --surface: #161b22; --surface2: #1c2330; --border: #30363d;
+    --accent: #00e5ff; --accent2: #ff6b35; --accent3: #7ee787; --accent4: #d2a8ff;
+    --text: #e6edf3; --muted: #8b949e; --heading: #f0f6fc;
+  }
+  [data-theme="light"] {
+    --bg: #f6f8fa; --surface: #ffffff; --surface2: #f0f2f5; --border: #d0d7de;
+    --accent: #0077aa; --accent2: #d04a00; --accent3: #1a7f37; --accent4: #6e40c9;
+    --text: #24292f; --muted: #57606a; --heading: #1f2328;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; min-height: 100vh; padding: 2rem 1rem 4rem; transition: background 0.2s, color 0.2s; }
+  .container { max-width: 960px; margin: 0 auto; }
+
+  /* Back + theme row */
+  .topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; }
+  .back-btn { display: inline-flex; align-items: center; gap: 0.4rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; color: var(--muted); text-decoration: none; letter-spacing: 0.05em; transition: color 0.15s; }
+  .back-btn:hover { color: var(--accent); }
+  .theme-btn { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; color: var(--muted); cursor: pointer; font-size: 1rem; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; transition: border-color 0.15s, color 0.15s; }
+  .theme-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  header { padding: 0 0 2rem; border-bottom: 1px solid var(--border); margin-bottom: 2rem; }
+  .label { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; letter-spacing: 0.2em; color: var(--accent); text-transform: uppercase; margin-bottom: 0.5rem; }
+  h1 { font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 700; color: var(--heading); letter-spacing: -0.02em; }
+  .subtitle { color: var(--muted); font-size: 0.9rem; margin-top: 0.4rem; }
+
+  /* Search */
+  .search-wrap { position: relative; margin-bottom: 2rem; }
+  .search-wrap input { width: 100%; background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 0.6rem 0.75rem 0.6rem 2.3rem; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 0.92rem; outline: none; transition: border-color 0.15s; }
+  .search-wrap input:focus { border-color: var(--accent); }
+  .search-wrap input::placeholder { color: var(--muted); }
+  .search-icon { position: absolute; left: 0.8rem; top: 50%; transform: translateY(-50%); color: var(--muted); pointer-events: none; }
+
+  /* Filter tabs */
+  .filter-tabs { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+  .tab { font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; padding: 0.25rem 0.65rem; border-radius: 20px; border: 1px solid var(--border); background: transparent; color: var(--muted); cursor: pointer; transition: all 0.15s; letter-spacing: 0.05em; }
+  .tab:hover { border-color: var(--accent); color: var(--accent); }
+  .tab.active { background: rgba(0,229,255,0.1); border-color: var(--accent); color: var(--accent); }
+
+  /* Alpha index */
+  .alpha-index { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 1.5rem; }
+  .alpha-btn { font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; border-radius: 4px; border: 1px solid var(--border); background: transparent; color: var(--muted); cursor: pointer; transition: all 0.15s; }
+  .alpha-btn:hover, .alpha-btn.active { border-color: var(--accent); color: var(--accent); background: rgba(0,229,255,0.08); }
+  .alpha-btn.empty { opacity: 0.25; pointer-events: none; }
+
+  /* Term groups */
+  .alpha-group { margin-bottom: 2rem; }
+  .alpha-header { font-family: 'IBM Plex Mono', monospace; font-size: 1.1rem; font-weight: 600; color: var(--accent); margin-bottom: 0.75rem; padding-bottom: 0.4rem; border-bottom: 1px solid var(--border); }
+  .terms-grid { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .term-pill {
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.8rem;
+    background: rgba(0,229,255,0.08); border: 1px solid rgba(0,229,255,0.25);
+    color: var(--accent); border-radius: 4px; padding: 0.25rem 0.6rem;
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    transition: background 0.15s;
+  }
+  .term-pill:hover { background: rgba(0,229,255,0.14); }
+  .term-pill .source { font-size: 0.65rem; color: var(--muted); border-left: 1px solid rgba(0,229,255,0.2); padding-left: 0.4rem; }
+  .term-pill.net { background: rgba(255,107,53,0.08); border-color: rgba(255,107,53,0.25); color: var(--accent2); }
+  .term-pill.net .source { border-left-color: rgba(255,107,53,0.2); }
+  .term-pill.sec { background: rgba(126,231,135,0.08); border-color: rgba(126,231,135,0.25); color: var(--accent3); }
+  .term-pill.sec .source { border-left-color: rgba(126,231,135,0.2); }
+
+  .no-results { padding: 3rem; text-align: center; color: var(--muted); font-size: 0.9rem; display: none; }
+
+  /* Legend */
+  .legend { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+  .legend-item { display: flex; align-items: center; gap: 0.4rem; font-size: 0.8rem; color: var(--muted); }
+  .legend-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+  .legend-dot.cyber { background: rgba(0,229,255,0.4); }
+  .legend-dot.net { background: rgba(255,107,53,0.4); }
+  .legend-dot.sec { background: rgba(126,231,135,0.4); }
+
+  footer { border-top: 1px solid var(--border); padding-top: 1.5rem; font-size: 0.78rem; color: var(--muted); font-family: 'IBM Plex Mono', monospace; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-top: 3rem; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="topbar">
+    <a class="back-btn" href="index.html">← Back to Portal</a>
+    <button class="theme-btn" id="themeBtn" title="Toggle theme">☀️</button>
+  </div>
+
+  <header>
+    <div class="label">Study Portal</div>
+    <h1>Glossary</h1>
+    <p class="subtitle">All key terms across every course — searchable and filterable.</p>
+  </header>
+
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="searchInput" placeholder="Search terms…" autocomplete="off">
+  </div>
+
+  <div class="filter-tabs">
+    <button class="tab active" data-filter="all">All courses</button>
+    <button class="tab" data-filter="cyber">Cybersecurity Foundations</button>
+    <button class="tab" data-filter="net">Networking Basics</button>
+    <button class="tab" data-filter="sec">IT Security Foundations</button>
+  </div>
+
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot cyber"></div> Cybersecurity Foundations</div>
+    <div class="legend-item"><div class="legend-dot net"></div> Networking Basics</div>
+    <div class="legend-item"><div class="legend-dot sec"></div> IT Security Foundations</div>
+  </div>
+
+  <div class="alpha-index" id="alphaIndex"></div>
+
+  <div id="glossaryContent"></div>
+  <div class="no-results" id="noResults">No terms match your search.</div>
+
+  <footer>
+    <span>Study Portal · Cybersecurity track</span>
+    <span>Glossary</span>
+  </footer>
+
+</div>
+<script>
+  // Theme
+  const btn = document.getElementById('themeBtn');
+  const html = document.documentElement;
+  const system = window.matchMedia('(prefers-color-scheme: dark)');
+  const saved = localStorage.getItem('theme');
+  const theme = saved || (system.matches ? 'dark' : 'light');
+  html.setAttribute('data-theme', theme);
+  btn.textContent = theme === 'dark' ? '☀️' : '🌙';
+  btn.addEventListener('click', () => {
+    const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    btn.textContent = next === 'dark' ? '☀️' : '🌙';
+  });
+  system.addEventListener('change', e => {
+    if (!localStorage.getItem('theme')) {
+      const next = e.matches ? 'dark' : 'light';
+      html.setAttribute('data-theme', next);
+      btn.textContent = next === 'dark' ? '☀️' : '🌙';
+    }
+  });
+
+  // All terms: [label, course-class, course-short]
+  const terms = [
+    // Cybersecurity Foundations
+    ["$data","cyber","CyberFnd"],["APO13","cyber","CyberFnd"],["CLSID","cyber","CyberFnd"],
+    ["CREST UK","cyber","CyberFnd"],["CycloneDX","cyber","CyberFnd"],["DSS05","cyber","CyberFnd"],
+    ["FIRST","cyber","CyberFnd"],["GCFE","cyber","CyberFnd"],["GSMA","cyber","CyberFnd"],
+    ["IaaS","cyber","CyberFnd"],["ICANN","cyber","CyberFnd"],["IETF","cyber","CyberFnd"],
+    ["IoCs","cyber","CyberFnd"],["ISO 27001","cyber","CyberFnd"],["ISO 27002","cyber","CyberFnd"],
+    ["ISO 27005","cyber","CyberFnd"],["ISO 27017","cyber","CyberFnd"],["MITRE ATT&CK","cyber","CyberFnd"],
+    ["NICE Framework","cyber","CyberFnd"],["NIST SP 800-30","cyber","CyberFnd"],
+    ["NIST SP 800-53","cyber","CyberFnd"],["NIST SP 800-144","cyber","CyberFnd"],
+    ["OWASP","cyber","CyberFnd"],["PaaS","cyber","CyberFnd"],["SABSA","cyber","CyberFnd"],
+    ["SBOM","cyber","CyberFnd"],["SaaS","cyber","CyberFnd"],["SP 800-53","cyber","CyberFnd"],
+    ["SPDX","cyber","CyberFnd"],["SSH","cyber","CyberFnd"],["TheHive","cyber","CyberFnd"],
+    ["TLPT","cyber","CyberFnd"],["prompt injection","cyber","CyberFnd"],
+    // Networking Basics
+    ["1024-QAM","net","NetBasics"],["BSS Colouring","net","NetBasics"],["Docker","net","NetBasics"],
+    ["EUI-64","net","NetBasics"],["IaaS","net","NetBasics"],["JSON","net","NetBasics"],
+    ["MMF","net","NetBasics"],["MU-MIMO","net","NetBasics"],["NAT","net","NetBasics"],
+    ["NDP","net","NetBasics"],["OFDMA","net","NetBasics"],["OSPF","net","NetBasics"],
+    ["OUI","net","NetBasics"],["OpenFlow","net","NetBasics"],["PaaS","net","NetBasics"],
+    ["REST","net","NetBasics"],["RJ-45","net","NetBasics"],["SMF","net","NetBasics"],
+    ["STP","net","NetBasics"],["SaaS","net","NetBasics"],["T568A","net","NetBasics"],
+    ["T568B","net","NetBasics"],["TCP","net","NetBasics"],["UDP","net","NetBasics"],
+    ["UTP","net","NetBasics"],["XML","net","NetBasics"],["subnet mask","net","NetBasics"],
+    // IT Security Foundations
+    [".bat","sec","ITSecFnd"],[".exe","sec","ITSecFnd"],[".scr","sec","ITSecFnd"],
+    [".vbs","sec","ITSecFnd"],["AES","sec","ITSecFnd"],["ClamAV","sec","ITSecFnd"],
+    ["DEP","sec","ITSecFnd"],["DES","sec","ITSecFnd"],["LMD","sec","ITSecFnd"],
+    ["MAC","sec","ITSecFnd"],["Microsoft Defender","sec","ITSecFnd"],
+    ["Microsoft Safety Scanner","sec","ITSecFnd"],["Notarization","sec","ITSecFnd"],
+    ["PGP","sec","ITSecFnd"],["RSA","sec","ITSecFnd"],
+    ["Risk = Threats × Vulnerabilities","sec","ITSecFnd"],
+    ["Rootkit Hunter","sec","ITSecFnd"],["SHA","sec","ITSecFnd"],["SHA-1","sec","ITSecFnd"],
+    ["SHA-256","sec","ITSecFnd"],["SSID","sec","ITSecFnd"],["TLS","sec","ITSecFnd"],
+    ["UPnP","sec","ITSecFnd"],["WPA","sec","ITSecFnd"],["WPA2","sec","ITSecFnd"],
+    ["WPA3","sec","ITSecFnd"],["XProtect","sec","ITSecFnd"],["chkrootkit","sec","ITSecFnd"],
+  ];
+
+  let activeFilter = 'all';
+  let activeAlpha = null;
+
+  function getFiltered(q, filter, alpha) {
+    return terms.filter(([label, course]) => {
+      const matchFilter = filter === 'all' || course === filter;
+      const matchSearch = !q || label.toLowerCase().includes(q.toLowerCase());
+      const matchAlpha = !alpha || label[0].toUpperCase() === alpha;
+      return matchFilter && matchSearch && matchAlpha;
+    });
+  }
+
+  function groupByAlpha(list) {
+    const groups = {};
+    list.forEach(term => {
+      const letter = term[0][0].toUpperCase();
+      if (!groups[letter]) groups[letter] = [];
+      groups[letter].push(term);
+    });
+    return groups;
+  }
+
+  function render() {
+    const q = document.getElementById('searchInput').value;
+    const filtered = getFiltered(q, activeFilter, activeAlpha);
+    const grouped = groupByAlpha(filtered);
+    const content = document.getElementById('glossaryContent');
+    const noResults = document.getElementById('noResults');
+
+    if (filtered.length === 0) {
+      content.innerHTML = '';
+      noResults.style.display = 'block';
+      return;
+    }
+    noResults.style.display = 'none';
+
+    content.innerHTML = Object.keys(grouped).sort().map(letter => `
+      <div class="alpha-group" data-letter="${letter}">
+        <div class="alpha-header">${letter}</div>
+        <div class="terms-grid">
+          ${grouped[letter].map(([label, cls, source]) => `
+            <span class="term-pill ${cls}">${label}<span class="source">${source}</span></span>
+          `).join('')}
+        </div>
+      </div>
+    `).join('');
+
+    buildAlphaIndex(filtered);
+  }
+
+  function buildAlphaIndex(filtered) {
+    const letters = [...new Set(filtered.map(t => t[0][0].toUpperCase()))];
+    const allLetters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+    document.getElementById('alphaIndex').innerHTML = allLetters.map(l => `
+      <button class="alpha-btn ${letters.includes(l) ? '' : 'empty'} ${activeAlpha === l ? 'active' : ''}"
+        data-letter="${l}" ${letters.includes(l) ? '' : 'disabled'}>${l}</button>
+    `).join('');
+    document.querySelectorAll('.alpha-btn:not(.empty)').forEach(b => {
+      b.addEventListener('click', () => {
+        if (activeAlpha === b.dataset.letter) { activeAlpha = null; }
+        else { activeAlpha = b.dataset.letter; }
+        render();
+        if (activeAlpha) {
+          const group = document.querySelector(`.alpha-group[data-letter="${activeAlpha}"]`);
+          if (group) group.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+  }
+
+  // Events
+  document.getElementById('searchInput').addEventListener('input', render);
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      activeFilter = tab.dataset.filter;
+      activeAlpha = null;
+      render();
+    });
+  });
+
+  render();
+</script>
+</body>
+</html>
