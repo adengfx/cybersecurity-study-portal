@@ -7,7 +7,7 @@
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
-  :root {
+:root {
     --bg: #0d1117; --surface: #161b22; --surface2: #1c2330; --border: #30363d;
     --accent: #00e5ff; --accent2: #ff6b35; --accent3: #7ee787; --accent4: #d2a8ff;
     --text: #e6edf3; --muted: #8b949e; --heading: #f0f6fc;
@@ -61,18 +61,12 @@
   .cia-card .cia-def { font-size: 0.82rem; color: var(--text); line-height: 1.5; margin-bottom: 0.5rem; }
   .cia-card .cia-example { font-size: 0.78rem; color: var(--muted); line-height: 1.4; border-top: 1px solid var(--border); padding-top: 0.4rem; margin-top: 0.4rem; }
   footer { text-align: center; padding: 2rem; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); margin-top: 3rem; }
-
-  .topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; padding: 1.5rem 0 0; }
-  .topbar-back { display: inline-flex; align-items: center; gap: 0.4rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; color: var(--muted); text-decoration: none; letter-spacing: 0.05em; transition: color 0.15s; }
-  .topbar-back:hover { color: var(--accent); }
-  .back-btn:hover { color: var(--accent); }
   .theme-btn { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; color: var(--muted); cursor: pointer; font-size: 1rem; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; transition: border-color 0.15s, color 0.15s; }
   .theme-btn:hover { border-color: var(--accent); color: var(--accent); }
 
-
   @media print {
     body { background: #fff !important; color: #000 !important; padding: 0; font-size: 11pt; }
-    .topbar-nav, .theme-btn { display: none !important; }
+    .topbar, .theme-btn { display: none !important; }
     header { border-bottom: 1px solid #ccc; padding: 1rem 0; }
     .label { color: #555 !important; }
     h1 { color: #000 !important; font-size: 20pt; }
@@ -95,7 +89,6 @@
     a { color: #000 !important; text-decoration: none; }
   }
 
-
   .view-course-link {
     display: inline-flex; align-items: center; gap: 0.3rem;
     font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem;
@@ -105,7 +98,6 @@
     transition: opacity 0.15s, border-color 0.15s; width: fit-content;
   }
   .view-course-link:hover { opacity: 1; border-color: var(--accent); }
-
 
   .share-btn {
     display: inline-flex; align-items: center; gap: 0.35rem;
@@ -117,22 +109,23 @@
   .share-btn:hover { border-color: var(--accent); color: var(--accent); }
   .share-btn.copied { border-color: var(--accent3); color: var(--accent3); }
 
+  .topbar { display: flex; align-items: center; justify-content: space-between; padding: 1.5rem 0 1rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border); }
+  .topbar-back { display: inline-flex; align-items: center; gap: 0.4rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; color: var(--muted); text-decoration: none; letter-spacing: 0.05em; transition: color 0.15s; }
+  .topbar-back:hover { color: var(--accent); }
 </style>
 </head>
 <body>
-
+<div class="container">
 <div class="topbar">
   <a class="topbar-back" href="index.html">← Back to Portal</a>
-  <button class="theme-btn" id="themeBtn" title="Toggle theme">☀️</button>
+  <button class="theme-btn" id="themeBtn" title="Toggle theme">🌙</button>
 </div>
-<div class="container">
 
 <header>
-  <div class="label">Study Guide</div>
-  <h1>IT Security Foundations</h1>
+<h1>IT Security Foundations</h1>
   <p class="subtitle">Lisa Bock · LinkedIn Learning · 6 Chapters · 100% exam score</p>
     <a class="view-course-link" href="https://www.linkedin.com/learning/it-security-foundations-core-concepts-16737118?u=0" target="_blank">View course on LinkedIn Learning →</a>
-  <button class="share-btn" id="shareBtn" data-url="https://adengfx.github.io/cybersecurity-study-portal/it_security_foundations_study_guide.html">⎘ Copy notes link</button>
+  <button class="share-btn" id="shareBtn">⎘ Copy notes link</button>
 </header>
 
 <nav class="toc">
@@ -146,7 +139,6 @@
     <li><a href="#ch6">Chapter 6: Secure Devices and Applications</a></li>
   </ol>
 </nav>
-
 
 <!-- CHAPTER 1 -->
 <div class="chapter" id="ch1">
@@ -215,7 +207,6 @@
   </div>
 </div>
 
-
 <!-- CHAPTER 2 -->
 <div class="chapter" id="ch2">
   <div class="chapter-header">
@@ -260,7 +251,6 @@
     </table>
   </div>
 </div>
-
 
 <!-- CHAPTER 3 -->
 <div class="chapter" id="ch3">
@@ -313,7 +303,6 @@
     </ul>
   </div>
 </div>
-
 
 <!-- CHAPTER 4 -->
 <div class="chapter" id="ch4">
@@ -375,7 +364,6 @@
   </div>
 </div>
 
-
 <!-- CHAPTER 5 -->
 <div class="chapter" id="ch5">
   <div class="chapter-header">
@@ -423,7 +411,6 @@
     </ul>
   </div>
 </div>
-
 
 <!-- CHAPTER 6 -->
 <div class="chapter" id="ch6">
@@ -499,7 +486,6 @@
   </div>
 </div>
 
-
 <footer>
   <span>IT Security Foundations: Core Concepts · Lisa Bock · LinkedIn Learning · Lisa Bock</span>
   <span>Updated 27 May 2026</span>
@@ -529,7 +515,6 @@
     }
   });
 </script>
-
 
 <script>
   document.getElementById('shareBtn').addEventListener('click', function() {

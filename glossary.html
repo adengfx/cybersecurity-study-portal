@@ -7,7 +7,7 @@
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
-  :root {
+:root {
     --bg: #0d1117; --surface: #161b22; --surface2: #1c2330; --border: #30363d;
     --accent: #00e5ff; --accent2: #ff6b35; --accent3: #7ee787; --accent4: #d2a8ff;
     --text: #e6edf3; --muted: #8b949e; --heading: #f0f6fc;
@@ -22,9 +22,6 @@
   .container { max-width: 960px; margin: 0 auto; }
 
   /* Back + theme row */
-  .topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; }
-
-  .back-btn:hover { color: var(--accent); }
   .theme-btn { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; color: var(--muted); cursor: pointer; font-size: 1rem; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; transition: border-color 0.15s, color 0.15s; }
   .theme-btn:hover { border-color: var(--accent); color: var(--accent); }
 
@@ -70,7 +67,6 @@
   .term-pill.sec { background: rgba(126,231,135,0.08); border-color: rgba(126,231,135,0.25); color: var(--accent3); }
   .term-pill.sec .source { border-left-color: rgba(126,231,135,0.2); }
 
-
   /* Flashcard mode */
   .mode-toggle { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; }
   .mode-btn { font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; padding: 0.25rem 0.65rem; border-radius: 20px; border: 1px solid var(--border); background: transparent; color: var(--muted); cursor: pointer; transition: all 0.15s; }
@@ -108,15 +104,18 @@
   .legend-dot.sec { background: rgba(126,231,135,0.4); }
 
   footer { border-top: 1px solid var(--border); padding-top: 1.5rem; font-size: 0.78rem; color: var(--muted); font-family: 'IBM Plex Mono', monospace; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-top: 3rem; }
+  .topbar { display: flex; align-items: center; justify-content: space-between; padding: 1.5rem 0 1rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border); }
+  .topbar-back { display: inline-flex; align-items: center; gap: 0.4rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; color: var(--muted); text-decoration: none; letter-spacing: 0.05em; transition: color 0.15s; }
+  .topbar-back:hover { color: var(--accent); }
 </style>
 </head>
 <body>
 <div class="container">
-
-  <div class="topbar">
-    <a class="topbar-back" href="index.html">← Back to Portal</a>
-    <button class="theme-btn" id="themeBtn" title="Toggle theme">☀️</button>
-  </div>
+<div class="topbar">
+  <a class="topbar-back" href="index.html">← Back to Portal</a>
+  <button class="theme-btn" id="themeBtn" title="Toggle theme">🌙</button>
+</div>
+<div class="container">
 
   <header>
     <div class="label">Study Portal</div>
@@ -141,7 +140,6 @@
     <div class="legend-item"><div class="legend-dot net"></div> Networking Basics</div>
     <div class="legend-item"><div class="legend-dot sec"></div> IT Security Foundations</div>
   </div>
-
 
   <!-- Mode toggle -->
   <div class="mode-toggle">
@@ -192,7 +190,7 @@
 
 </div>
 <script>
-  // Theme
+// Theme
   const btn = document.getElementById('themeBtn');
   const html = document.documentElement;
   const system = window.matchMedia('(prefers-color-scheme: dark)');
@@ -452,7 +450,6 @@
     return terms.filter(t => filter === 'all' || t[1] === filter);
   }
 
-
   function filterFlashcards() {
     const q = document.getElementById('fcSearch').value.toLowerCase().trim();
     if (!q) {
@@ -489,7 +486,7 @@
     fcIndex = 0;
     renderFlashcard();
   });
-
 </script>
+</div>
 </body>
 </html>

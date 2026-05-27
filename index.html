@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Study Portal</title>
-  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
-  :root {
+:root {
     --bg: #0d1117; --surface: #161b22; --surface2: #1c2330; --border: #30363d;
     --accent: #00e5ff; --accent2: #ff6b35; --accent3: #7ee787; --accent4: #d2a8ff;
     --text: #e6edf3; --muted: #8b949e; --heading: #f0f6fc;
@@ -26,7 +26,7 @@
   .topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; }
   .topbar-back { display: inline-flex; align-items: center; gap: 0.4rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; color: var(--muted); text-decoration: none; letter-spacing: 0.05em; transition: color 0.15s; }
   .topbar-back:hover { color: var(--accent); }
-  .theme-btn { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; color: var(--muted); cursor: pointer; font-size: 1rem; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; transition: border-color 0.15s, color 0.15s; flex-shrink: 0; }
+
   .theme-btn:hover { border-color: var(--accent); color: var(--accent); }
   .header-subtitle { font-size: 0.88rem; color: var(--muted); margin-top: 0.5rem; }
   .header-inner { display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
@@ -45,8 +45,8 @@
 
   .logo { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; letter-spacing: 0.2em; color: var(--accent); text-transform: uppercase; }
   h1 { font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 700; color: var(--heading); letter-spacing: -0.02em; line-height: 1.1; }
-  .header-right { display: flex; align-items: flex-start; gap: 1.5rem; flex-shrink: 0; }
-  .stats { display: flex; gap: 1.5rem; }
+  .header-right { display: flex; flex-direction: column; align-items: flex-end; gap: 0.75rem; flex-shrink: 0; }
+  .stats { display: flex; gap: 1.5rem; align-items: flex-end; }
   .stat { text-align: right; }
   .stat-num { font-family: 'IBM Plex Mono', monospace; font-size: 1.4rem; font-weight: 600; color: var(--heading); line-height: 1; }
   .stat-label { font-size: 0.75rem; color: var(--muted); margin-top: 0.2rem; }
@@ -125,14 +125,6 @@
   .course-link { font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; color: var(--accent); text-decoration: none; opacity: 0.7; transition: opacity 0.15s; }
   .course-link:hover { opacity: 1; }
 
-
-  /* About section */
-  .about-section { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem; margin-bottom: 2rem; }
-  .about-section h2 { font-size: 0.88rem; font-weight: 700; color: var(--heading); margin-bottom: 0.6rem; }
-  .about-section p { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
-  .about-section .about-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem; }
-  .about-tag { font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; padding: 0.15rem 0.5rem; border-radius: 4px; background: rgba(0,229,255,0.08); border: 1px solid rgba(0,229,255,0.2); color: var(--accent); }
-
   footer { border-top: 1px solid var(--border); padding-top: 1.5rem; font-size: 0.78rem; color: var(--muted); font-family: 'IBM Plex Mono', monospace; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
   footer a { color: var(--accent); text-decoration: none; }
   footer a:hover { text-decoration: underline; }
@@ -141,7 +133,6 @@
 <body>
 <div class="container">
 
-  <div class="topbar"><span></span><button class="theme-btn" id="themeBtn" title="Toggle theme">🌙</button></div>
   <header>
     <div class="header-inner">
       <div class="header-left">
@@ -155,6 +146,7 @@
         <p class="header-subtitle">Vibecoded study portal for cybersecurity courses, labs and certifications.</p>
       </div>
       <div class="header-right">
+        <button class="theme-btn" id="themeBtn" title="Toggle theme">🌙</button>
         <div class="stats">
           <div class="stat">
             <div class="stat-num">3</div>
@@ -195,19 +187,6 @@
     </div>
     <span class="glossary-arrow">→</span>
   </a>
-
-  <!-- About -->
-  <div class="about-section">
-    <h2>About this project</h2>
-    <p>A vibecoded study portal for tracking progress through cybersecurity courses, labs and certifications — across platforms including LinkedIn Learning, TryHackMe, and others. Course notes get pasted into a Claude project which builds structured study guides, updates the index, and keeps everything consistent. Each guide includes key terms, concept breakdowns, tables, and a revision quiz.</p>
-    <div class="about-tags">
-      <span class="about-tag">Vibecoded with Claude</span>
-      <span class="about-tag">Pure HTML + CSS</span>
-      <span class="about-tag">GitHub Pages</span>
-      <span class="about-tag">LinkedIn Learning</span>
-      <span class="about-tag">TryHackMe</span>
-    </div>
-  </div>
 
   <!-- Courses -->
   <div class="toolbar">
@@ -280,9 +259,8 @@
   </footer>
 
 </div>
-
 <script>
-  // Theme toggle — respects system preference, manual override saved to localStorage
+// Theme toggle — respects system preference, manual override saved to localStorage
   const btn = document.getElementById('themeBtn');
   const html = document.documentElement;
   const systemDark = window.matchMedia('(prefers-color-scheme: dark)');

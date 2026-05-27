@@ -7,7 +7,7 @@
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
-  :root {
+:root {
     --bg: #0d1117; --surface: #161b22; --surface2: #1c2330; --border: #30363d;
     --accent: #00e5ff; --accent2: #ff6b35; --accent3: #7ee787; --accent4: #d2a8ff;
     --text: #e6edf3; --muted: #8b949e; --heading: #f0f6fc;
@@ -20,9 +20,6 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; min-height: 100vh; padding: 2rem 1rem 4rem; transition: background 0.2s, color 0.2s; }
   .container { max-width: 720px; margin: 0 auto; }
-  .topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; }
-
-  .back-btn:hover { color: var(--accent); }
   .theme-btn { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; color: var(--muted); cursor: pointer; font-size: 1rem; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; transition: border-color 0.15s; }
   .theme-btn:hover { border-color: var(--accent); color: var(--accent); }
   header { padding: 0 0 2rem; border-bottom: 1px solid var(--border); margin-bottom: 2rem; }
@@ -102,7 +99,6 @@
   .btn-secondary { font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem; background: transparent; border: 1px solid var(--border); color: var(--muted); border-radius: 6px; padding: 0.5rem 1.25rem; cursor: pointer; transition: border-color 0.15s, color 0.15s; }
   .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
 
-
   /* Progress dots */
   .progress-dots { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 1rem; }
   .progress-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--border); transition: background 0.2s; flex-shrink: 0; }
@@ -121,7 +117,6 @@
   .missed-q { font-size: 0.88rem; color: var(--text); margin-bottom: 0.4rem; line-height: 1.5; }
   .missed-answer { font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; color: var(--accent3); margin-bottom: 0.3rem; }
   .missed-exp { font-size: 0.8rem; color: var(--muted); line-height: 1.5; }
-
 
   /* Timer */
   .timer-wrap { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; }
@@ -146,15 +141,18 @@
   }
   .q-count-select:focus { border-color: var(--accent); }
 
+  .topbar { display: flex; align-items: center; justify-content: space-between; padding: 1.5rem 0 1rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border); }
+  .topbar-back { display: inline-flex; align-items: center; gap: 0.4rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; color: var(--muted); text-decoration: none; letter-spacing: 0.05em; transition: color 0.15s; }
+  .topbar-back:hover { color: var(--accent); }
 </style>
 </head>
 <body>
 <div class="container">
-
-  <div class="topbar">
-    <a class="topbar-back" href="index.html">← Back to Portal</a>
-    <button class="theme-btn" id="themeBtn">🌙</button>
-  </div>
+<div class="topbar">
+  <a class="topbar-back" href="index.html">← Back to Portal</a>
+  <button class="theme-btn" id="themeBtn" title="Toggle theme">🌙</button>
+</div>
+<div class="container">
 
   <header>
     <div class="label">Study Portal</div>
@@ -256,7 +254,7 @@
 </div>
 
 <script>
-  // Theme
+// Theme
   const themeBtn = document.getElementById('themeBtn');
   const htmlEl = document.documentElement;
   const sys = window.matchMedia('(prefers-color-scheme: dark)');
@@ -607,7 +605,6 @@
     }
   }
 
-
   const STUDY_LINKS = {
     'cyber': 'cybersecurity_foundations_study_guide.html',
     'net': 'networking_basics_study_guide.html',
@@ -737,7 +734,6 @@
   updatePerRound();
   document.getElementById('countOptions').style.display = 'flex'; // starts on All courses
 
-
   // Keyboard shortcuts
   document.addEventListener('keydown', e => {
     if (!document.getElementById('quizScreen').classList.contains('active')) return;
@@ -757,7 +753,7 @@
       }
     }
   });
-
 </script>
+</div>
 </body>
 </html>

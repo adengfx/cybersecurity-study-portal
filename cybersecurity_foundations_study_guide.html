@@ -7,7 +7,7 @@
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
-  :root {
+:root {
     --bg: #0d1117;
     --surface: #161b22;
     --surface2: #1c2330;
@@ -25,7 +25,6 @@
     --accent: #0077aa; --accent2: #d04a00; --accent3: #1a7f37; --accent4: #6e40c9;
     --text: #24292f; --muted: #57606a; --heading: #1f2328;
   }
-
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -362,14 +361,8 @@
     .section, .stage-card, .fn-card, .iot-card, .rmf-step { background: #f5f5f5; border-color: #ccc; }
     a { color: inherit; }
   }
-
-  .topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; padding: 1.5rem 0 0; }
-  .topbar-back { display: inline-flex; align-items: center; gap: 0.4rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; color: var(--muted); text-decoration: none; letter-spacing: 0.05em; transition: color 0.15s; }
-  .topbar-back:hover { color: var(--accent); }
-  .back-btn:hover { color: var(--accent); }
   .theme-btn { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; color: var(--muted); cursor: pointer; font-size: 1rem; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; transition: border-color 0.15s, color 0.15s; }
   .theme-btn:hover { border-color: var(--accent); color: var(--accent); }
-
 
   .view-course-link {
     display: inline-flex; align-items: center; gap: 0.3rem;
@@ -381,7 +374,6 @@
   }
   .view-course-link:hover { opacity: 1; border-color: var(--accent); }
 
-
   .share-btn {
     display: inline-flex; align-items: center; gap: 0.35rem;
     font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem;
@@ -392,22 +384,23 @@
   .share-btn:hover { border-color: var(--accent); color: var(--accent); }
   .share-btn.copied { border-color: var(--accent3); color: var(--accent3); }
 
+  .topbar { display: flex; align-items: center; justify-content: space-between; padding: 1.5rem 0 1rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border); }
+  .topbar-back { display: inline-flex; align-items: center; gap: 0.4rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; color: var(--muted); text-decoration: none; letter-spacing: 0.05em; transition: color 0.15s; }
+  .topbar-back:hover { color: var(--accent); }
 </style>
 </head>
 <body>
-
+<div class="container">
 <div class="topbar">
   <a class="topbar-back" href="index.html">← Back to Portal</a>
-  <button class="theme-btn" id="themeBtn" title="Toggle theme">☀️</button>
+  <button class="theme-btn" id="themeBtn" title="Toggle theme">🌙</button>
 </div>
-<div class="container">
 
 <header>
-  <div class="label">Study Guide</div>
-  <h1>Cybersecurity Foundations</h1>
+<h1>Cybersecurity Foundations</h1>
   <p class="subtitle">Complete notes — all 6 chapters · organised for exam revision</p>
     <a class="view-course-link" href="https://www.linkedin.com/learning/cybersecurity-foundations-22006082?u=0" target="_blank">View course on LinkedIn Learning →</a>
-  <button class="share-btn" id="shareBtn" data-url="https://adengfx.github.io/cybersecurity-study-portal/cybersecurity_foundations_study_guide.html">⎘ Copy notes link</button>
+  <button class="share-btn" id="shareBtn">⎘ Copy notes link</button>
 </header>
 
 <!-- TABLE OF CONTENTS -->
@@ -423,7 +416,6 @@
     <li><a href="#ch6">Chapter 6: Cyber Diplomacy</a></li>
   </ol>
 </nav>
-
 
 <!-- ═══════════════════════════════════════════════
      CHAPTER 0 – INTRODUCTION
@@ -464,7 +456,6 @@
     </div>
   </div>
 </div>
-
 
 <!-- ═══════════════════════════════════════════════
      CHAPTER 1 – CYBER THREATS
@@ -583,7 +574,6 @@
     </ul>
   </div>
 </div>
-
 
 <!-- ═══════════════════════════════════════════════
      CHAPTER 2 – FRAMEWORKS
@@ -742,7 +732,6 @@
   </div>
 </div>
 
-
 <!-- ═══════════════════════════════════════════════
      CHAPTER 3 – MAKING CYBERSECURITY EFFECTIVE
 ═══════════════════════════════════════════════ -->
@@ -892,7 +881,6 @@
   </div>
 </div>
 
-
 <!-- ═══════════════════════════════════════════════
      CHAPTER 4 – INCIDENT MANAGEMENT
 ═══════════════════════════════════════════════ -->
@@ -973,7 +961,6 @@
   </div>
 </div>
 
-
 <!-- ═══════════════════════════════════════════════
      CHAPTER 5 – AI & CYBERSECURITY
 ═══════════════════════════════════════════════ -->
@@ -1024,7 +1011,6 @@
     </ul>
   </div>
 </div>
-
 
 <!-- ═══════════════════════════════════════════════
      CHAPTER 6 – CYBER DIPLOMACY
@@ -1094,7 +1080,6 @@
   </div>
 </div>
 
-
 <footer>
   <span>Cybersecurity Foundations · Study Guide · Generated from lecture notes · Good luck on your exam! · Malcolm Shore</span>
   <span>Updated 27 May 2026</span>
@@ -1124,7 +1109,6 @@
     }
   });
 </script>
-
 
 <script>
   document.getElementById('shareBtn').addEventListener('click', function() {
