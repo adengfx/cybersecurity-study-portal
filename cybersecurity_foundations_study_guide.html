@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cybersecurity Foundations – Study Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --surface2: #1c2330;
+    --border: #30363d;
+    --accent: #00e5ff;
+    --accent2: #ff6b35;
+    --accent3: #7ee787;
+    --accent4: #d2a8ff;
+    --text: #e6edf3;
+    --muted: #8b949e;
+    --heading: #f0f6fc;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+    line-height: 1.7;
+    padding: 2rem 1rem;
+  }
+
+  /* ── Header ── */
+  header {
+    text-align: center;
+    padding: 3rem 1rem 2rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 2.5rem;
+  }
+  header .label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+  header h1 {
+    font-size: clamp(1.8rem, 5vw, 3rem);
+    font-weight: 700;
+    color: var(--heading);
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+  }
+  header .subtitle {
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+
+  /* ── Layout ── */
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  /* ── Table of Contents ── */
+  .toc {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.5rem 2rem;
+    margin-bottom: 3rem;
+  }
+  .toc h2 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+  .toc ol {
+    columns: 2;
+    column-gap: 2rem;
+    padding-left: 1.2rem;
+  }
+  .toc li { margin-bottom: 0.4rem; font-size: 0.92rem; break-inside: avoid; }
+  .toc a { color: var(--accent4); text-decoration: none; }
+  .toc a:hover { color: var(--accent); }
+
+  /* ── Chapter heading ── */
+  .chapter {
+    margin-bottom: 3rem;
+  }
+  .chapter-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .chapter-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent2);
+    background: rgba(255,107,53,0.12);
+    border: 1px solid rgba(255,107,53,0.3);
+    border-radius: 4px;
+    padding: 0.15rem 0.5rem;
+    white-space: nowrap;
+  }
+  .chapter h2 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--heading);
+    letter-spacing: -0.01em;
+  }
+
+  /* ── Section card ── */
+  .section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1.25rem;
+  }
+  .section h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .section h3::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* ── Key term pill ── */
+  .term {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.78rem;
+    background: rgba(0,229,255,0.08);
+    border: 1px solid rgba(0,229,255,0.25);
+    color: var(--accent);
+    border-radius: 4px;
+    padding: 0.1rem 0.45rem;
+    white-space: nowrap;
+  }
+
+  /* ── Lists ── */
+  ul.notes {
+    list-style: none;
+    padding: 0;
+  }
+  ul.notes li {
+    padding: 0.35rem 0 0.35rem 1.2rem;
+    position: relative;
+    font-size: 0.93rem;
+    border-bottom: 1px solid rgba(48,54,61,0.5);
+  }
+  ul.notes li:last-child { border-bottom: none; }
+  ul.notes li::before {
+    content: '›';
+    position: absolute;
+    left: 0;
+    color: var(--accent2);
+    font-weight: 700;
+  }
+
+  /* ── Numbered stages (kill chain etc) ── */
+  .stages {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+  }
+  .stage-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.75rem 1rem;
+  }
+  .stage-card .num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--accent2);
+    margin-bottom: 0.25rem;
+  }
+  .stage-card .name {
+    font-weight: 700;
+    font-size: 0.88rem;
+    color: var(--heading);
+    margin-bottom: 0.25rem;
+  }
+  .stage-card .desc {
+    font-size: 0.8rem;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+
+  /* ── NIST functions grid ── */
+  .functions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+  }
+  .fn-card {
+    background: var(--surface2);
+    border-radius: 6px;
+    padding: 0.75rem 1rem;
+    border-left: 3px solid var(--accent3);
+  }
+  .fn-card.govern  { border-left-color: #d2a8ff; }
+  .fn-card.identify{ border-left-color: #00e5ff; }
+  .fn-card.protect { border-left-color: #7ee787; }
+  .fn-card.detect  { border-left-color: #ffa657; }
+  .fn-card.respond { border-left-color: #ff6b35; }
+  .fn-card.recover { border-left-color: #f78166; }
+  .fn-card .fn-name { font-weight: 700; font-size: 0.88rem; color: var(--heading); }
+  .fn-card .fn-desc { font-size: 0.78rem; color: var(--muted); margin-top: 0.25rem; line-height: 1.4; }
+
+  /* ── TLP table ── */
+  table.tlp {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+    margin-top: 0.5rem;
+  }
+  table.tlp th {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-align: left;
+    padding: 0.4rem 0.75rem;
+    border-bottom: 1px solid var(--border);
+  }
+  table.tlp td {
+    padding: 0.6rem 0.75rem;
+    border-bottom: 1px solid rgba(48,54,61,0.4);
+    vertical-align: top;
+  }
+  .tlp-white  { color: #f0f6fc; font-weight: 700; }
+  .tlp-green  { color: #7ee787; font-weight: 700; }
+  .tlp-amber  { color: #e3b341; font-weight: 700; }
+  .tlp-red    { color: #f85149; font-weight: 700; }
+
+  /* ── Maturity tiers table ── */
+  table.tiers {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+    margin-top: 0.5rem;
+  }
+  table.tiers th {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-align: left;
+    padding: 0.4rem 0.75rem;
+    border-bottom: 1px solid var(--border);
+  }
+  table.tiers td {
+    padding: 0.55rem 0.75rem;
+    border-bottom: 1px solid rgba(48,54,61,0.4);
+    vertical-align: top;
+  }
+  .tier-name { font-weight: 700; color: var(--heading); }
+
+  /* ── Exam tip banner ── */
+  .tip {
+    background: rgba(126,231,135,0.07);
+    border: 1px solid rgba(126,231,135,0.25);
+    border-radius: 6px;
+    padding: 0.75rem 1rem;
+    font-size: 0.85rem;
+    color: var(--accent3);
+    margin-top: 0.75rem;
+  }
+  .tip strong { color: var(--accent3); }
+
+  /* ── NIST RMF steps ── */
+  .rmf-steps {
+    display: flex;
+    gap: 0;
+    margin-top: 0.75rem;
+    overflow-x: auto;
+    padding-bottom: 0.25rem;
+  }
+  .rmf-step {
+    flex: 1;
+    min-width: 100px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    padding: 0.6rem 0.75rem;
+    text-align: center;
+    font-size: 0.8rem;
+    position: relative;
+  }
+  .rmf-step:not(:last-child)::after {
+    content: '›';
+    position: absolute;
+    right: -0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--accent2);
+    font-size: 1rem;
+    z-index: 2;
+  }
+  .rmf-step .step-num { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--accent2); }
+  .rmf-step .step-name { font-weight: 700; color: var(--heading); }
+
+  /* ── IoT classification ── */
+  .iot-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 0.6rem;
+    margin-top: 0.5rem;
+  }
+  .iot-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.6rem 0.9rem;
+  }
+  .iot-card .iot-class { font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; color: var(--accent4); margin-bottom: 0.2rem; }
+  .iot-card .iot-desc  { font-size: 0.8rem; color: var(--muted); }
+
+  /* ── Footer ── */
+  footer {
+    text-align: center;
+    padding: 2rem;
+    color: var(--muted);
+    font-size: 0.8rem;
+    border-top: 1px solid var(--border);
+    margin-top: 3rem;
+  }
+
+  @media print {
+    body { background: #fff; color: #111; padding: 1rem; }
+    .section, .stage-card, .fn-card, .iot-card, .rmf-step { background: #f5f5f5; border-color: #ccc; }
+    a { color: inherit; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <div class="label">Study Guide</div>
+  <h1>Cybersecurity Foundations</h1>
+  <p class="subtitle">Complete notes — all 6 chapters · organised for exam revision</p>
+</header>
+
+<!-- TABLE OF CONTENTS -->
+<nav class="toc">
+  <h2>Contents</h2>
+  <ol>
+    <li><a href="#ch0">Introduction: NIST CSF Overview</a></li>
+    <li><a href="#ch1">Chapter 1: Cyber Threats</a></li>
+    <li><a href="#ch2">Chapter 2: Frameworks for Protection</a></li>
+    <li><a href="#ch3">Chapter 3: Making Cybersecurity Effective</a></li>
+    <li><a href="#ch4">Chapter 4: Detecting & Managing Incidents</a></li>
+    <li><a href="#ch5">Chapter 5: Cybersecurity & AI</a></li>
+    <li><a href="#ch6">Chapter 6: Cyber Diplomacy</a></li>
+  </ol>
+</nav>
+
+
+<!-- ═══════════════════════════════════════════════
+     CHAPTER 0 – INTRODUCTION
+═══════════════════════════════════════════════ -->
+<div class="chapter" id="ch0">
+  <div class="chapter-header">
+    <span class="chapter-num">INTRO</span>
+    <h2>NIST Cybersecurity Framework (CSF) – Overview</h2>
+  </div>
+
+  <div class="section">
+    <h3>The Six Core Functions</h3>
+    <div class="functions-grid">
+      <div class="fn-card govern">
+        <div class="fn-name">Govern</div>
+        <div class="fn-desc">Establishes and monitors the org's cyber risk management strategy, policies and oversight.</div>
+      </div>
+      <div class="fn-card identify">
+        <div class="fn-name">Identify</div>
+        <div class="fn-desc">Develops understanding of org assets, people, data, systems and risks.</div>
+      </div>
+      <div class="fn-card protect">
+        <div class="fn-name">Protect</div>
+        <div class="fn-desc">Implements safeguards to ensure delivery of critical infrastructure.</div>
+      </div>
+      <div class="fn-card detect">
+        <div class="fn-name">Detect</div>
+        <div class="fn-desc">Develops activities to identify the occurrence of a cybersec event.</div>
+      </div>
+      <div class="fn-card respond">
+        <div class="fn-name">Respond</div>
+        <div class="fn-desc">Takes actions regarding a detected event, including mitigation and forensics.</div>
+      </div>
+      <div class="fn-card recover">
+        <div class="fn-name">Recover</div>
+        <div class="fn-desc">Maintains plans for resilience and restores capabilities impaired by an incident.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     CHAPTER 1 – CYBER THREATS
+═══════════════════════════════════════════════ -->
+<div class="chapter" id="ch1">
+  <div class="chapter-header">
+    <span class="chapter-num">CH 1</span>
+    <h2>Cyber Threats</h2>
+  </div>
+
+  <!-- Kill Chain -->
+  <div class="section">
+    <h3>The Cyber Kill Chain (7 Stages)</h3>
+    <div class="stages">
+      <div class="stage-card">
+        <div class="num">01</div>
+        <div class="name">Reconnaissance</div>
+        <div class="desc">Finding the target and understanding its characteristics.</div>
+      </div>
+      <div class="stage-card">
+        <div class="num">02</div>
+        <div class="name">Weaponisation</div>
+        <div class="desc">Customising a known vulnerability for a specific target; integrating into an automated platform. Criminals often purchase rather than build malware.</div>
+      </div>
+      <div class="stage-card">
+        <div class="num">03</div>
+        <div class="name">Delivery</div>
+        <div class="desc">Methods: phishing, compromised website, stolen credentials, exposed vulnerabilities, infected USB drive.</div>
+      </div>
+      <div class="stage-card">
+        <div class="num">04</div>
+        <div class="name">Exploitation</div>
+        <div class="desc">Via attachment, browser vulnerability, service protocol vulnerability, or unauthorised credentials.</div>
+      </div>
+      <div class="stage-card">
+        <div class="num">05</div>
+        <div class="name">Installation</div>
+        <div class="desc">Payload installed in memory/HDD. Registry entry used to persist across reboots.</div>
+      </div>
+      <div class="stage-card">
+        <div class="num">06</div>
+        <div class="name">Command & Control</div>
+        <div class="desc">Compromised system connects to C2 server, registers as a host and takes instructions (list/extract files, modify software etc.).</div>
+      </div>
+      <div class="stage-card">
+        <div class="num">07</div>
+        <div class="name">Action</div>
+        <div class="desc">Depends on motive: hacktivist = website defacement; criminal = financial gain; state-sponsored = exfiltrating specific files.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cloaking -->
+  <div class="section">
+    <h3>Cloaking & Alternate Data Streams</h3>
+    <ul class="notes">
+      <li>Malware can hide using Windows features, e.g. the hidden History folder at <span class="term">\AppData\Local\Microsoft\Windows\History</span>.</li>
+      <li><strong>desktop.ini</strong> contains cloaking entries: <span class="term">CLSID</span> (hides from file-based listings) and <span class="term">UICLSID</span> (hides in Windows Explorer).</li>
+      <li>NTFS files have a main <span class="term">$data</span> stream; files can also have <strong>Alternate Data Streams</strong> (ADS). Windows only shows <span class="term">$data</span> by default — malware hides in ADS.</li>
+      <li>Malware can also impersonate legitimate Windows processes (e.g. a keylogger using a keyboard hook callback routine hidden as a Windows process).</li>
+    </ul>
+  </div>
+
+  <!-- Rootkits -->
+  <div class="section">
+    <h3>Rootkits</h3>
+    <ul class="notes">
+      <li>Installed via a <strong>dropper</strong> (e.g. malicious download). Not a virus; does not itself exploit vulnerabilities.</li>
+      <li>Can hide in the OS kernel, coded as a <strong>driver</strong> at ring 0 (deepest kernel level) using the Windows Driver Developer Kit.</li>
+      <li>Run with elevated privileges → can use <span class="term">Direct Kernel Object Modification (DKOM)</span>.</li>
+      <li>Often uses <span class="term">SSH</span> for remote command & control — also encrypts downloaded malware to evade detection.</li>
+      <li>Real-world example: <strong>TDL3</strong> (Dogma Millions group) — acts as a printer driver, installs an encrypted filesystem, per-install cost model. Downloads hidden payloads (keyloggers, DDoS tools etc.).</li>
+    </ul>
+  </div>
+
+  <!-- RAT -->
+  <div class="section">
+    <h3>Remote Access Trojan (RAT)</h3>
+    <ul class="notes">
+      <li>A <strong>RAT (Remote Access Trojan)</strong> is malware that gives an attacker covert remote control over a compromised system.</li>
+      <li>A <strong>botmaster</strong> may deploy a RAT into a target to control it as part of a botnet.</li>
+      <li>Can be used to steal files, log keystrokes, activate webcams, or launch further attacks from the infected host.</li>
+      <li>Related to rootkits and C2 infrastructure — the RAT is the tool, the C2 server is the controller.</li>
+    </ul>
+  </div>
+
+  <!-- Stuxnet -->
+  <div class="section">
+    <h3>Stuxnet – State-Sponsored Cyber Attack</h3>
+    <ul class="notes">
+      <li>Stuxnet was the first widely known <strong>state-sponsored cyber weapon</strong>, discovered around 2010.</li>
+      <li>Jointly developed and launched by <strong>USA and Israel</strong>.</li>
+      <li>Targeted Iranian nuclear centrifuges (Siemens industrial control systems / SCADA), causing physical damage by making centrifuges spin at incorrect speeds.</li>
+      <li>A key real-world example of an APT with sabotage as its objective.</li>
+    </ul>
+  </div>
+
+  <!-- Phishing -->
+  <div class="section">
+    <h3>Phishing Variants & Watering Holes</h3>
+    <ul class="notes">
+      <li><strong>Spear phishing</strong> — targeted at a specific person; researched and context-specific.</li>
+      <li><strong>Mobile phishing</strong> — via SMS/mobile.</li>
+      <li><strong>Vishing</strong> — phishing over VoIP.</li>
+      <li><strong>Watering hole attack</strong> — a website trusted by a target group is compromised; malware downloads when visited. Attackers hope the target uses a business computer.</li>
+    </ul>
+  </div>
+
+  <!-- APT -->
+  <div class="section">
+    <h3>Advanced Persistent Threats (APT)</h3>
+    <ul class="notes">
+      <li>Malware directed at political/military targets using multiple attack vectors.</li>
+      <li><strong>5 Key Characteristics:</strong> Customised code · Focused objectives · Multi-threaded capabilities · Human-operated (not fully automated) · Low-and-slow operation to stay stealthy.</li>
+      <li><strong>APT Objectives:</strong> Espionage · Sabotage.</li>
+    </ul>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     CHAPTER 2 – FRAMEWORKS
+═══════════════════════════════════════════════ -->
+<div class="chapter" id="ch2">
+  <div class="chapter-header">
+    <span class="chapter-num">CH 2</span>
+    <h2>Frameworks for Protection Against Cyber Threats</h2>
+  </div>
+
+  <!-- Orange Book -->
+  <div class="section">
+    <h3>The Orange Book (Early Security Concepts)</h3>
+    <ul class="notes">
+      <li>Published by the US Department of Defense as part of the <strong>Rainbow Series</strong>.</li>
+      <li>Describes a computer trusted to handle both classified and unclassified information.</li>
+      <li>Introduces 4 concepts: <strong>Reference monitor</strong> (mediates access to system resources) · <strong>Formal security model</strong> (for reading/writing info) · <strong>Trusted Computing Base (TCB)</strong> (subsystem containing all security code) · Assurance levels.</li>
+    </ul>
+  </div>
+
+  <!-- Orange Book Assurance Levels -->
+  <div class="section">
+    <h3>Orange Book – Assurance Levels (Divisions)</h3>
+    <p style="font-size:0.88rem; color:var(--muted); margin-bottom:0.75rem">The Orange Book defines four divisions (D, C, B, A) with increasing security requirements.</p>
+    <table class="tiers">
+      <thead><tr><th>Level</th><th>Name</th><th>Key Requirement</th></tr></thead>
+      <tbody>
+        <tr><td class="tier-name">D</td><td class="tier-name">Minimal Protection</td><td>No security requirements met. Lowest level.</td></tr>
+        <tr><td class="tier-name">C1</td><td class="tier-name">Discretionary Protection</td><td>Basic user/data separation. Discretionary access control.</td></tr>
+        <tr><td class="tier-name">C2</td><td class="tier-name">Controlled Access</td><td>Stricter login, audit trails, resource isolation.</td></tr>
+        <tr><td class="tier-name">B1</td><td class="tier-name">Labelled Security</td><td>Mandatory access control (MAC) for some objects. Security labels applied.</td></tr>
+        <tr><td class="tier-name">B2</td><td class="tier-name">Structured Protection</td><td><strong>Mandatory access control across the entire system.</strong> Formal security model enforced.</td></tr>
+        <tr><td class="tier-name">B3</td><td class="tier-name">Security Domains</td><td>Reference monitor fully implemented. Highly resistant to penetration.</td></tr>
+        <tr><td class="tier-name">A1</td><td class="tier-name">Verified Design</td><td>Formal mathematical verification of design. Highest assurance.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- NIST CSF Detail -->
+  <div class="section">
+    <h3>NIST Cybersecurity Framework (CSF) – Detail</h3>
+    <ul class="notes">
+      <li>De facto standard for cybersecurity. Three elements: <strong>Framework Core</strong> · <strong>Framework Profile</strong> · <strong>Implementation Tiers</strong>.</li>
+      <li>Core decomposes into <strong>22 security activities</strong> across the 6 functions.</li>
+      <li><strong>Framework Profile</strong> aligns business outcomes with cybersec activities. Two profiles: <em>Current Risk Profile</em> (what cybersec looks like now) and <em>Target Risk Profile</em> (acceptable level of risk). A security plan bridges the gap.</li>
+    </ul>
+    <br>
+    <strong style="font-size:0.85rem; color: var(--heading);">Implementation Tiers (Maturity Levels)</strong>
+    <table class="tiers" style="margin-top:0.6rem">
+      <thead><tr><th>Tier</th><th>Name</th><th>Key Characteristics</th></tr></thead>
+      <tbody>
+        <tr><td class="tier-name">1</td><td class="tier-name">Partial</td><td>Ad hoc/reactive. No risk objectives. Little external collaboration.</td></tr>
+        <tr><td class="tier-name">2</td><td class="tier-name">Risk Informed</td><td>Risk practices formalised but not enterprise-wide. Internal sharing only.</td></tr>
+        <tr><td class="tier-name">3</td><td class="tier-name">Repeatable</td><td>Risk management mandated as policy. Internal and external collaboration.</td></tr>
+        <tr><td class="tier-name">4</td><td class="tier-name">Adaptive</td><td>Continuous improvement based on changes to assets, threats and vulnerabilities.</td></tr>
+      </tbody>
+    </table>
+    <br>
+    <strong style="font-size:0.85rem; color: var(--heading);">Key Implementation Steps (new cybersec program)</strong>
+    <ul class="notes" style="margin-top:0.5rem">
+      <li>Identify business outcomes → understand threats/vulnerabilities → create current profile → conduct risk assessment → create target profile → determine/prioritise gaps → implement plan.</li>
+    </ul>
+  </div>
+
+  <!-- Risk Management -->
+  <div class="section">
+    <h3>Cyber Risk Management</h3>
+    <ul class="notes">
+      <li>Key standards: <span class="term">NIST SP 800-30</span> (risk assessments) and <span class="term">ISO 27005</span> (information security risk management).</li>
+      <li>Start with <strong>threat intelligence</strong> — <span class="term">MITRE ATT&CK</span> is a key catalogue of threats.</li>
+      <li><strong>Risk treatments:</strong> Acceptance · Avoidance · Transfer · Mitigation.</li>
+      <li><strong>Risk Register</strong> — used to record and track risks (usually a spreadsheet or automated tool).</li>
+    </ul>
+  </div>
+
+  <!-- IRAM2 -->
+  <div class="section">
+    <h3>IRAM2 – ISF Information Risk Assessment Methodology</h3>
+    <p style="font-size:0.88rem; color:var(--muted); margin-bottom:0.75rem">IRAM2 is the risk methodology underlying the <strong>ISF Standard of Good Practice (SoGP)</strong>. It has <strong>6 phases</strong>:</p>
+    <div class="stages">
+      <div class="stage-card"><div class="num">01</div><div class="name">Scoping</div><div class="desc">Define which systems and business processes are in scope.</div></div>
+      <div class="stage-card"><div class="num">02</div><div class="name">Business Impact Assessment</div><div class="desc">Understand the effect on the business if a risk is realised.</div></div>
+      <div class="stage-card"><div class="num">03</div><div class="name">Threat Profiling</div><div class="desc">Identify and profile relevant threats to the in-scope environment.</div></div>
+      <div class="stage-card"><div class="num">04</div><div class="name">Vulnerability Assessment</div><div class="desc">Identify weaknesses that could be exploited by those threats.</div></div>
+      <div class="stage-card"><div class="num">05</div><div class="name">Risk Evaluation</div><div class="desc">Combine threat and vulnerability findings to determine risk levels.</div></div>
+      <div class="stage-card"><div class="num">06</div><div class="name">Risk Treatment</div><div class="desc">Decide how to treat each risk: accept, avoid, transfer or mitigate.</div></div>
+    </div>
+  </div>
+
+  <!-- Risk Bubble Chart -->
+  <div class="section">
+    <h3>Risk Bubble Chart – Colour Zones</h3>
+    <p style="font-size:0.88rem; color:var(--muted); margin-bottom:0.75rem">A risk bubble chart plots risks by likelihood vs. impact. Colour zones indicate priority for treatment.</p>
+    <table class="tiers">
+      <thead><tr><th>Zone</th><th>Meaning</th><th>Action</th></tr></thead>
+      <tbody>
+        <tr><td style="color:#f85149; font-weight:700;">● Red</td><td>High likelihood + high impact</td><td>Immediate treatment required.</td></tr>
+        <tr><td style="color:#e3b341; font-weight:700;">● Gold / Amber</td><td>Medium-high risk — significant but not critical</td><td>Monitor closely and plan treatment.</td></tr>
+        <tr><td style="color:#7ee787; font-weight:700;">● Green</td><td>Low likelihood or low impact</td><td>Accept or monitor.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- NIST RMF -->
+  <div class="section">
+    <h3>NIST Risk Management Framework (RMF) – Rev 2 (Dec 2018)</h3>
+    <ul class="notes">
+      <li>Manages infosec risk at 3 levels: infosec risk · mission/business process risk · whole business risk.</li>
+    </ul>
+    <div class="rmf-steps">
+      <div class="rmf-step"><div class="step-num">01</div><div class="step-name">Prepare</div></div>
+      <div class="rmf-step"><div class="step-num">02</div><div class="step-name">Categorise</div></div>
+      <div class="rmf-step"><div class="step-num">03</div><div class="step-name">Select</div></div>
+      <div class="rmf-step"><div class="step-num">04</div><div class="step-name">Implement</div></div>
+      <div class="rmf-step"><div class="step-num">05</div><div class="step-name">Assess</div></div>
+      <div class="rmf-step"><div class="step-num">06</div><div class="step-name">Authorise</div></div>
+      <div class="rmf-step"><div class="step-num">07</div><div class="step-name">Monitor</div></div>
+    </div>
+    <ul class="notes" style="margin-top:0.75rem">
+      <li><strong>Prepare:</strong> 7 actions — risk roles, risk context, risk assessment, controls baseline, common controls, prioritising, monitoring.</li>
+      <li><strong>Categorise:</strong> System characteristics, CIA impact analysis, business endorsement.</li>
+      <li><strong>Select:</strong> Control selection, tailoring, allocation, documentation, monitoring plan, business approval.</li>
+      <li><strong>Implement:</strong> Apply controls and maintain security plans.</li>
+      <li><strong>Assess:</strong> Ensure controls are working and no breach evidence.</li>
+      <li><strong>Authorise:</strong> Provides organisational accountability.</li>
+      <li><strong>Monitor:</strong> Continuous situational awareness of security and privacy posture.</li>
+    </ul>
+  </div>
+
+  <!-- COBIT -->
+  <div class="section">
+    <h3>COBIT Framework</h3>
+    <ul class="notes">
+      <li>Ensures enterprises have an effective, auditable set of IT processes that deliver value to stakeholders. Used by the financial sector for IT general controls audits.</li>
+      <li>Designed around process, grouped under: <strong>Plan (14)</strong> · <strong>Build (11)</strong> · <strong>Deliver (6)</strong> · <strong>Monitor (4)</strong>.</li>
+      <li>Two key security processes: <span class="term">APO13</span> (managed security — Plan) and <span class="term">DSS05</span> (managed security — Deliver).</li>
+      <li><strong>APO13 goals:</strong> IT/business compliance · IT/enterprise risk management · transparency of IT costs/benefits · security of info/infra/apps · reliable info for decision making.</li>
+      <li><strong>APO13 control objectives:</strong> .01 Establish/maintain ISMS · .02 Define/manage a security plan · .03 Monitor and review ISMS.</li>
+      <li>Links to <span class="term">ISO 27001</span> (ISMS requirements).</li>
+      <li><strong>DSS05 – 7 Objectives:</strong> .01 Protect against malware · .02 Network/connectivity security · .03 Endpoint security · .04 User identity/logical access · .05 Physical access to IT · .06 Sensitive documents/output devices · .07 Monitor infrastructure for security events.</li>
+    </ul>
+  </div>
+
+  <!-- Controls -->
+  <div class="section">
+    <h3>Cybersecurity Controls</h3>
+    <ul class="notes">
+      <li>Controls must be <strong>cost effective</strong>. Implementing controls leaves <strong>residual risk</strong>.</li>
+      <li><strong>4 types of control</strong> (use 2 or more): Deterrent (reduces threats) · Preventative (reduces vulnerabilities) · Detective (identifies incidents) · Corrective (reduces impacts).</li>
+      <li>Two major control frameworks: <span class="term">NIST SP 800-53</span> and <span class="term">ISO 27002</span>. Both use control categories; can be mapped against each other.</li>
+      <li><span class="term">ISO 27002</span> hierarchy: Security Category → Control Objective → Control.</li>
+      <li><span class="term">SP 800-53</span> hierarchy: Security Category → Control.</li>
+      <li><strong>Statement of Applicability (SoA)</strong> — main link between risk and control set. Lists all controls considered; omitted controls documented with rationale.</li>
+      <li><span class="term">ISF Standard of Good Practice</span> — consistent with ISO 27002, NIST CSF, PCI DSS and GDPR. Risk framework: Business Impact → Threat/Vulnerability Assessment → Control Selection.</li>
+    </ul>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     CHAPTER 3 – MAKING CYBERSECURITY EFFECTIVE
+═══════════════════════════════════════════════ -->
+<div class="chapter" id="ch3">
+  <div class="chapter-header">
+    <span class="chapter-num">CH 3</span>
+    <h2>Making Cybersecurity Effective</h2>
+  </div>
+
+  <!-- SABSA -->
+  <div class="section">
+    <h3>Security Architecture – SABSA</h3>
+    <ul class="notes">
+      <li>Rather than adopting a generic control set, orgs can use <strong>enterprise security architecture</strong> to create a solution that meets specific business needs.</li>
+      <li><span class="term">SABSA</span> captures business requirements and determines the security needed to meet them.</li>
+      <li><strong>SABSA Matrix layers:</strong> Contextual · Conceptual · Logical · Physical · Component. (Top 2 = strategy/planning; bottom 3 = designing secure IT systems.)</li>
+      <li><strong>CIA Triad</strong> (Confidentiality · Integrity · Availability) — important but not exhaustive. Can add non-repudiation, utility, authenticity.</li>
+      <li>SABSA attributes grouped into 7 categories: User · Management · Operational · Risk · Legal · Technical · Business.</li>
+    </ul>
+  </div>
+
+  <!-- PCI DSS -->
+  <div class="section">
+    <h3>Payment Card Industry Data Security Standard (PCI DSS)</h3>
+    <ul class="notes">
+      <li>Issued by the <strong>PCI Council</strong> to protect cardholder data. Reinforced by GDPR liability.</li>
+      <li><strong>Key terminology:</strong> Merchant · Service Provider · Qualified Security Assessor (QSA) · Internal Security Assessor · Cardholder data (account number, cardholder name, expiry, service code) · Sensitive auth data (chip/swipe data, CVV, PIN).</li>
+      <li>v3.2 provides <strong>12 requirement areas</strong> covering ~200 mandatory controls.</li>
+      <li><strong>Key controls:</strong> Effective firewall config (rules reviewed every 6 months) · Network diagram maintained · Non-cardholder traffic denied · DMZ required for internet-facing systems · Default passwords changed · Stored cardholder data minimised (account numbers masked — show last 4 only) · Account numbers encrypted at rest · Transmitted data encrypted (SSL banned after Heartbleed) · AV software required on all systems · Security patches within 1 month · Source code review for custom dev (check for SQLi, XSS) · Production account numbers never used in testing.</li>
+      <li><strong>Heartbleed</strong> — vulnerability in OpenSSL; allowed reading of memory from systems using vulnerable SSL/TLS. Reason SSL was deprecated by PCI.</li>
+      <li>In event of breach: investigation launched → safe harbor or fine issued → remediation applied → customers may be compensated.</li>
+    </ul>
+  </div>
+
+  <!-- Cloud -->
+  <div class="section">
+    <h3>Cloud Security</h3>
+    <ul class="notes">
+      <li>Three deployment models: <span class="term">IaaS</span> · <span class="term">PaaS</span> · <span class="term">SaaS</span>.</li>
+      <li>Standards: <span class="term">ISO 27017</span> (cloud security controls) · <span class="term">NIST SP 800-144</span> (security/privacy in public cloud).</li>
+      <li>Main reference: <strong>Cloud Security Alliance (CSA) Security Guidance</strong> — 14 areas of control.</li>
+      <li><strong>CSA Cloud Controls Matrix (CCM)</strong> v3.0.1 — 133 controls across 16 domains. Clarifies shared responsibilities between cloud provider and customer. Cross-references other major security standards.</li>
+    </ul>
+  </div>
+
+  <!-- IoT -->
+  <div class="section">
+    <h3>Internet of Things (IoT) Security</h3>
+    <ul class="notes">
+      <li>IoT = everything connected to the internet that isn't a standard laptop, workstation or server. Can range from low-power 10-year sensors to industrial devices.</li>
+      <li>2017 IoT Security Guidelines cover: Legal · Privacy · Security · Resilience · Survivability · Development.</li>
+      <li>No single definitive set of controls; guidance from <span class="term">OWASP</span>, <span class="term">GSMA</span>, and the <span class="term">IoT Security Foundation</span> (142 controls, 13 areas).</li>
+    </ul>
+    <div class="iot-grid">
+      <div class="iot-card"><div class="iot-class">Class 0</div><div class="iot-desc">Minimal impact on individual or org.</div></div>
+      <div class="iot-card"><div class="iot-class">Class 1</div><div class="iot-desc">Limited impact on individual or org.</div></div>
+      <div class="iot-card"><div class="iot-class">Class 2</div><div class="iot-desc">Significant impact on individuals or org.</div></div>
+      <div class="iot-card"><div class="iot-class">Class 3</div><div class="iot-desc">Designed to resist attacks and protect sensitive data.</div></div>
+      <div class="iot-card"><div class="iot-class">Class 4</div><div class="iot-desc">Critical infrastructure or risk of personal injury.</div></div>
+    </div>
+  </div>
+
+  <!-- Open Source Tools -->
+  <div class="section">
+    <h3>Open Source Cybersecurity Tools</h3>
+    <ul class="notes">
+      <li><strong>Platform:</strong> Kali Purple</li>
+      <li><strong>Firewall:</strong> pfSense · OPNsense · Smoothwall · Nginx (proxy) · Suricata (IDS) · Web Application Firewall</li>
+      <li><strong>Log Monitoring:</strong> ELK Stack</li>
+      <li><strong>Vulnerability Management:</strong> GVM</li>
+      <li><strong>Threat Hunting:</strong> Malcom · Velociraptor · SELKS</li>
+      <li><strong>Multipurpose:</strong> Wazuh</li>
+    </ul>
+  </div>
+
+  <!-- Security Assurance -->
+  <div class="section">
+    <h3>Ensuring Security is Effective</h3>
+    <ul class="notes">
+      <li>Most breaches occur on systems <em>with</em> security controls — due to poor design, poor org hygiene, or new exploits.</li>
+      <li><strong>In-house assurance:</strong> Vulnerability scans · Security controls audits · Penetration testing.</li>
+      <li><strong>Independent assurance:</strong> Third-party evaluation, typically for certification (e.g. ISO 27000, Common Criteria).</li>
+    </ul>
+  </div>
+
+  <!-- Spectre / Meltdown -->
+  <div class="section">
+    <h3>Spectre & Meltdown</h3>
+    <ul class="notes">
+      <li>Hardware-level CPU vulnerabilities disclosed in <strong>January 2018</strong>, affecting almost all modern processors.</li>
+      <li><strong>Meltdown</strong> — allows a process to read kernel memory it shouldn't have access to.</li>
+      <li><strong>Spectre</strong> — tricks other processes into leaking their memory contents via speculative execution.</li>
+      <li>Despite widespread media coverage, <strong>no confirmed real-world attacks on businesses</strong> were recorded — largely a theoretical/proof-of-concept threat at the time.</li>
+      <li>Patches were released by OS vendors and CPU manufacturers, but with performance implications.</li>
+    </ul>
+  </div>
+
+  <!-- GDPR -->
+  <div class="section">
+    <h3>GDPR & Privacy</h3>
+    <ul class="notes">
+      <li>Enforces protection of privacy of EU citizens. Applies to any service consumed in the EU regardless of origin. Fine: <strong>up to 4% global revenue</strong> (notes say 1% — the higher figure is the standard maximum for major violations).</li>
+      <li><strong>6 Principles:</strong> Lawful/fair/transparent processing · Purpose-specific collection · Collect only what's needed · Keep data accurate · Store safely · Protect data.</li>
+      <li><strong>GDPR requirements:</strong> Appropriate technical/org measures · Effective cybersec · Compliance (risk assessments, continuous monitoring).</li>
+      <li><strong>Other practices:</strong> Data minimisation · Data Protection Impact Assessments (DPIA) · Privacy by design.</li>
+      <li><strong>Key cybersec controls:</strong> Encryption · Access control · Audits · Data masking.</li>
+    </ul>
+  </div>
+
+  <!-- Zero Trust -->
+  <div class="section">
+    <h3>Zero Trust</h3>
+    <ul class="notes">
+      <li><strong>New ABC:</strong> Assume nothing · Believe no one · Check everything.</li>
+      <li>Security mechanisms should assume any access request could be malicious.</li>
+      <li><strong>NIST:</strong> Moves defences from static network-based perimeters to users, assets and resources.</li>
+      <li><strong>Microsoft:</strong> Every access request is fully authenticated, authorised and encrypted before granting access.</li>
+      <li><strong>CrowdStrike:</strong> All users continuously authenticated, authorised and security-config validated.</li>
+      <li>Concept first emerged in 2011. Internal networks cannot be trusted; threats are present at all times.</li>
+      <li><strong>Mechanisms:</strong> Just-In-Time (JIT) access · Just Enough Access (JEA) · Tokenisation/encryption · Adaptive policies.</li>
+    </ul>
+  </div>
+
+  <!-- DORA -->
+  <div class="section">
+    <h3>DORA – Digital Operational Resilience Act</h3>
+    <ul class="notes">
+      <li>Five security requirements: Cyber risk management · Cyber incident management · Resilience testing · Intelligence sharing · Third-party risk management.</li>
+      <li><strong>Cyber Risk Management:</strong> Risk management body responsible for strategy, policies, procedures. Must approve business continuity plans, incident response plans, third-party services and audits. Annual review of risk framework. Continuous risk assessment.</li>
+      <li><strong>Business Continuity:</strong> Plans must include business impact assessments and be regularly tested. Central security depositories require geographically separated secondary processing site.</li>
+      <li><strong>Incident Management:</strong> Detect, classify (duration, asset criticality, economic impact), report. Major incidents must be reported to authorities.</li>
+      <li><strong>Resilience Testing:</strong> Vulnerability assessments, scans, open-source analysis, security assessments, source code reviews, scenario/compatibility testing.</li>
+      <li><span class="term">TLPT</span> (Threat-Led Penetration Testing) — introduced by DORA. Accredited testers; carried out at least every 3 years.</li>
+    </ul>
+  </div>
+
+  <!-- SBOM -->
+  <div class="section">
+    <h3>Supply Chain Security & SBOMs</h3>
+    <ul class="notes">
+      <li><span class="term">SBOM</span> (Software Bill of Materials) — lists software components to enable supply chain tracking.</li>
+      <li><strong>Required fields:</strong> Vendor name · Component name/version · Dependencies · Timestamps.</li>
+      <li><strong>Best practices:</strong> New SBOM with each release · Automation essential at scale · Common formats: <span class="term">SPDX</span> and <span class="term">CycloneDX</span>.</li>
+      <li><strong>Minimum requirements:</strong> Vulnerability database entries · Component licences · SaaS SBOM attestation.</li>
+      <li>2021 US executive order mandated vendors provide SBOMs.</li>
+    </ul>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     CHAPTER 4 – INCIDENT MANAGEMENT
+═══════════════════════════════════════════════ -->
+<div class="chapter" id="ch4">
+  <div class="chapter-header">
+    <span class="chapter-num">CH 4</span>
+    <h2>Detecting and Managing Cyber Incidents</h2>
+  </div>
+
+  <!-- Incident Basics -->
+  <div class="section">
+    <h3>Incident Management Fundamentals</h3>
+    <ul class="notes">
+      <li><span class="term">NICE Framework</span> defines incident response roles: Cyber Defence Analyst · Incident Responder · Forensic Analyst.</li>
+      <li><strong>US-CERT incident categories:</strong> Unauthorised access · Denial of service · Malware infections · Suspicious activities.</li>
+      <li><span class="term">FIRST</span> (Forum of Incident Response and Security Teams) — coordinates global incident response and information sharing. <strong>Established by CERT/CC (Carnegie Mellon University)</strong> along with a group of early CERTs.</li>
+      <li>National CERTs also play vital roles in coordinating incident response locally.</li>
+      <li><strong>Incident handling phases:</strong> Preparation · Detection · Response · Follow-up (communication essential throughout).</li>
+      <li><strong>NIST CSF response categories:</strong> Planning · Communication · Analysis · Mitigation · Improvements + Recovery.</li>
+    </ul>
+  </div>
+
+  <!-- Maturity -->
+  <div class="section">
+    <h3>Incident Response Maturity</h3>
+    <ul class="notes">
+      <li><span class="term">CREST UK</span> maturity assessment tool used to gauge readiness.</li>
+      <li>Preparation: form and train an IR team · establish processes · acquire tools.</li>
+      <li>Define procedures and playbooks — tools like <span class="term">TheHive</span> support collaborative investigations.</li>
+      <li>Leverage strategic, tactical and operational threat intelligence.</li>
+      <li>Build relationships within the IR community and internally with IT teams.</li>
+      <li>Cyber crisis exercises test and improve response plans.</li>
+    </ul>
+  </div>
+
+  <!-- Detection -->
+  <div class="section">
+    <h3>Detecting an Attack</h3>
+    <ul class="notes">
+      <li>Incidents should be prioritised by impact — not first-come-first-served.</li>
+      <li>SOC analysts monitor real-time alerts, scan for malware, watch for suspicious movements and manage false positives.</li>
+      <li><strong>Incident response phases:</strong> Detection & analysis → Containment → Eradication → Recovery → Post-incident activities.</li>
+    </ul>
+  </div>
+
+  <!-- Threat Hunting -->
+  <div class="section">
+    <h3>Threat Hunting</h3>
+    <ul class="notes">
+      <li>Proactive process: analysts search for hidden threats via suspicious activity, unusual files, unauthorised accounts.</li>
+      <li><span class="term">Indicators of Compromise (IoCs)</span> — essential clues that identify known threats and suspicious behaviour.</li>
+      <li>Advanced analytics on large datasets reveal hidden activity like beaconing to C2 servers.</li>
+      <li>Process: continuous monitoring → investigation → action to mitigate.</li>
+      <li>Tool: <span class="term">Malcom</span> — real-time monitoring and analysis of captured network data.</li>
+    </ul>
+  </div>
+
+  <!-- Incident Response -->
+  <div class="section">
+    <h3>Responding to an Incident</h3>
+    <ul class="notes">
+      <li><strong>Early containment is critical</strong> — pre-authorised, tailored response plans make decisions faster.</li>
+      <li>Parallel activities: containment · recovery · ongoing investigation.</li>
+      <li>Eradication must address <em>all</em> affected systems, not just the initial compromise.</li>
+      <li>Continuous monitoring after incident — the initial attack may be a diversion.</li>
+      <li>Document and preserve evidence, especially if legal action may follow.</li>
+    </ul>
+  </div>
+
+  <!-- Communications -->
+  <div class="section">
+    <h3>Communications Plan & Notification</h3>
+    <ul class="notes">
+      <li><strong>Executive readiness:</strong> CEOs and board chairs must be prepared to face media and regulators. Clear roles and regular system checks.</li>
+      <li><strong>Transparency:</strong> Clearly communicate what happened, its impact, and how affected parties can mitigate risks. Accept responsibility; don't downplay or blame others.</li>
+      <li><strong>Preparation is crucial:</strong> Develop and rehearse a comms plan before incidents occur. Long-term goals include protecting brand and stock value.</li>
+    </ul>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     CHAPTER 5 – AI & CYBERSECURITY
+═══════════════════════════════════════════════ -->
+<div class="chapter" id="ch5">
+  <div class="chapter-header">
+    <span class="chapter-num">CH 5</span>
+    <h2>Cybersecurity and AI</h2>
+  </div>
+
+  <div class="section">
+    <h3>AI Security Fundamentals</h3>
+    <ul class="notes">
+      <li>Training feeds large datasets into a model to refine probabilities; separate testing and validation datasets ensure accuracy.</li>
+      <li>Input → words converted to numerical <strong>tokens</strong> → pass through complex layers (vectors) → response generated.</li>
+      <li>Real-world AI risks: toxic outputs · hallucinated information · prompt injection · code injection.</li>
+      <li>Security must be applied throughout the AI lifecycle: protect training data · the model itself · validation data.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h3>AI Threats</h3>
+    <ul class="notes">
+      <li><strong>Supply chain attacks</strong> — compromised components or datasets undermine AI models.</li>
+      <li>Attacks on the model itself: inserting malicious code · extracting sensitive training data.</li>
+      <li>Traditional threats apply: ransomware · data poisoning.</li>
+      <li>AI-specific risks: toxic/hallucinated outputs · <span class="term">prompt injection</span> (manipulating model responses).</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h3>AI Application Guardrails</h3>
+    <ul class="notes">
+      <li>Programmable, rule-based filters that sit between users and AI models to enforce application owner policies.</li>
+      <li>Validate user prompts before passing to AI; check AI responses before delivering to users.</li>
+      <li>Refuse to engage with harmful or demeaning inputs; provide neutral responses instead.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h3>ISO 42001 – AI Management System</h3>
+    <ul class="notes">
+      <li>High-level framework for managing AI systems: secure, safe and responsible AI use.</li>
+      <li>Covers: principles · exceptions · resources · impact assessment · development.</li>
+      <li><strong>AI impact assessments</strong> evaluate business and societal impacts, feeding into AI risk assessments.</li>
+      <li>Emphasises roles and responsibilities for both safety and security; requires detailed documentation of data, tools, systems and personnel.</li>
+      <li>Guidance on data provenance, acquisition, quality, preparation and security threats linked to data-dependent AI systems.</li>
+      <li>Supports documentation throughout the AI lifecycle; promotes transparency for stakeholders.</li>
+    </ul>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     CHAPTER 6 – CYBER DIPLOMACY
+═══════════════════════════════════════════════ -->
+<div class="chapter" id="ch6">
+  <div class="chapter-header">
+    <span class="chapter-num">CH 6</span>
+    <h2>Cyber Diplomacy</h2>
+  </div>
+
+  <div class="section">
+    <h3>Cybersecurity Goes Global</h3>
+    <ul class="notes">
+      <li>UK initiated global conferences on cyberspace to address fears of the internet fracturing into separate national networks.</li>
+      <li>Russia and China have taken steps to control their national internet spaces (info control, cultural protection).</li>
+      <li>Internet technical standards managed by <span class="term">IETF</span>; addressing managed by <span class="term">ICANN</span> (US-based — source of international concern).</li>
+      <li><strong>7 proposed internet principles:</strong> Proportionality · Accessibility · Respect for diversity · Human rights · Openness · Collaboration against cybercrime · Fair competition.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h3>UN Cyber Norms – The 11 Norms (UN GGE 2015)</h3>
+    <ul class="notes">
+      <li>There are <strong>11 UN Cyber Norms</strong>, established by the UN Group of Governmental Experts (GGE) in 2015.</li>
+      <li>Define generally accepted rules for nation-states' internet behaviour; promote cooperation for global cybersecurity and stability.</li>
+      <li><strong>Key norms:</strong> States' duty of care in incident handling · No malicious cyber activity from their territory · Protect critical infrastructure · Respect human rights (privacy, freedom of expression) · Share vulnerability information · Cooperate against cybercrime/terrorism · Don't attack other states' CERTs/CSIRTs · Transparency and confidence-building · Capacity building support for developing states.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h3>GFCE & Cybil</h3>
+    <ul class="notes">
+      <li><span class="term">GFCE</span> (Global Forum on Cyber Expertise) — strengthens global cybersec capacity building by coordinating governments, private companies, civil society, tech industry and academia.</li>
+      <li><span class="term">Cybil</span> — portal used to share expertise and support countries in developing cybersec capabilities.</li>
+      <li><strong>5 GFCE themes:</strong> Cybersec policy & strategy · Incident management & critical infrastructure protection · Countering cybercrime · Cybersecurity culture & skills · Cybersecurity standards.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h3>Traffic Light Protocol (TLP)</h3>
+    <p style="font-size:0.88rem; color: var(--muted); margin-bottom:0.75rem">A scheme to manage how cybersec information is shared globally, balancing free flow with security.</p>
+    <table class="tlp">
+      <thead><tr><th>Colour</th><th>Sharing Level</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="tlp-white">● WHITE</span></td>
+          <td>Freely shareable — no restrictions.</td>
+          <td>General awareness material.</td>
+        </tr>
+        <tr>
+          <td><span class="tlp-green">● GREEN</span></td>
+          <td>Share widely within recipient's sector but not publicly.</td>
+          <td>Sector-specific malware analysis.</td>
+        </tr>
+        <tr>
+          <td><span class="tlp-amber">● AMBER</span></td>
+          <td>Share within recipient's org and trusted clients only.</td>
+          <td>Sensitive indicators of compromise.</td>
+        </tr>
+        <tr>
+          <td><span class="tlp-red">● RED</span></td>
+          <td>Strictly for the named recipient only. Unauthorised sharing could cause harm.</td>
+          <td>Highly sensitive intelligence.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<footer>
+  Cybersecurity Foundations · Study Guide · Generated from lecture notes · Good luck on your exam!
+</footer>
+
+</div>
+</body>
+</html>

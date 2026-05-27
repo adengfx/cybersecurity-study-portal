@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Networking Basics – Study Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d1117; --surface: #161b22; --surface2: #1c2330; --border: #30363d;
+    --accent: #00e5ff; --accent2: #ff6b35; --accent3: #7ee787; --accent4: #d2a8ff;
+    --text: #e6edf3; --muted: #8b949e; --heading: #f0f6fc;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 400; line-height: 1.7; padding: 2rem 1rem; }
+  header { text-align: center; padding: 3rem 1rem 2rem; border-bottom: 1px solid var(--border); margin-bottom: 2.5rem; }
+  header .label { font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; letter-spacing: 0.2em; color: var(--accent); text-transform: uppercase; margin-bottom: 0.75rem; }
+  header h1 { font-size: clamp(1.8rem, 5vw, 3rem); font-weight: 700; color: var(--heading); letter-spacing: -0.02em; margin-bottom: 0.5rem; }
+  header .subtitle { color: var(--muted); font-size: 0.95rem; }
+  .container { max-width: 960px; margin: 0 auto; }
+  .toc { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem 2rem; margin-bottom: 3rem; }
+  .toc h2 { font-family: 'IBM Plex Mono', monospace; font-size: 0.8rem; color: var(--accent); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 1rem; }
+  .toc ol { columns: 2; column-gap: 2rem; padding-left: 1.2rem; }
+  .toc li { margin-bottom: 0.4rem; font-size: 0.92rem; break-inside: avoid; }
+  .toc a { color: var(--accent4); text-decoration: none; }
+  .toc a:hover { color: var(--accent); }
+  .chapter { margin-bottom: 3rem; }
+  .chapter-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border); }
+  .chapter-num { font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; color: var(--accent2); background: rgba(255,107,53,0.12); border: 1px solid rgba(255,107,53,0.3); border-radius: 4px; padding: 0.15rem 0.5rem; white-space: nowrap; }
+  .chapter h2 { font-size: 1.4rem; font-weight: 700; color: var(--heading); letter-spacing: -0.01em; }
+  .section { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; margin-bottom: 1.25rem; }
+  .section h3 { font-size: 1rem; font-weight: 700; color: var(--accent); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+  .section h3::before { content: ''; display: inline-block; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; flex-shrink: 0; }
+  .term { font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem; background: rgba(0,229,255,0.08); border: 1px solid rgba(0,229,255,0.25); color: var(--accent); border-radius: 4px; padding: 0.1rem 0.45rem; white-space: nowrap; }
+  ul.notes { list-style: none; padding: 0; }
+  ul.notes li { padding: 0.35rem 0 0.35rem 1.2rem; position: relative; font-size: 0.93rem; border-bottom: 1px solid rgba(48,54,61,0.5); }
+  ul.notes li:last-child { border-bottom: none; }
+  ul.notes li::before { content: '›'; position: absolute; left: 0; color: var(--accent2); font-weight: 700; }
+  .stages { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 0.75rem; margin-top: 0.5rem; }
+  .stage-card { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 0.75rem 1rem; }
+  .stage-card .num { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--accent2); margin-bottom: 0.25rem; }
+  .stage-card .name { font-weight: 700; font-size: 0.88rem; color: var(--heading); margin-bottom: 0.25rem; }
+  .stage-card .desc { font-size: 0.8rem; color: var(--muted); line-height: 1.4; }
+  table.data { width: 100%; border-collapse: collapse; font-size: 0.88rem; margin-top: 0.5rem; }
+  table.data th { font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; text-align: left; padding: 0.4rem 0.75rem; border-bottom: 1px solid var(--border); }
+  table.data td { padding: 0.6rem 0.75rem; border-bottom: 1px solid rgba(48,54,61,0.4); vertical-align: top; }
+  table.data td strong { color: var(--heading); }
+  .osi-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.6rem; margin-top: 0.5rem; }
+  .osi-card { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 0.7rem 1rem; border-left: 3px solid var(--accent); }
+  .osi-card.l1 { border-left-color: #8b949e; } .osi-card.l2 { border-left-color: #ffa657; } .osi-card.l3 { border-left-color: #00e5ff; }
+  .osi-card.l4 { border-left-color: #7ee787; } .osi-card.l5 { border-left-color: #d2a8ff; } .osi-card.l6 { border-left-color: #ff6b35; } .osi-card.l7 { border-left-color: #f85149; }
+  .osi-card .layer-num { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--muted); }
+  .osi-card .layer-name { font-weight: 700; font-size: 0.9rem; color: var(--heading); }
+  .osi-card .layer-pdu { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; color: var(--accent2); margin: 0.15rem 0; }
+  .osi-card .layer-desc { font-size: 0.78rem; color: var(--muted); line-height: 1.4; margin-top: 0.25rem; }
+  footer { text-align: center; padding: 2rem; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); margin-top: 3rem; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <div class="label">Study Guide</div>
+  <h1>Networking Basics</h1>
+  <p class="subtitle">Kevin Wallace · LinkedIn Learning · 7 Chapters</p>
+</header>
+
+<nav class="toc">
+  <h2>Contents</h2>
+  <ol>
+    <li><a href="#intro">Intro: Network Types &amp; Benefits</a></li>
+    <li><a href="#ch1">Chapter 1: Network Addresses</a></li>
+    <li><a href="#ch2">Chapter 2: Places and Parts of a Network</a></li>
+    <li><a href="#ch3">Chapter 3: The OSI Model</a></li>
+    <li><a href="#ch4">Chapter 4: Network Services</a></li>
+    <li><a href="#ch5">Chapter 5: Wireless Networks</a></li>
+    <li><a href="#ch6">Chapter 6: Emerging Trends</a></li>
+  </ol>
+</nav>
+
+
+<!-- INTRO -->
+<div class="chapter" id="intro">
+  <div class="chapter-header">
+    <span class="chapter-num">INTRO</span>
+    <h2>Network Types &amp; Benefits</h2>
+  </div>
+
+  <div class="section">
+    <h3>Network Types by Scope</h3>
+    <table class="data">
+      <thead><tr><th>Type</th><th>Full Name</th><th>Scope &amp; Description</th></tr></thead>
+      <tbody>
+        <tr><td><strong>PAN</strong></td><td>Personal Area Network</td><td>Two devices, very short range. E.g. Bluetooth game controller.</td></tr>
+        <tr><td><strong>LAN</strong></td><td>Local Area Network</td><td>Local to a building or area. Home or office network.</td></tr>
+        <tr><td><strong>CAN</strong></td><td>Campus Area Network</td><td>Interconnects nearby buildings. Universities and business campuses.</td></tr>
+        <tr><td><strong>MAN</strong></td><td>Metropolitan Area Network</td><td>Covers a large city. Connects multiple offices at high speed.</td></tr>
+        <tr><td><strong>WAN</strong></td><td>Wide Area Network</td><td>Large geographic regions. Often uses internet + VPN for security.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <h3>Connection Types</h3>
+    <ul class="notes">
+      <li><strong>Wired (Ethernet):</strong> RJ-45 connector, also called CAT 5 / CAT 6 cables.</li>
+      <li><strong>Wireless LAN (Wi-Fi):</strong> Limited geographic region.</li>
+      <li><strong>Cellular:</strong> Wide coverage. Devices like phones can use both Wi-Fi and cellular simultaneously.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h3>Benefits of Networking</h3>
+    <ul class="notes">
+      <li><strong>Resource sharing</strong> — files, printers, storage.</li>
+      <li><strong>Communications</strong> — email, VoIP (Voice over IP), video, instant messaging.</li>
+      <li><strong>Redundancy</strong> — back up critical data over the network to another location.</li>
+      <li><strong>Internet access</strong> — the biggest everyday benefit.</li>
+      <li><strong>Device monitoring</strong> — alerts from IoT devices, security cameras, industrial equipment.</li>
+      <li><strong>Centralised administration</strong> — manage multiple devices from one location without visiting each one.</li>
+    </ul>
+  </div>
+</div>
+
+
+<!-- CHAPTER 1 – ADDRESSES -->
+<div class="chapter" id="ch1">
+  <div class="chapter-header">
+    <span class="chapter-num">CH 1</span>
+    <h2>Network Addresses</h2>
+  </div>
+
+  <div class="section">
+    <h3>MAC Addresses – Physical Addressing</h3>
+    <ul class="notes">
+      <li>Assigned by the manufacturer — called a <strong>burned-in address</strong>. Stored on the NIC.</li>
+      <li><strong>48 bits</strong> total, split into two 24-bit halves.</li>
+      <li>First 24 bits = <span class="term">OUI</span> (Organisationally Unique Identifier) — identifies the manufacturer/vendor.</li>
+      <li>Last 24 bits = device-specific identifier assigned by the manufacturer.</li>
+      <li>No two devices in the world should share the same MAC address.</li>
+      <li>Switches use MAC addresses to make forwarding decisions (Layer 2).</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h3>IPv4 Addresses – Logical Addressing</h3>
+    <ul class="notes">
+      <li>A <strong>logical address</strong> — assigned to the device, not burned in at manufacture.</li>
+      <li><strong>32 bits</strong>, written in <strong>dotted decimal notation</strong>: four <strong>octets</strong> (8 bits each) separated by dots. E.g. 192.168.1.100</li>
+      <li>Divided into a <strong>network portion</strong> and <strong>host portion</strong> by a <span class="term">subnet mask</span>.</li>
+      <li><strong>Private IP ranges</strong> — usable inside networks but not routable on the public internet (e.g. 10.x.x.x, 192.168.x.x).</li>
+      <li>IPv4 addresses are <strong>exhausted</strong> — workaround is <span class="term">NAT</span>.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h3>IPv6 Addresses</h3>
+    <ul class="notes">
+      <li><strong>128 bits</strong> — gives 2<sup>128</sup> possible addresses. Solves IPv4 exhaustion entirely.</li>
+      <li>Written in <strong>hexadecimal notation</strong> — digits 0–9 and letters A–F.</li>
+      <li>Structure: <strong>8 quartets</strong> (groups of 4 hex digits) separated by colons.</li>
+      <li>Network portion = <strong>prefix</strong>. Host portion = <strong>host</strong>. Prefix length shown as e.g. <span class="term">/64</span> (no subnet mask — prefix length replaces it).</li>
+      <li>A /64 prefix means 64 bits for the network, 64 bits for the host.</li>
+    </ul>
+  </div>
+</div>
+
+
+<!-- CHAPTER 2 – PARTS -->
+<div class="chapter" id="ch2">
+  <div class="chapter-header">
+    <span class="chapter-num">CH 2</span>
+    <h2>Places and Parts of a Network</h2>
+  </div>
+
+  <div class="section">
+    <h3>Network Interface Card (NIC)</h3>
+    <ul class="notes">
+      <li>Circuitry that allows a device to send and receive data on wired or wireless networks.</li>
+      <li>Often built into the motherboard. Can be added as internal (PCIe slot) or external (USB).</li>
+      <li>Each NIC has a unique MAC address burned in at manufacture.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h3>Switches</h3>
+    <ul class="notes">
+      <li>Make forwarding decisions based on <strong>MAC addresses</strong> — operate at <strong>Layer 2</strong> (Data Link).</li>
+      <li>Maintain a MAC address table mapping device MAC addresses to switch ports.</li>
+      <li>All devices on a switch belong to the same IP network by default.</li>
+      <li>Data units at Layer 2 are called <strong>frames</strong>.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h3>Routers</h3>
+    <ul class="notes">
+      <li>Interconnect different networks. Make forwarding decisions based on <strong>IP addresses</strong> — operate at <strong>Layer 3</strong> (Network).</li>
+      <li>Maintain an <strong>IP routing table</strong>. Directly connected networks added automatically on startup.</li>
+      <li><strong>Default route (0.0.0.0/0)</strong> — used when no specific route is known; points to the internet. Contains all possible IPv4 addresses.</li>
+      <li><strong>Longest prefix match</strong> — when multiple routes match a destination, the router picks the most specific (most bits in subnet mask).</li>
+      <li>Routing protocols (e.g. <span class="term">OSPF</span>) allow multiple routers to share routing information.</li>
+      <li>Data units at Layer 3 are called <strong>packets</strong>.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h3>Wireless Access Points (APs)</h3>
+    <ul class="notes">
+      <li>Provide wireless connectivity. Connect back to the wired network via an ethernet switch.</li>
+      <li>Multiple APs allow <strong>roaming</strong> — client automatically connects to the AP with the strongest signal.</li>
+      <li>Home wireless routers combine AP + router + switch in one device.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h3>Copper Cabling (Twisted Pair)</h3>
+    <ul class="notes">
+      <li>Wires twisted in pairs to combat <strong>electromagnetic interference (EMI)</strong>.</li>
+      <li><span class="term">UTP</span> — Unshielded Twisted Pair. Standard.</li>
+      <li><span class="term">STP</span> — Shielded Twisted Pair. Extra foil/metal braiding for high-interference environments.</li>
+      <li><strong>Plenum-rated cable</strong> — required in plenum spaces (HVAC airflow areas above drop ceilings / below raised floors). Standard cable releases toxic fumes when burned.</li>
+      <li>Connectors: <span class="term">RJ-45</span> (8 pins/conductors). Wiring standards: <span class="term">T568A</span> and <span class="term">T568B</span> (only difference: orange and green pairs swapped). Be consistent — don't mix.</li>
+      <li><strong>Maximum distance: 100 metres</strong> for most categories.</li>
+    </ul>
+    <br>
+    <strong style="font-size:0.85rem; color:var(--heading)">Cable Categories</strong>
+    <table class="data" style="margin-top:0.5rem">
+      <thead><tr><th>Category</th><th>Max Speed</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Cat 5e</strong></td><td>1 Gbps</td><td>1000BASE-T. Very common in homes and offices.</td></tr>
+        <tr><td><strong>Cat 6</strong></td><td>10 Gbps</td><td>Up to 55m at 10 Gbps.</td></tr>
+        <tr><td><strong>Cat 6A</strong></td><td>10 Gbps</td><td>Full 100m at 10 Gbps.</td></tr>
+        <tr><td><strong>Cat 7</strong></td><td>10 Gbps+</td><td>Extra shielding included.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <h3>Fibre Optic Cabling</h3>
+    <ul class="notes">
+      <li>Uses <strong>light (laser)</strong> to transmit data — zero EMI, longer distances than copper.</li>
+      <li>Structure: <strong>core</strong> (inner glass) + <strong>cladding</strong> (outer glass, different refractive index). Light is kept inside by total internal reflection.</li>
+      <li><span class="term">SMF</span> (Single-Mode Fibre) — very small core. Only one light path (mode). No multimode delay distortion. Used for <strong>long distances</strong>.</li>
+      <li><span class="term">MMF</span> (Multi-Mode Fibre) — larger core. Multiple light paths. Susceptible to <strong>multimode delay distortion</strong> (different modes arrive at different times, bits can overtake each other). Shorter distances.</li>
+    </ul>
+  </div>
+</div>
+
+
+<!-- CHAPTER 3 – OSI -->
+<div class="chapter" id="ch3">
+  <div class="chapter-header">
+    <span class="chapter-num">CH 3</span>
+    <h2>The OSI Model</h2>
+  </div>
+
+  <div class="section">
+    <h3>The Seven Layers</h3>
+    <div class="osi-grid">
+      <div class="osi-card l7">
+        <div class="layer-num">Layer 7</div>
+        <div class="layer-name">Application</div>
+        <div class="layer-pdu">PDU: —</div>
+        <div class="layer-desc">User-facing protocols: HTTP, HTTPS, DNS, FTP. Where users interact with the network.</div>
+      </div>
+      <div class="osi-card l6">
+        <div class="layer-num">Layer 6</div>
+        <div class="layer-name">Presentation</div>
+        <div class="layer-pdu">PDU: —</div>
+        <div class="layer-desc">Data representation: encryption, image formatting (JPEG). Encryption protocols live here.</div>
+      </div>
+      <div class="osi-card l5">
+        <div class="layer-num">Layer 5</div>
+        <div class="layer-name">Session</div>
+        <div class="layer-pdu">PDU: —</div>
+        <div class="layer-desc">Establishes, monitors and tears down communication sessions. APIs live here.</div>
+      </div>
+      <div class="osi-card l4">
+        <div class="layer-num">Layer 4</div>
+        <div class="layer-name">Transport</div>
+        <div class="layer-pdu">PDU: Segments</div>
+        <div class="layer-desc">Logical connections. TCP (reliable) and UDP (unreliable).</div>
+      </div>
+      <div class="osi-card l3">
+        <div class="layer-num">Layer 3</div>
+        <div class="layer-name">Network</div>
+        <div class="layer-pdu">PDU: Packets</div>
+        <div class="layer-desc">Logical addressing (IP). Routers operate here.</div>
+      </div>
+      <div class="osi-card l2">
+        <div class="layer-num">Layer 2</div>
+        <div class="layer-name">Data Link</div>
+        <div class="layer-pdu">PDU: Frames</div>
+        <div class="layer-desc">Physical addressing (MAC addresses). Switches operate here.</div>
+      </div>
+      <div class="osi-card l1">
+        <div class="layer-num">Layer 1</div>
+        <div class="layer-name">Physical</div>
+        <div class="layer-pdu">PDU: Bits</div>
+        <div class="layer-desc">Cables, radio waves, physical transmission media.</div>
+      </div>
+    </div>
+    <ul class="notes" style="margin-top:1rem">
+      <li><strong>Bottom-up mnemonic:</strong> <em>Please Do Not Throw Sausage Pizza Away</em></li>
+      <li><strong>Top-down mnemonic:</strong> <em>All People Seem To Need Data Processing</em></li>
+      <li><strong>PDU names bottom-up:</strong> <em>Bacon Frying Produces Salivation</em> (Bits · Frames · Packets · Segments)</li>
+      <li>OSI is a <strong>reference model</strong>, not a strict rule — not every component fits neatly into one layer.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h3>TCP/IP Model</h3>
+    <ul class="notes">
+      <li>Combines OSI layers 5, 6, 7 into a single <strong>Application</strong> layer.</li>
+      <li>Combines OSI layers 1 and 2 into a <strong>Network Access</strong> layer (also called Network Interface or Link layer).</li>
+      <li>OSI Layer 3 becomes the <strong>Internet</strong> layer. Layer 4 keeps the name <strong>Transport</strong>.</li>
+      <li>Standard TCP/IP = <strong>4 layers</strong>. A 5-layer variant keeps Physical and Data Link separate.</li>
+    </ul>
+    <table class="data" style="margin-top:0.75rem">
+      <thead><tr><th>TCP/IP Layer</th><th>OSI Equivalent</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Application</strong></td><td>Layers 5, 6, 7</td></tr>
+        <tr><td><strong>Transport</strong></td><td>Layer 4</td></tr>
+        <tr><td><strong>Internet</strong></td><td>Layer 3</td></tr>
+        <tr><td><strong>Network Access</strong></td><td>Layers 1 &amp; 2</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <h3>TCP vs UDP</h3>
+    <ul class="notes">
+      <li><span class="term">TCP</span> (Transmission Control Protocol) — <strong>reliable</strong>. Confirms data was received. Used where accuracy matters (web browsing, email, file transfer).</li>
+      <li><span class="term">UDP</span> (User Datagram Protocol) — <strong>unreliable</strong>. Sends and hopes it arrives. No confirmation. Used where speed matters (VoIP, video streaming, DNS).</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h3>Common Application Layer Protocols &amp; Port Numbers</h3>
+    <table class="data">
+      <thead><tr><th>Protocol</th><th>Full Name</th><th>Port</th><th>Transport</th></tr></thead>
+      <tbody>
+        <tr><td><strong>HTTP</strong></td><td>Hypertext Transfer Protocol</td><td>80</td><td>TCP</td></tr>
+        <tr><td><strong>HTTPS</strong></td><td>HTTP Secure</td><td>443</td><td>TCP</td></tr>
+        <tr><td><strong>DNS</strong></td><td>Domain Name System</td><td>53</td><td>TCP &amp; UDP</td></tr>
+        <tr><td><strong>NTP</strong></td><td>Network Time Protocol</td><td>123</td><td>UDP</td></tr>
+        <tr><td><strong>DHCP</strong></td><td>Dynamic Host Configuration Protocol</td><td>67</td><td>UDP</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<!-- CHAPTER 4 – SERVICES -->
+<div class="chapter" id="ch4">
+  <div class="chapter-header">
+    <span class="chapter-num">CH 4</span>
+    <h2>Network Services</h2>
+  </div>
+
+  <div class="section">
+    <h3>DHCP – Dynamic Host Configuration Protocol</h3>
+    <ul class="notes">
+      <li>Automatically assigns IP address information to devices — eliminates manual configuration.</li>
+      <li>Process remembered as <strong>DORA</strong>:</li>
+    </ul>
+    <div class="stages" style="margin-top:0.75rem">
+      <div class="stage-card"><div class="num">D</div><div class="name">Discover</div><div class="desc">Client broadcasts asking if any DHCP server exists. Doesn't cross routers.</div></div>
+      <div class="stage-card"><div class="num">O</div><div class="name">Offer</div><div class="desc">DHCP server responds with an offer. Client selects the first offer received.</div></div>
+      <div class="stage-card"><div class="num">R</div><div class="name">Request</div><div class="desc">Client sends a request to the chosen server asking for IP address info.</div></div>
+      <div class="stage-card"><div class="num">A</div><div class="name">Acknowledge</div><div class="desc">Server sends IP address, subnet mask, default gateway, and DNS server address.</div></div>
+    </div>
+    <ul class="notes" style="margin-top:0.75rem">
+      <li>If a router separates client from server, the router must be configured as a <strong>DHCP relay agent</strong> to forward discover broadcasts.</li>
+      <li><strong>DHCPv6 Stateful:</strong> Server provides full IPv6 address (prefix + host) and optional info.</li>
+      <li><strong>DHCPv6 Stateless:</strong> Router provides prefix via <span class="term">NDP</span> (Neighbour Discovery Protocol). Client self-generates host portion using <span class="term">EUI-64</span> (derived from 48-bit MAC address). Stateless DHCPv6 provides extras like DNS server address.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h3>DNS – Domain Name System</h3>
+    <ul class="notes">
+      <li>Translates human-readable names (e.g. linkedin.com) into IP addresses so packets can be routed.</li>
+      <li>Client sends a query to its DNS server (address learned from DHCP). If the local DNS server doesn't know, it queries another DNS server on the internet.</li>
+      <li>Uses <strong>TCP and UDP port 53</strong>.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h3>NAT – Network Address Translation</h3>
+    <ul class="notes">
+      <li>Translates private (non-routable) IP addresses into publicly routable IP addresses at the router.</li>
+      <li>Millions of networks worldwide can reuse the same private IP ranges internally without conflict.</li>
+      <li><strong>Inside Local</strong> — private IP of a device inside the network (not routable on internet).</li>
+      <li><strong>Inside Global</strong> — publicly routable IP representing that same inside device.</li>
+      <li><strong>Dynamic NAT</strong> — pool of public IPs. Each inside device gets a different public IP from the pool.</li>
+      <li><strong>PAT (Port Address Translation)</strong> — multiple inside devices share a <em>single</em> public IP, distinguished by unique source port numbers. Also called NAT overload. Most common in home routers.</li>
+      <li>Router maintains a <strong>NAT translation table</strong> to track all mappings.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h3>NTP – Network Time Protocol</h3>
+    <ul class="notes">
+      <li>Keeps device clocks synchronised. Critical for log accuracy during troubleshooting and for digital certificate validity checking.</li>
+      <li>Uses <strong>UDP port 123</strong>.</li>
+      <li><strong>Stratum number</strong> — measures how many hops from an atomic clock. Lower = more accurate.</li>
+      <li><strong>Stratum 0:</strong> Atomic clock (Caesium-133). Never directly accessible on the network.</li>
+      <li><strong>Stratum 1:</strong> Server that learns directly from an atomic clock.</li>
+      <li><strong>Stratum 2+:</strong> Increments by 1 per hop. Stratum 16 = invalid (too far from atomic clock).</li>
+      <li>US official time keeper: <strong>Naval Observatory</strong> (Washington D.C. and Colorado Springs).</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h3>QoS – Quality of Service</h3>
+    <ul class="notes">
+      <li>Best described as <strong>"managed unfairness"</strong> — intentionally treats some traffic better than others based on business need.</li>
+      <li>Only useful for <em>periodic</em> congestion — persistent congestion requires more bandwidth.</li>
+      <li><strong>Causes of congestion:</strong> Speed mismatch (e.g. 1 Gbps in, 100 Mbps out) · Aggregation points (multiple fast inputs to one slower output).</li>
+      <li><strong>Classification and marking:</strong> Tag traffic early with a priority marker so downstream devices can act on it without re-inspecting.</li>
+      <li><strong>Queuing:</strong> Divide the single output queue into virtual sub-queues (e.g. VoIP queue vs best-effort queue). High-priority traffic won't be dropped even when best-effort queue is full.</li>
+    </ul>
+  </div>
+</div>
+
+
+<!-- CHAPTER 5 – WIRELESS -->
+<div class="chapter" id="ch5">
+  <div class="chapter-header">
+    <span class="chapter-num">CH 5</span>
+    <h2>Wireless Networks</h2>
+  </div>
+
+  <div class="section">
+    <h3>Types of Wireless LAN</h3>
+    <ul class="notes">
+      <li><strong>Ad hoc:</strong> Two devices communicate directly — no infrastructure needed. E.g. AirDrop between iPhones. Uses Bluetooth or Wi-Fi. Does not scale.</li>
+      <li><strong>Infrastructure:</strong> Clients connect to APs which connect to the wired network. Scalable. Supports roaming, monitoring, and security configuration (e.g. guest network isolation).</li>
+      <li><strong>Mesh:</strong> APs don't need a wired connection — they receive and retransmit wireless signals. Needs power only. Ideal for areas without ethernet access (e.g. car parks, outdoor areas).</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h3>Frequency Bands</h3>
+    <table class="data">
+      <thead><tr><th>Band</th><th>Non-overlapping channels</th><th>Range</th><th>Speed</th><th>Key Notes</th></tr></thead>
+      <tbody>
+        <tr><td><strong>2.4 GHz</strong></td><td>3 (ch. 1, 6, 11)</td><td>Longer, better through walls</td><td>Slower</td><td>More congested. 22 MHz wide per channel. Need 5 channels of separation between APs.</td></tr>
+        <tr><td><strong>5 GHz</strong></td><td>20+</td><td>Shorter</td><td>Faster</td><td>Less congested. Channel bonding: 20/40/80/160 MHz widths.</td></tr>
+        <tr><td><strong>6 GHz</strong></td><td>59 (20 MHz) · 7 (160 MHz)</td><td>Shortest</td><td>Fastest</td><td>Added by Wi-Fi 6E (2021). Requires WPA3. More susceptible to signal degradation by objects.</td></tr>
+      </tbody>
+    </table>
+    <ul class="notes" style="margin-top:0.75rem">
+      <li><strong>Non-overlapping 2.4 GHz channels:</strong> Always use <strong>1, 6, and 11</strong>. Honeycomb AP layout ensures no adjacent cells share a channel.</li>
+      <li><strong>Channel bonding:</strong> Bonding multiple 20 MHz channels together increases throughput. 80 MHz = 4 channels; 160 MHz = 8 channels.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h3>Wi-Fi Antenna Types</h3>
+    <ul class="notes">
+      <li><strong>Omnidirectional (dipole):</strong> Transmits in all directions perpendicular to the antenna. Used in most home/office APs. Keep vertical for horizontal coverage. Multiple antennas enable <span class="term">MU-MIMO</span> (Multi-User Multiple Input Multiple Output) — simultaneous connections to multiple clients.</li>
+      <li><strong>Directional (parabolic):</strong> Focuses signal in one direction. Used to link two buildings — mount on each roof pointing at each other.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h3>Wi-Fi Standards</h3>
+    <table class="data">
+      <thead><tr><th>Standard</th><th>Wi-Fi Name</th><th>Max Throughput</th><th>Key Features</th></tr></thead>
+      <tbody>
+        <tr><td><strong>802.11n</strong></td><td>Wi-Fi 4</td><td>150 Mbps</td><td>Max 40 MHz channel width. 6 bits/waveform.</td></tr>
+        <tr><td><strong>802.11ac</strong></td><td>Wi-Fi 5</td><td>3.5 Gbps</td><td>1 upstream + 4 downstream simultaneous. 8 bits/waveform. 160 MHz width.</td></tr>
+        <tr><td><strong>802.11ax</strong></td><td>Wi-Fi 6</td><td>9.6 Gbps</td><td>Standardised 2019. 1024-QAM (10 bits/waveform). 8 upstream + downstream. OFDMA. Target Wake Time. BSS Colouring.</td></tr>
+        <tr><td><strong>802.11ax ext.</strong></td><td>Wi-Fi 6E</td><td>9.6 Gbps+</td><td>Adds 6 GHz band (2021). Requires WPA3.</td></tr>
+      </tbody>
+    </table>
+    <ul class="notes" style="margin-top:0.75rem">
+      <li><span class="term">OFDMA</span> — Orthogonal Frequency Division Multiple Access. Wi-Fi 6 transmission method. Enables Target Wake Time (AP tells clients when to transmit — reduces contention, saves power).</li>
+      <li><span class="term">BSS Colouring</span> — lets nearby APs distinguish between transmissions on the same frequency from different networks.</li>
+      <li><span class="term">1024-QAM</span> — represents 10 bits per waveform (vs 8 in Wi-Fi 5, 6 in Wi-Fi 4). More data per transmission.</li>
+    </ul>
+  </div>
+</div>
+
+
+<!-- CHAPTER 6 – EMERGING TRENDS -->
+<div class="chapter" id="ch6">
+  <div class="chapter-header">
+    <span class="chapter-num">CH 6</span>
+    <h2>Emerging Trends in Networking</h2>
+  </div>
+
+  <div class="section">
+    <h3>SDN – Software Defined Networking</h3>
+    <ul class="notes">
+      <li>Traditional networking: configure one device at a time via SSH or GUI.</li>
+      <li>SDN: application expresses intent → <strong>SDN controller</strong> → pushes commands to all network devices at once.</li>
+      <li><strong>Southbound Interfaces (SBI):</strong> Between SDN controller and network devices (south = below). Protocol: <span class="term">OpenFlow</span> for SDN-aware devices; SSH for legacy devices.</li>
+      <li><strong>Northbound Interfaces (NBI):</strong> Between applications and the SDN controller (north = above). Uses <span class="term">REST</span> (Representational State Transfer) via HTTP verbs (GET, POST etc.).</li>
+      <li>Applications typically written in <strong>Python</strong>.</li>
+      <li>Data formatted using <span class="term">XML</span> (Extensible Markup Language) or <span class="term">JSON</span> (JavaScript Object Notation).</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h3>Virtualisation</h3>
+    <ul class="notes">
+      <li>Multiple <strong>virtual machines (VMs)</strong> run on a single physical server — each with its own OS, sharing underlying hardware.</li>
+      <li><strong>Hypervisor</strong> — software that creates, starts, stops and monitors VMs.</li>
+      <li><strong>Type 1 hypervisor:</strong> Installed directly on hardware, no underlying OS. E.g. VMware ESXi. More efficient.</li>
+      <li><strong>Type 2 hypervisor:</strong> Installed on top of an existing OS. E.g. VMware Fusion. Easier to set up.</li>
+      <li><strong>Containers:</strong> Share the same underlying OS (unlike VMs which each have their own). Smaller and more portable. E.g. <span class="term">Docker</span>.</li>
+      <li>Network components can also be virtualised — virtual routers, virtual switches.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h3>Cloud Technologies</h3>
+    <ul class="notes">
+      <li>Compute resources hosted by a cloud provider. No need to buy, house or maintain own hardware. Scale up/down on demand.</li>
+      <li>Major providers: <strong>AWS</strong> (Amazon Web Services) · <strong>Microsoft Azure</strong>.</li>
+      <li><span class="term">SaaS</span> — Software as a Service. Access applications via browser. E.g. Google Workspace.</li>
+      <li><span class="term">IaaS</span> — Infrastructure as a Service. Remote compute and storage.</li>
+      <li><span class="term">PaaS</span> — Platform as a Service. Virtual platforms for software developers.</li>
+      <li><strong>Public cloud:</strong> Shared resources owned by a provider, multiple customers.</li>
+      <li><strong>Private cloud:</strong> Dedicated resources for one organisation. Can be on-premises or hosted.</li>
+      <li><strong>Hybrid cloud:</strong> Combination of public and private cloud.</li>
+      <li>Connect to cloud via internet + <strong>VPN</strong> (Virtual Private Network) — encrypted tunnel to protect data in transit.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h3>5G and Wi-Fi 6</h3>
+    <ul class="notes">
+      <li><strong>5G</strong> — fifth generation cellular. Frequencies: 30–300 GHz (millimetre wave). Theoretical max: <strong>20 Gbps</strong>. Typical real-world: ~1.5 Gbps. Latency as low as <strong>1 millisecond</strong>.</li>
+      <li>5G signals easily absorbed by walls/windows — requires dense base station deployment (street lamps, traffic lights). Cannot simply reuse existing 4G towers.</li>
+      <li><strong>Wi-Fi 6 (802.11ax):</strong> Standardised 2019. Theoretical max <strong>9.6 Gbps</strong>. Key: 1024-QAM · 160 MHz bonding · OFDMA · Target Wake Time · BSS Colouring · 8 simultaneous streams.</li>
+    </ul>
+  </div>
+</div>
+
+<footer>
+  Networking Basics · Study Guide · Kevin Wallace · LinkedIn Learning
+</footer>
+
+</div>
+</body>
+</html>
