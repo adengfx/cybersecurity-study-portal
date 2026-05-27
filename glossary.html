@@ -486,6 +486,24 @@
     fcIndex = 0;
     renderFlashcard();
   });
+
+  document.getElementById('browseBtn').addEventListener('click', () => {
+    document.getElementById('browseBtn').classList.add('active');
+    document.getElementById('flashBtn').classList.remove('active');
+    document.getElementById('flashcardView').classList.remove('active');
+    document.getElementById('glossaryView').classList.remove('hidden');
+  });
+
+  document.getElementById('flashBtn').addEventListener('click', () => {
+    document.getElementById('flashBtn').classList.add('active');
+    document.getElementById('browseBtn').classList.remove('active');
+    document.getElementById('flashcardView').classList.add('active');
+    document.getElementById('glossaryView').classList.add('hidden');
+    fcTerms = shuffle([...getFcTerms()]);
+    fcIndex = 0;
+    renderFlashcard();
+  });
+
 </script>
 </div>
 </body>
