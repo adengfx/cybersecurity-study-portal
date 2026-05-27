@@ -69,6 +69,40 @@
   .term-pill.sec { background: rgba(126,231,135,0.08); border-color: rgba(126,231,135,0.25); color: var(--accent3); }
   .term-pill.sec .source { border-left-color: rgba(126,231,135,0.2); }
 
+
+  /* Flashcard mode */
+  .mode-toggle { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; }
+  .mode-btn { font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; padding: 0.25rem 0.65rem; border-radius: 20px; border: 1px solid var(--border); background: transparent; color: var(--muted); cursor: pointer; transition: all 0.15s; }
+  .mode-btn.active { background: rgba(0,229,255,0.1); border-color: var(--accent); color: var(--accent); }
+
+  #flashcardView { display: none; }
+  #flashcardView.active { display: block; }
+  #glossaryView.hidden { display: none; }
+
+  .fc-counter { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; color: var(--muted); margin-bottom: 1rem; text-align: center; }
+  .fc-card-wrap { perspective: 1000px; margin-bottom: 1.5rem; cursor: pointer; }
+  .fc-card { width: 100%; min-height: 180px; position: relative; transform-style: preserve-3d; transition: transform 0.45s; border-radius: 10px; }
+  .fc-card.flipped { transform: rotateY(180deg); }
+  .fc-front, .fc-back {
+    position: absolute; width: 100%; min-height: 180px;
+    backface-visibility: hidden; -webkit-backface-visibility: hidden;
+    border-radius: 10px; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; padding: 2rem;
+    background: var(--surface); border: 1px solid var(--border);
+    text-align: center;
+  }
+  .fc-back { transform: rotateY(180deg); border-color: var(--accent); background: var(--surface2); }
+  .fc-hint { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--muted); margin-bottom: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; }
+  .fc-term { font-family: 'IBM Plex Mono', monospace; font-size: 1.2rem; font-weight: 600; color: var(--heading); }
+  .fc-source-tag { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--muted); margin-top: 0.5rem; }
+  .fc-def { font-size: 0.92rem; color: var(--text); line-height: 1.6; }
+  .fc-nav { display: flex; align-items: center; justify-content: center; gap: 1rem; }
+  .fc-nav-btn { font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem; background: transparent; border: 1px solid var(--border); color: var(--muted); border-radius: 6px; padding: 0.45rem 1.1rem; cursor: pointer; transition: border-color 0.15s, color 0.15s; }
+  .fc-nav-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .fc-nav-btn:disabled { opacity: 0.3; cursor: default; }
+  .fc-shuffle-btn { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; background: transparent; border: 1px solid var(--border); color: var(--muted); border-radius: 6px; padding: 0.35rem 0.85rem; cursor: pointer; transition: border-color 0.15s, color 0.15s; }
+  .fc-shuffle-btn:hover { border-color: var(--accent); color: var(--accent); }
+
   .no-results { padding: 3rem; text-align: center; color: var(--muted); font-size: 0.9rem; display: none; }
 
   /* Legend */
@@ -114,9 +148,42 @@
     <div class="legend-item"><div class="legend-dot sec"></div> IT Security Foundations</div>
   </div>
 
+
+  <!-- Mode toggle -->
+  <div class="mode-toggle">
+    <button class="mode-btn active" id="browseBtn">Browse</button>
+    <button class="mode-btn" id="flashBtn">Flashcards</button>
+  </div>
+
+  <!-- Flashcard view -->
+  <div id="flashcardView">
+    <div class="fc-counter" id="fcCounter">Card 1 of 0</div>
+    <div class="fc-card-wrap" id="fcWrap">
+      <div class="fc-card" id="fcCard">
+        <div class="fc-front">
+          <div class="fc-hint">Tap to reveal</div>
+          <div class="fc-term" id="fcTerm"></div>
+          <div class="fc-source-tag" id="fcSource"></div>
+        </div>
+        <div class="fc-back">
+          <div class="fc-hint">Definition</div>
+          <div class="fc-def" id="fcDef">This term appears in the course glossary.</div>
+        </div>
+      </div>
+    </div>
+    <div class="fc-nav">
+      <button class="fc-nav-btn" id="fcPrev">← Prev</button>
+      <button class="fc-shuffle-btn" id="fcShuffle">Shuffle</button>
+      <button class="fc-nav-btn" id="fcNext">Next →</button>
+    </div>
+  </div>
+
+  <!-- Glossary browse view -->
+  <div id="glossaryView">
   <div class="alpha-index" id="alphaIndex"></div>
 
   <div id="glossaryContent"></div>
+  </div>
   <div class="no-results" id="noResults">No terms match your search.</div>
 
   <footer>
@@ -270,6 +337,111 @@
   });
 
   render();
+
+  // Flashcard definitions — term: definition
+  const TERM_DEFS = {
+    'AES': 'Advanced Encryption Standard — a symmetric encryption algorithm widely used for securing data.',
+    'DES': 'Data Encryption Standard — an older symmetric encryption algorithm, now considered insecure.',
+    'RSA': 'Rivest-Shamir-Adleman — an asymmetric encryption algorithm using public/private key pairs.',
+    'PGP': 'Pretty Good Privacy — an asymmetric encryption program used for securing email and files.',
+    'SHA': 'Secure Hash Algorithm — a family of cryptographic hash functions used to ensure data integrity.',
+    'SHA-1': 'An older SHA variant — no longer considered secure and should not be used.',
+    'SHA-256': 'A SHA-2 variant producing a 256-bit hash — considered secure and widely used.',
+    'TLS': 'Transport Layer Security — the protocol that encrypts HTTPS connections between browsers and servers.',
+    'WPA': 'Wi-Fi Protected Access — a wireless security protocol. WPA2 and WPA3 are the current standards.',
+    'WPA2': 'Wi-Fi Protected Access 2 — the most commonly deployed wireless encryption standard.',
+    'WPA3': 'Wi-Fi Protected Access 3 — the latest wireless security protocol, most secure as of 2018.',
+    'SSID': 'Service Set Identifier — the name of a wireless network broadcast by an access point.',
+    'UPnP': 'Universal Plug and Play — a protocol allowing devices to discover each other, but can be a security vulnerability.',
+    'MAC': 'Message Authentication Code — an encrypted message digest used to verify authenticity.',
+    'DEP': 'Data Execution Prevention — a Windows security feature preventing malware from executing code in reserved memory.',
+    'ClamAV': 'A cross-platform open-source antivirus engine popular on Linux systems.',
+    'LMD': 'Linux Malware Detect — an open-source malware scanner for Linux, best used alongside ClamAV.',
+    'TCP': 'Transmission Control Protocol — a reliable transport protocol that confirms data delivery.',
+    'UDP': 'User Datagram Protocol — an unreliable but fast transport protocol used for streaming and DNS.',
+    'NAT': 'Network Address Translation — translates private IP addresses to public ones, solving IPv4 exhaustion.',
+    'OSPF': 'Open Shortest Path First — a routing protocol allowing routers to share routing information.',
+    'STP': 'Shielded Twisted Pair — copper cabling with extra foil shielding for high-interference environments.',
+    'UTP': 'Unshielded Twisted Pair — standard copper Ethernet cabling.',
+    'RJ-45': 'The 8-pin connector used with twisted pair Ethernet cables.',
+    'SMF': 'Single-Mode Fibre — fibre optic cable with a small core for long-distance transmissions.',
+    'MMF': 'Multi-Mode Fibre — fibre optic cable with a larger core, used for shorter distances.',
+    'SSH': 'Secure Shell — a protocol for secure remote access to systems over an encrypted connection.',
+    'OWASP': 'Open Web Application Security Project — provides resources and standards for web application security.',
+    'IaaS': 'Infrastructure as a Service — cloud model providing storage, computing, and networking resources.',
+    'PaaS': 'Platform as a Service — cloud model providing development tools, OS, and environment.',
+    'SaaS': 'Software as a Service — cloud model providing hosted applications (e.g. Microsoft 365).',
+    'MITRE ATT&CK': 'A knowledge base of adversary tactics and techniques used for threat intelligence and defence.',
+    'ISO 27001': 'An international standard for information security management systems (ISMS).',
+    'ISO 27002': 'A code of practice providing guidelines for implementing ISO 27001 controls.',
+    'NIST SP 800-30': 'NIST guide for conducting risk assessments in information systems.',
+    'NIST SP 800-53': 'NIST catalogue of security and privacy controls for federal information systems.',
+    'prompt injection': 'An attack where malicious input manipulates an AI model to override its instructions.',
+    'XProtect': 'Apple macOS built-in antimalware tool that scans for malicious code with daily signature updates.',
+    'Notarization': 'Apple macOS security process that checks apps for malicious content before they run.',
+    'Rootkit Hunter': 'A Linux tool that scans for rootkits, backdoors, and local exploits.',
+    'chkrootkit': 'A Linux tool for checking the system for signs of rootkits.',
+    'Microsoft Defender': 'Windows built-in antimalware that activates automatically if no other protection is detected.',
+    'Microsoft Safety Scanner': 'A free downloadable Windows tool to scan for and remove malware.',
+    'subnet mask': 'A 32-bit number that divides an IP address into network and host portions.',
+    'T568A': 'One of two wiring standards for RJ-45 connectors — differs from T568B in orange/green pair order.',
+    'T568B': 'The most common RJ-45 wiring standard — differs from T568A in orange/green pair order.',
+    'MU-MIMO': 'Multi-User Multiple Input Multiple Output — Wi-Fi technology allowing simultaneous transmission to multiple devices.',
+    'OFDMA': 'Orthogonal Frequency Division Multiple Access — Wi-Fi 6 technology for efficient multi-device communication.',
+    'EUI-64': 'A method for generating a 64-bit host portion of an IPv6 address from a 48-bit MAC address.',
+    'NDP': 'Neighbour Discovery Protocol — used in IPv6 for address resolution and router discovery.',
+  };
+
+  // Flashcard mode
+  let fcTerms = [];
+  let fcIndex = 0;
+
+  function getFcTerms() {
+    const filter = activeFilter;
+    return terms.filter(t => filter === 'all' || t[1] === filter);
+  }
+
+  function renderFlashcard() {
+    const list = fcTerms;
+    if (!list.length) return;
+    const [label, cls, source] = list[fcIndex];
+    document.getElementById('fcTerm').textContent = label;
+    document.getElementById('fcSource').textContent = source;
+    document.getElementById('fcDef').textContent = TERM_DEFS[label] || 'Definition not available — refer to the study guide for this term.';
+    document.getElementById('fcCounter').textContent = `Card ${fcIndex + 1} of ${list.length}`;
+    document.getElementById('fcCard').classList.remove('flipped');
+    document.getElementById('fcPrev').disabled = fcIndex === 0;
+    document.getElementById('fcNext').disabled = fcIndex === list.length - 1;
+  }
+
+  document.getElementById('fcWrap').addEventListener('click', () => {
+    document.getElementById('fcCard').classList.toggle('flipped');
+  });
+  document.getElementById('fcPrev').addEventListener('click', () => { if (fcIndex > 0) { fcIndex--; renderFlashcard(); } });
+  document.getElementById('fcNext').addEventListener('click', () => { if (fcIndex < fcTerms.length - 1) { fcIndex++; renderFlashcard(); } });
+  document.getElementById('fcShuffle').addEventListener('click', () => {
+    fcTerms = shuffle([...getFcTerms()]);
+    fcIndex = 0;
+    renderFlashcard();
+  });
+
+  document.getElementById('browseBtn').addEventListener('click', () => {
+    document.getElementById('browseBtn').classList.add('active');
+    document.getElementById('flashBtn').classList.remove('active');
+    document.getElementById('flashcardView').classList.remove('active');
+    document.getElementById('glossaryView').classList.remove('hidden');
+  });
+
+  document.getElementById('flashBtn').addEventListener('click', () => {
+    document.getElementById('flashBtn').classList.add('active');
+    document.getElementById('browseBtn').classList.remove('active');
+    document.getElementById('flashcardView').classList.add('active');
+    document.getElementById('glossaryView').classList.add('hidden');
+    fcTerms = shuffle([...getFcTerms()]);
+    fcIndex = 0;
+    renderFlashcard();
+  });
+
 </script>
 </body>
 </html>

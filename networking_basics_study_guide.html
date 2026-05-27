@@ -104,6 +104,17 @@
   }
   .view-course-link:hover { opacity: 1; border-color: var(--accent); }
 
+
+  .share-btn {
+    display: inline-flex; align-items: center; gap: 0.35rem;
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem;
+    color: var(--muted); background: var(--surface); border: 1px solid var(--border);
+    border-radius: 4px; padding: 0.2rem 0.6rem; cursor: pointer;
+    transition: border-color 0.15s, color 0.15s; margin-top: 0.5rem;
+  }
+  .share-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .share-btn.copied { border-color: var(--accent3); color: var(--accent3); }
+
 </style>
 </head>
 <body>
@@ -119,6 +130,7 @@
   <h1>Networking Basics</h1>
   <p class="subtitle">Kevin Wallace · LinkedIn Learning · 7 Chapters</p>
     <a class="view-course-link" href="https://www.linkedin.com/learning/networking-foundations-networking-basics?u=0" target="_blank">View course on LinkedIn Learning →</a>
+  <button class="share-btn" id="shareBtn" data-url="https://adengfx.github.io/cybersecurity-study-portal/networking_basics_study_guide.html">⎘ Copy notes link</button>
 </header>
 
 <nav class="toc">
@@ -625,6 +637,20 @@
       _html.setAttribute('data-theme', next);
       _btn.textContent = next === 'dark' ? '☀️' : '🌙';
     }
+  });
+</script>
+
+
+<script>
+  document.getElementById('shareBtn').addEventListener('click', function() {
+    navigator.clipboard.writeText(window.location.href).then(() => {
+      this.classList.add('copied');
+      this.innerHTML = '✓ Link copied';
+      setTimeout(() => {
+        this.classList.remove('copied');
+        this.innerHTML = '⎘ Copy notes link';
+      }, 2000);
+    });
   });
 </script>
 
