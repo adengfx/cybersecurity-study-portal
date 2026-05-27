@@ -453,9 +453,7 @@
   function filterFlashcards() {
     const q = document.getElementById('fcSearch').value.toLowerCase().trim();
     if (!q) {
-      const base = getFcTerms();
-      const weighted = base.flatMap(t => fcConfidence[t[0]] === 'hard' ? [t, t] : [t]);
-      fcTerms = shuffle(weighted);
+      fcTerms = shuffle([...getFcTerms()]);
     } else {
       fcTerms = getFcTerms().filter(t => t[0].toLowerCase().includes(q));
     }
@@ -479,9 +477,10 @@
   document.getElementById('fcWrap').addEventListener('click', () => {
     document.getElementById('fcCard').classList.toggle('flipped');
   });
-  document.getElementById('fcPrev').addEventListener('click', () => { if (fcIndex > 0) { fcIndex--; renderFlashcard(); } });
-  document.getElementById('fcNext').addEventListener('click', () => { if (fcIndex < fcTerms.length - 1) { fcIndex++; renderFlashcard(); } });
-  document.getElementById('fcShuffle').addEventListener('click', () => {
+  document.getElementById('fcPrev').addEventListener('click', (e) => { e.stopPropagation(); if (fcIndex > 0) { fcIndex--; renderFlashcard(); } });
+  document.getElementById('fcNext').addEventListener('click', (e) => { e.stopPropagation(); if (fcIndex < fcTerms.length - 1) { fcIndex++; renderFlashcard(); } });
+  document.getElementById('fcShuffle').addEventListener('click', (e) => {
+    e.stopPropagation();
     fcTerms = shuffle([...getFcTerms()]);
     fcIndex = 0;
     renderFlashcard();

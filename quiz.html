@@ -564,6 +564,7 @@
       });
       container.appendChild(btn);
     });
+    startTimer();
   }
 
   let currentShuffledOpts = null;
@@ -691,6 +692,8 @@
     timedMode = document.getElementById('timedMode').checked;
     timerSeconds = parseInt(document.getElementById('timerSeconds').value);
     document.getElementById('timerWrap').style.display = timedMode ? 'flex' : 'none';
+    document.getElementById('timedOptions').style.display = 'none';
+    document.getElementById('countOptions').style.display = 'none';
     startQuiz();
   });
   document.getElementById('nextBtn').addEventListener('click', nextQuestion);
@@ -710,6 +713,8 @@
   });
   document.getElementById('newQuizBtn').addEventListener('click', () => {
     showScreen('startScreen');
+    document.getElementById('timedOptions').style.display = 'flex';
+    document.getElementById('countOptions').style.display = activeFilter === 'all' ? 'flex' : 'none';
     updateStartScreen();
   });
 
