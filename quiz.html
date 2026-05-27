@@ -83,8 +83,7 @@
   /* Confirm + Next buttons */
   .action-wrap { display: flex; align-items: center; justify-content: space-between; margin-top: 1rem; }
   .keyboard-hint { font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; color: var(--muted); letter-spacing: 0.05em; }
-  .btn-confirm { font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem; background: var(--accent); color: #0d1117; border: none; border-radius: 6px; padding: 0.5rem 1.25rem; cursor: pointer; font-weight: 600; transition: opacity 0.15s; display: none; }
-  .btn-confirm.show { display: inline-block; }
+  .btn-confirm { font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem; background: var(--accent); color: #0d1117; border: none; border-radius: 6px; padding: 0.5rem 1.5rem; cursor: pointer; font-weight: 600; transition: opacity 0.15s; width: 100%; }
   .btn-confirm:hover { opacity: 0.85; }
   .btn-next { font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem; background: transparent; border: 1px solid var(--accent); color: var(--accent); border-radius: 6px; padding: 0.5rem 1.25rem; cursor: pointer; transition: background 0.15s; display: none; }
   .btn-next.show { display: inline-block; }
@@ -201,7 +200,6 @@
     </div>
     <div class="action-wrap">
       <div>
-        <button class="btn-confirm" id="confirmBtn">Confirm →</button>
         <button class="btn-next" id="nextBtn">Next →</button>
       </div>
     </div>
@@ -461,7 +459,6 @@
     answered = false;
     selectedOriginalIndex = null;
     currentShuffledOpts = null;
-    document.getElementById('confirmBtn').className = 'btn-confirm';
     const q = currentQuestions[currentIndex];
     const total = currentQuestions.length;
     buildDots();
@@ -612,7 +609,6 @@
   }
 
   // Events
-  document.getElementById('confirmBtn').addEventListener('click', confirmAnswer);
 
   document.getElementById('startBtn').addEventListener('click', startQuiz);
   document.getElementById('nextBtn').addEventListener('click', nextQuestion);
