@@ -74,24 +74,17 @@
   .mode-toggle { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; }
   .mode-btn { font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; padding: 0.25rem 0.65rem; border-radius: 20px; border: 1px solid var(--border); background: transparent; color: var(--muted); cursor: pointer; transition: all 0.15s; }
   .mode-btn.active { background: rgba(0,229,255,0.1); border-color: var(--accent); color: var(--accent); }
-
   #flashcardView { display: none; }
   #flashcardView.active { display: block; }
   #glossaryView.hidden { display: none; }
-
   .fc-counter { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; color: var(--muted); margin-bottom: 1rem; text-align: center; }
-  .fc-card-wrap { perspective: 1000px; margin-bottom: 1.5rem; cursor: pointer; min-height: 180px; }
-  .fc-card { width: 100%; height: 180px; position: relative; transform-style: preserve-3d; transition: transform 0.45s; border-radius: 10px; }
+  .fc-card-wrap { cursor: pointer; margin-bottom: 1.5rem; }
+  .fc-scene { width: 100%; height: 200px; perspective: 800px; }
+  .fc-card { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.5s; }
   .fc-card.flipped { transform: rotateY(180deg); }
-  .fc-front, .fc-back {
-    position: absolute; width: 100%; min-height: 180px;
-    backface-visibility: hidden; -webkit-backface-visibility: hidden;
-    border-radius: 10px; display: flex; flex-direction: column;
-    align-items: center; justify-content: center; padding: 2rem;
-    background: var(--surface); border: 1px solid var(--border);
-    text-align: center;
-  }
-  .fc-back { transform: rotateY(180deg); border-color: var(--accent); background: var(--surface2); position: absolute; top: 0; left: 0; }
+  .fc-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem; text-align: center; }
+  .fc-front { background: var(--surface); border: 1px solid var(--border); }
+  .fc-back { background: var(--surface2); border: 1px solid var(--accent); transform: rotateY(180deg); }
   .fc-hint { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--muted); margin-bottom: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; }
   .fc-term { font-family: 'IBM Plex Mono', monospace; font-size: 1.2rem; font-weight: 600; color: var(--heading); }
   .fc-source-tag { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--muted); margin-top: 0.5rem; }
@@ -159,15 +152,17 @@
   <div id="flashcardView">
     <div class="fc-counter" id="fcCounter">Card 1 of 0</div>
     <div class="fc-card-wrap" id="fcWrap">
-      <div class="fc-card" id="fcCard">
-        <div class="fc-front">
-          <div class="fc-hint">Tap to reveal</div>
-          <div class="fc-term" id="fcTerm"></div>
-          <div class="fc-source-tag" id="fcSource"></div>
-        </div>
-        <div class="fc-back">
-          <div class="fc-hint">Definition</div>
-          <div class="fc-def" id="fcDef">This term appears in the course glossary.</div>
+      <div class="fc-scene">
+        <div class="fc-card" id="fcCard">
+          <div class="fc-face fc-front">
+            <div class="fc-hint">Tap to reveal</div>
+            <div class="fc-term" id="fcTerm"></div>
+            <div class="fc-source-tag" id="fcSource"></div>
+          </div>
+          <div class="fc-face fc-back">
+            <div class="fc-hint">Definition</div>
+            <div class="fc-def" id="fcDef"></div>
+          </div>
         </div>
       </div>
     </div>
@@ -397,6 +392,16 @@
     'EUI-64': 'A method for generating a 64-bit host portion of an IPv6 address from a 48-bit MAC address.',
     'NDP': 'Neighbour Discovery Protocol — used in IPv6 for address resolution and router discovery.',
   };
+
+  // Shuffle utility
+  function shuffle(arr) {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
 
   // Flashcard mode
   let fcTerms = [];
