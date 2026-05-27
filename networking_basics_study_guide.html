@@ -93,6 +93,17 @@
     a { color: #000 !important; text-decoration: none; }
   }
 
+
+  .view-course-link {
+    display: inline-flex; align-items: center; gap: 0.3rem;
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem;
+    color: var(--accent); text-decoration: none; opacity: 0.75;
+    border: 1px solid rgba(0,229,255,0.25); border-radius: 4px;
+    padding: 0.2rem 0.6rem; margin-top: 0.5rem;
+    transition: opacity 0.15s, border-color 0.15s; width: fit-content;
+  }
+  .view-course-link:hover { opacity: 1; border-color: var(--accent); }
+
 </style>
 </head>
 <body>
@@ -107,6 +118,7 @@
   <div class="label">Study Guide</div>
   <h1>Networking Basics</h1>
   <p class="subtitle">Kevin Wallace · LinkedIn Learning · 7 Chapters</p>
+    <a class="view-course-link" href="https://www.linkedin.com/learning/networking-foundations-networking-basics?u=0" target="_blank">View course on LinkedIn Learning →</a>
 </header>
 
 <nav class="toc">
