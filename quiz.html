@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revision Quiz – Study Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d1117; --surface: #161b22; --surface2: #1c2330; --border: #30363d;
+    --accent: #00e5ff; --accent2: #ff6b35; --accent3: #7ee787; --accent4: #d2a8ff;
+    --text: #e6edf3; --muted: #8b949e; --heading: #f0f6fc;
+  }
+  [data-theme="light"] {
+    --bg: #f6f8fa; --surface: #ffffff; --surface2: #f0f2f5; --border: #d0d7de;
+    --accent: #0077aa; --accent2: #d04a00; --accent3: #1a7f37; --accent4: #6e40c9;
+    --text: #24292f; --muted: #57606a; --heading: #1f2328;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; min-height: 100vh; padding: 2rem 1rem 4rem; transition: background 0.2s, color 0.2s; }
+  .container { max-width: 720px; margin: 0 auto; }
+  .topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; }
+  .back-btn { display: inline-flex; align-items: center; gap: 0.4rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; color: var(--muted); text-decoration: none; transition: color 0.15s; }
+  .back-btn:hover { color: var(--accent); }
+  .theme-btn { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; color: var(--muted); cursor: pointer; font-size: 1rem; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; transition: border-color 0.15s; }
+  .theme-btn:hover { border-color: var(--accent); color: var(--accent); }
+  header { padding: 0 0 2rem; border-bottom: 1px solid var(--border); margin-bottom: 2rem; }
+  .label { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; letter-spacing: 0.2em; color: var(--accent); text-transform: uppercase; margin-bottom: 0.5rem; }
+  h1 { font-size: clamp(1.6rem, 4vw, 2.2rem); font-weight: 700; color: var(--heading); letter-spacing: -0.02em; }
+  .subtitle { color: var(--muted); font-size: 0.9rem; margin-top: 0.4rem; }
+
+  /* Filter tabs */
+  .filter-tabs { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+  .tab { font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; padding: 0.25rem 0.65rem; border-radius: 20px; border: 1px solid var(--border); background: transparent; color: var(--muted); cursor: pointer; transition: all 0.15s; }
+  .tab:hover { border-color: var(--accent); color: var(--accent); }
+  .tab.active { background: rgba(0,229,255,0.1); border-color: var(--accent); color: var(--accent); }
+
+  /* Quiz screen */
+  #startScreen, #quizScreen, #resultsScreen { display: none; }
+  #startScreen.active, #quizScreen.active, #resultsScreen.active { display: block; }
+
+  /* Start screen */
+  .start-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 2rem; text-align: center; }
+  .start-card h2 { font-size: 1.1rem; color: var(--heading); margin-bottom: 0.5rem; }
+  .start-card p { color: var(--muted); font-size: 0.9rem; margin-bottom: 1.5rem; }
+  .start-stats { display: flex; justify-content: center; gap: 2rem; margin-bottom: 1.5rem; }
+  .start-stat .num { font-family: 'IBM Plex Mono', monospace; font-size: 1.4rem; font-weight: 600; color: var(--heading); }
+  .start-stat .lbl { font-size: 0.75rem; color: var(--muted); }
+  .btn-primary { font-family: 'IBM Plex Mono', monospace; font-size: 0.8rem; background: var(--accent); color: #0d1117; border: none; border-radius: 6px; padding: 0.6rem 1.5rem; cursor: pointer; font-weight: 600; letter-spacing: 0.05em; transition: opacity 0.15s; }
+  .btn-primary:hover { opacity: 0.85; }
+
+  /* Progress bar */
+  .progress-bar-wrap { background: var(--border); border-radius: 4px; height: 4px; margin-bottom: 1.5rem; overflow: hidden; }
+  .progress-bar-fill { height: 100%; background: var(--accent); border-radius: 4px; transition: width 0.3s; }
+  .progress-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; color: var(--muted); margin-bottom: 0.5rem; display: flex; justify-content: space-between; }
+
+  /* Question card */
+  .question-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1.75rem; margin-bottom: 1rem; }
+  .q-source { font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; color: var(--muted); margin-bottom: 0.75rem; letter-spacing: 0.08em; }
+  .q-text { font-size: 1rem; font-weight: 500; color: var(--heading); line-height: 1.5; margin-bottom: 1.5rem; }
+  .options { display: flex; flex-direction: column; gap: 0.6rem; }
+  .option-btn {
+    background: var(--surface2); border: 1px solid var(--border); border-radius: 6px;
+    padding: 0.75rem 1rem; text-align: left; color: var(--text); font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem; cursor: pointer; transition: border-color 0.15s, background 0.15s;
+    display: flex; align-items: center; gap: 0.75rem;
+  }
+  .option-btn:hover:not(:disabled) { border-color: var(--accent); background: rgba(0,229,255,0.05); }
+  .option-btn.correct { border-color: var(--accent3); background: rgba(126,231,135,0.08); color: var(--accent3); }
+  .option-btn.wrong { border-color: var(--accent2); background: rgba(255,107,53,0.08); color: var(--accent2); }
+  .option-btn.reveal { border-color: var(--accent3); background: rgba(126,231,135,0.05); }
+  .option-btn:disabled { cursor: default; }
+  .option-letter { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; width: 20px; height: 20px; border-radius: 3px; background: var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+
+  /* Explanation */
+  .explanation { background: var(--surface2); border: 1px solid var(--border); border-left: 3px solid var(--accent3); border-radius: 6px; padding: 0.85rem 1rem; font-size: 0.88rem; color: var(--text); margin-top: 1rem; display: none; line-height: 1.5; }
+  .explanation.show { display: block; }
+  .explanation.wrong-exp { border-left-color: var(--accent2); }
+
+  /* Next button */
+  .next-wrap { text-align: right; margin-top: 1rem; }
+  .btn-next { font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem; background: transparent; border: 1px solid var(--accent); color: var(--accent); border-radius: 6px; padding: 0.5rem 1.25rem; cursor: pointer; transition: background 0.15s; display: none; }
+  .btn-next.show { display: inline-block; }
+  .btn-next:hover { background: rgba(0,229,255,0.08); }
+
+  /* Results */
+  .results-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 2rem; text-align: center; margin-bottom: 1.5rem; }
+  .results-score { font-family: 'IBM Plex Mono', monospace; font-size: 3rem; font-weight: 600; color: var(--heading); line-height: 1; margin-bottom: 0.25rem; }
+  .results-score.great { color: var(--accent3); }
+  .results-score.ok { color: var(--accent); }
+  .results-score.poor { color: var(--accent2); }
+  .results-label { color: var(--muted); font-size: 0.9rem; margin-bottom: 1.5rem; }
+  .results-breakdown { font-size: 0.88rem; color: var(--muted); margin-bottom: 1.5rem; }
+  .results-actions { display: flex; justify-content: center; gap: 0.75rem; flex-wrap: wrap; }
+  .btn-secondary { font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem; background: transparent; border: 1px solid var(--border); color: var(--muted); border-radius: 6px; padding: 0.5rem 1.25rem; cursor: pointer; transition: border-color 0.15s, color 0.15s; }
+  .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+  footer { border-top: 1px solid var(--border); padding-top: 1.5rem; font-size: 0.78rem; color: var(--muted); font-family: 'IBM Plex Mono', monospace; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-top: 3rem; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="topbar">
+    <a class="back-btn" href="index.html">← Back to Portal</a>
+    <button class="theme-btn" id="themeBtn">🌙</button>
+  </div>
+
+  <header>
+    <div class="label">Study Portal</div>
+    <h1>Revision Quiz</h1>
+    <p class="subtitle">Questions from all course exams and chapter quizzes, randomised.</p>
+  </header>
+
+  <div class="filter-tabs">
+    <button class="tab active" data-filter="all">All courses</button>
+    <button class="tab" data-filter="cyber">Cybersecurity Foundations</button>
+    <button class="tab" data-filter="net">Networking Basics</button>
+    <button class="tab" data-filter="sec">IT Security Foundations</button>
+  </div>
+
+  <!-- Start screen -->
+  <div id="startScreen" class="active">
+    <div class="start-card">
+      <h2>Ready to test yourself?</h2>
+      <p>Questions are drawn from chapter quizzes and final exams across your completed courses.</p>
+      <div class="start-stats">
+        <div class="start-stat"><div class="num" id="totalQCount">0</div><div class="lbl">Questions</div></div>
+        <div class="start-stat"><div class="num" id="totalCourses">3</div><div class="lbl">Courses</div></div>
+      </div>
+      <button class="btn-primary" id="startBtn">Start Quiz</button>
+    </div>
+  </div>
+
+  <!-- Quiz screen -->
+  <div id="quizScreen">
+    <div class="progress-label">
+      <span id="progressText">Question 1 of 10</span>
+      <span id="scoreText">Score: 0</span>
+    </div>
+    <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressBar" style="width:0%"></div></div>
+    <div class="question-card">
+      <div class="q-source" id="qSource"></div>
+      <div class="q-text" id="qText"></div>
+      <div class="options" id="optionsContainer"></div>
+      <div class="explanation" id="explanation"></div>
+    </div>
+    <div class="next-wrap"><button class="btn-next" id="nextBtn">Next →</button></div>
+  </div>
+
+  <!-- Results screen -->
+  <div id="resultsScreen">
+    <div class="results-card">
+      <div class="results-score" id="resultsScore"></div>
+      <div class="results-label" id="resultsLabel"></div>
+      <div class="results-breakdown" id="resultsBreakdown"></div>
+      <div class="results-actions">
+        <button class="btn-secondary" id="retryBtn">Retry same questions</button>
+        <button class="btn-primary" id="newQuizBtn">New quiz</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <span>Study Portal · Cybersecurity track</span>
+    <span>Revision Quiz</span>
+  </footer>
+</div>
+
+<script>
+  // Theme
+  const themeBtn = document.getElementById('themeBtn');
+  const htmlEl = document.documentElement;
+  const sys = window.matchMedia('(prefers-color-scheme: dark)');
+  const sv = localStorage.getItem('theme');
+  const th = sv || (sys.matches ? 'dark' : 'light');
+  htmlEl.setAttribute('data-theme', th);
+  themeBtn.textContent = th === 'dark' ? '☀️' : '🌙';
+  themeBtn.addEventListener('click', () => {
+    const nx = htmlEl.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    htmlEl.setAttribute('data-theme', nx); localStorage.setItem('theme', nx);
+    themeBtn.textContent = nx === 'dark' ? '☀️' : '🌙';
+  });
+  sys.addEventListener('change', e => {
+    if (!localStorage.getItem('theme')) {
+      const nx = e.matches ? 'dark' : 'light';
+      htmlEl.setAttribute('data-theme', nx);
+      themeBtn.textContent = nx === 'dark' ? '☀️' : '🌙';
+    }
+  });
+
+  // Questions bank
+  const ALL_QUESTIONS = [
+    // IT Security Foundations — Chapter quizzes
+    { course: 'sec', source: 'IT Security Foundations', text: 'What do you call it when cybercriminals use unethical methods to trick us into doing something to get information about an organisation or computer system?', options: ['Baselining','Auditing','Social engineering','Honeynet'], answer: 2, explanation: 'Social engineering uses email, phone, dumpster diving, shoulder surfing, and simple persuasion to trick victims.' },
+    { course: 'sec', source: 'IT Security Foundations', text: '_____ is the chance that something unexpected will happen and is a function of a threat exploiting a vulnerability.', options: ['Spyware','Honeypot','Asset','Risk'], answer: 3, explanation: 'Risk is when a person, place, or thing is open or exposed to harm. Formula: Risk = Threats × Vulnerabilities.' },
+    { course: 'sec', source: 'IT Security Foundations', text: 'A _____ is a security flaw in a system that can be exploited by threats to gain unauthorised access to an asset.', options: ['Honeypot','Asset','Vulnerability','Risk'], answer: 2, explanation: 'Vulnerabilities are weaknesses and can include unpatched systems, human error, or software flaws. Most can be fixed.' },
+    { course: 'sec', source: 'IT Security Foundations', text: 'Ensuring that data and services are available to authorised users when needed is called:', options: ['Authentication','Confidentiality','Availability','Integrity'], answer: 2, explanation: 'Availability ensures services are accessible to authorised users or processes in an information infrastructure.' },
+    { course: 'sec', source: 'IT Security Foundations', text: 'Assurance of data privacy and protection against unauthorised disclosure is called:', options: ['Confidentiality','Integrity','Availability','Authentication'], answer: 0, explanation: 'Confidentiality is the promise of keeping private information private by preventing unauthorised access.' },
+    { course: 'sec', source: 'IT Security Foundations', text: 'A _____ has to have some way to travel to another host by using a transport agent such as an email attachment.', options: ['RADIUS exploit','Buffer overflow','Worm','Virus'], answer: 3, explanation: 'Unlike a worm that can travel on its own, a virus needs a transport agent to spread to another host.' },
+    { course: 'sec', source: 'IT Security Foundations', text: 'What type of malware holds your computer hostage until you offer some type of payment or ransom?', options: ['Spyware','Ransomware','Honeyware','RADIUS exploit'], answer: 1, explanation: 'Ransomware can block system access, encrypt files so you cannot use them, and stop applications from running.' },
+    { course: 'sec', source: 'IT Security Foundations', text: 'A _____ vulnerability refers to a hole in the software that is unknown to the vendor until after the hacker has exploited it.', options: ['Cookie','Zero-day','WEP','XML'], answer: 1, explanation: 'Zero-day attacks cannot be detected by antimalware as there is no signature to use and compare.' },
+    { course: 'sec', source: 'IT Security Foundations', text: 'What type of program appears to be innocent but has been designed to cause some malicious activity, or provide a backdoor into your system?', options: ['XSS','Buffer overflow','Virus','Trojan'], answer: 3, explanation: 'Trojans disguise their malicious nature. Avoid executable files (.exe, .bat, .vbs, .scr) from unknown sources.' },
+    { course: 'sec', source: 'IT Security Foundations', text: "A company's _____ outlines how they collect your information and what they do once it's collected.", options: ['XML file','Nugget','Location service','Privacy policy'], answer: 3, explanation: 'A privacy policy outlines the type of data a website keeps, how it uses the data, and how the data is kept.' },
+    { course: 'sec', source: 'IT Security Foundations', text: 'What type of browsing deletes information such as passwords and search history once you close the tab so that websites do not have access to your browser patterns?', options: ['Third-party','Zone','Private','Certificate'], answer: 2, explanation: 'Private browsing clears search and browsing history when you close the browser, but does not make you anonymous.' },
+    { course: 'sec', source: 'IT Security Foundations', text: 'Each Wireless Access Point has a(n) _____ or network name.', options: ['Palm Signature','Service Set Identifier','Zone ID','Nugget Identifier'], answer: 1, explanation: 'If the WAP is broadcasting the SSID, it will appear in the list of available wireless networks.' },
+    { course: 'sec', source: 'IT Security Foundations', text: 'One of the things you should do to secure your router is to disable _____, which could allow devices to access and modify the settings of your home router.', options: ['WEP','UPnP','XML','Nuggets'], answer: 1, explanation: 'Universal Plug and Play (UPnP) is designed to help devices find one another, but can be a vulnerability.' },
+    { course: 'sec', source: 'IT Security Foundations', text: 'An _____ is a station typically cabled to a LAN, which functions as a connection between the AP and an existing network.', options: ['Palm print','Access point','WEP key','SSID'], answer: 1, explanation: 'An access point (WAP) has a service set identifier (SSID), or network name.' },
+    { course: 'sec', source: 'IT Security Foundations', text: 'Using _____ helps ensure Integrity and Confidentiality of documents and files you need to protect from being accessed by unauthorised individuals.', options: ['WAP','Bot generators','Encryption','Cookies'], answer: 2, explanation: 'Encryption takes plain text, uses an encryption algorithm and a key to scramble data into an unreadable format.' },
+    // IT Security Foundations — Final exam
+    { course: 'sec', source: 'IT Security Foundations', text: 'One of the ways to protect wireless traffic from prying eyes is by using a _____ key, where all entities share the same key, such as a password or passphrase.', options: ['Public','Private','Pre-shared','Session'], answer: 2, explanation: 'A pre-shared key is shared by all authorised entities and used to encrypt traffic between them.' },
+    { course: 'sec', source: 'IT Security Foundations', text: 'To prevent a WAP from appearing in the list of available wireless networks you should disable broadcasting the _____.', options: ['WPA key','MAC address','SSID','IP address'], answer: 2, explanation: 'Disabling SSID broadcast (beaconing) hides the network — users must manually enter the name and password.' },
+    { course: 'sec', source: 'IT Security Foundations', text: 'What is something that might happen, is generally difficult to control, and can range from innocent mistakes made by employees to natural disasters?', options: ['Vulnerability','Risk','Asset','Threat'], answer: 3, explanation: 'Threats are difficult to control and can be intentional or accidental. Vulnerabilities, however, can usually be fixed.' },
+    { course: 'sec', source: 'IT Security Foundations', text: 'Unlike encryption, a _____ function is one-way. It takes a variable length input and produces a fixed length output.', options: ['Digital signature','Hash','MAC','Stream cipher'], answer: 1, explanation: 'A hash produces a fixed-length message digest. You cannot reverse it to recover the original data.' },
+    { course: 'sec', source: 'IT Security Foundations', text: 'Asymmetric encryption, also called _____ encryption, uses two keys — a public key and a private key — which are mathematically related.', options: ['Stream','Block','Public key','Symmetric'], answer: 2, explanation: 'Asymmetric algorithms include RSA and PGP. The public key is shared; the private key is never shared.' },
+    { course: 'sec', source: 'IT Security Foundations', text: '_____ encryption uses encryption to protect data on entire drives or logical volumes.', options: ['Public Key','Stream','Binding','BitLocker Drive'], answer: 3, explanation: 'BitLocker Drive Encryption protects data at rest by encrypting entire drives or logical volumes.' },
+    { course: 'sec', source: 'IT Security Foundations', text: 'The two main types of encryption algorithms are symmetric and _____.', options: ['Hash','Stream','Asymmetric','Block'], answer: 2, explanation: 'Symmetric uses a single shared key (DES, AES). Asymmetric uses a public/private key pair (RSA, PGP).' },
+    { course: 'sec', source: 'IT Security Foundations', text: 'A _____ has the ability to spread through the network without any help from a transport agent.', options: ['Virus','Trojan','Worm','Bot'], answer: 2, explanation: 'Unlike a virus, a worm is self-propagating and spreads on its own, consuming memory, processing, and bandwidth.' },
+    { course: 'sec', source: 'IT Security Foundations', text: 'On a wireless network, use _____ to ensure that only authorised client computers are able to access the wireless network.', options: ['MAC address filtering','BSSID Broadcast','WEP conversion','SSID tuning'], answer: 0, explanation: 'MAC address filtering allows only registered devices to join the network by their unique hardware address.' },
+    { course: 'sec', source: 'IT Security Foundations', text: 'What tracks information on a user\'s viewing habits while on the internet and then sends that information to a remote computer without the user\'s knowledge?', options: ['Cookie','Rootkit','Spyware','Bot'], answer: 2, explanation: 'Spyware records keystrokes and browsing activity and sends the data to a collection site, usually without user knowledge.' },
+    { course: 'sec', source: 'IT Security Foundations', text: 'The WiFi _____ is a fake access point that is set up as an open network as a trap to get you to join, with the objective of stealing credentials and other information.', options: ['Nugget','Cookie','Brownie','Pineapple'], answer: 3, explanation: 'A WiFi Pineapple is a man-in-the-middle device used to intercept traffic from victims who join the fake open network.' },
+    { course: 'sec', source: 'IT Security Foundations', text: 'A secure connection will be identified as HTTPS, which means any information that is sent between you and the website _____.', options: ['Is logged','Is encrypted','Is compressed','Is verified'], answer: 1, explanation: 'HTTPS uses TLS to encrypt data between you and the website so only the two parties can read the exchanged information.' },
+    { course: 'sec', source: 'IT Security Foundations', text: 'What do you call a collection of programs that can infiltrate a computer system, create a backdoor and remain undetected, and allow a hacker to take administrator level control of the victim\'s computer?', options: ['Virus','Spyware','Rootkit','Worm'], answer: 2, explanation: 'Rootkits can remain undetected for months or years and may leave logic bombs behind to trigger attacks later.' },
+    { course: 'sec', source: 'IT Security Foundations', text: 'What can be embedded within an email to run malicious code when the user opens the email?', options: ['Streams','Malware','Bots','Keys'], answer: 1, explanation: 'Malware embedded in email is a common attack vector, often combined with phishing to trick users into opening it.' },
+    { course: 'sec', source: 'IT Security Foundations', text: 'Protecting data from unauthorised modification is called:', options: ['Confidentiality','Availability','Authentication','Integrity'], answer: 3, explanation: 'Integrity protects data from unauthorised change — malicious or accidental. Verified using hash message digests.' },
+    { course: 'sec', source: 'IT Security Foundations', text: 'A secure browser actively blocks trackers and _____ cookies so that your browsing is kept private.', options: ['Session','Third-party','First-party','Secure'], answer: 1, explanation: 'Third-party cookies are set by domains other than the one you are visiting and used to track activity across sites.' },
+    { course: 'sec', source: 'IT Security Foundations', text: 'In addition to commonly known malware variants, newer attacks include _____, which installs software on your machine and conducts cryptomining while sending the results to a malicious party.', options: ['Scareware','Adware','Drive-by mining','Vishing'], answer: 2, explanation: 'Drive-by mining (cryptomining malware) is installed via malicious browser content and runs silently in the background.' },
+
+    // Cybersecurity Foundations — Chapter quizzes
+    { course: 'cyber', source: 'Cybersecurity Foundations', text: 'Which of the following will extract files from a target or use targets as a source of email spam?', options: ['Zombies','Money mules','Botmasters','Zeus'], answer: 0, explanation: 'Zombies are a large number of infected computers used to extract files, send email spam, or engage a distributed denial-of-service attack.' },
+    { course: 'cyber', source: 'Cybersecurity Foundations', text: 'A project management website has been compromised with malware to its users. This attack is known as a _____.', options: ['Phishing','Watering hole','Spear phishing','Drive-by download'], answer: 1, explanation: 'A watering hole attack targets a user with the hope that as soon as they visit a certain website, the malware downloads on their system.' },
+    { course: 'cyber', source: 'Cybersecurity Foundations', text: 'What was known as a string of operations that compromised many US government agencies?', options: ['Titan Rain','Stuxnet','BrewDog','Operation Aurora'], answer: 0, explanation: 'Titan Rain is the code name given to the attack by hackers who broke into several government agencies\' unclassified information.' },
+    { course: 'cyber', source: 'Cybersecurity Foundations', text: 'Which description is NOT a characteristic of a rootkit?', options: ['It is a virus.','It sits at the inner core of a system.','It does not exploit a system\'s vulnerabilities.','It remains undetected.'], answer: 0, explanation: 'A rootkit is implanted in a target system and does not propagate like a virus. A virus is different in that it self-replicates.' },
+    { course: 'cyber', source: 'Cybersecurity Foundations', text: 'What type of threat occurs when a hacker compromises an IT system by exploiting its vulnerabilities?', options: ['A Salami fraud','A denial-of-service attack','A botnet','A phishing attack'], answer: 1, explanation: 'A denial-of-service (DoS) attack exploits vulnerabilities to make a target\'s system inaccessible.' },
+    { course: 'cyber', source: 'Cybersecurity Foundations', text: 'What happens in the beginning of a Cyber Kill Chain?', options: ['Malware is being installed.','A target is phished.','An attacker is scanning a target.','A backdoor is created.'], answer: 2, explanation: 'In the early reconnaissance stage of the Cyber Kill Chain, the attacker scans addresses to find out more information about a target.' },
+    { course: 'cyber', source: 'Cybersecurity Foundations', text: 'Which technique would an attacker use to create a simple keystroke logger?', options: ['Notepad','Keyboard hook callback routine','Ctrl Alt Del','Registry edit'], answer: 1, explanation: 'An attacker adds a few lines of code to the Windows processor for managing a keyboard\'s strokes to create a keystroke logger.' },
+    { course: 'cyber', source: 'Cybersecurity Foundations', text: 'What type of cloaking method is used so a subdirectory cannot be seen?', options: ['$DATA','CLSID','UICLSID line','Registry key'], answer: 2, explanation: 'The UICLSID line cloaking method stops the subdirectory from being seen using Windows Explorer.' },
+    { course: 'cyber', source: 'Cybersecurity Foundations', text: 'What is most important to remember about CryptoLocker and other ransomware?', options: ['They make you pay in crypto coins.','They always come in through links.','They serve as lessons in basic cybersecurity.','They can always be decrypted.'], answer: 2, explanation: 'Ransomware like CryptoLocker serves as a reminder of the importance of basic cybersecurity practices such as backups and caution with links.' },
+    { course: 'cyber', source: 'Cybersecurity Foundations', text: 'Which resource would you least likely use when determining security risks?', options: ['ISO 27005 document','SP 830 document','Orange Book','NIST SP 800-30'], answer: 2, explanation: 'The Orange Book may have been used early in computer design but is not a current resource for determining security risks.' },
+    { course: 'cyber', source: 'Cybersecurity Foundations', text: 'What maturity level would be given to an organisation where risk management is mandated?', options: ['Repeatable','Risk-informed','Adaptive','Partial implementation'], answer: 0, explanation: 'The repeatable level is when risk management is formalised and people follow policies and processes to respond to any changes in risk.' },
+    { course: 'cyber', source: 'Cybersecurity Foundations', text: 'When implementing a control framework, what is an important first step?', options: ['Create a Statement of Applicability.','Create testing use cases.','Document the two-tier controls in ISO 27002.','Define the scope.'], answer: 0, explanation: 'It is imperative that all controls are considered in a control framework, which the Statement of Applicability articulates.' },
+    { course: 'cyber', source: 'Cybersecurity Foundations', text: 'What is the first step in creating cybersecurity controls?', options: ['Set up a deterrent control.','Implement the respond and recover functional controls.','Determine the costs.','Define the control objectives.'], answer: 2, explanation: 'It is best to first understand whether the cost of a control is more or less than the respective impact of an attack.' },
+    { course: 'cyber', source: 'Cybersecurity Foundations', text: 'COBIT is designed around a set of processes. What are the four areas in which these processes reside?', options: ['Very low, low, medium, high','Plan, build, deliver, and monitor','Plan, group, action, support','Identify, protect, detect, respond'], answer: 1, explanation: 'Each of the four COBIT areas (plan, build, deliver, monitor) has a set of processes that help an organisation deliver value to stakeholders.' },
+    { course: 'cyber', source: 'Cybersecurity Foundations', text: 'Which resource is most useful for understanding who cyberattackers are and how they carry out their attacks?', options: ['NIST Special Publication Appendix E','VMRay','Exploit-DB database','MITRE ATT&CK site'], answer: 3, explanation: 'The MITRE ATT&CK site is a detailed source of information on who the threat actors are and how they apply their cyberattacks.' },
+    { course: 'cyber', source: 'Cybersecurity Foundations', text: 'What is the purpose of the ISF Standard of Good Practice?', options: ['To provide a framework for managing cybersecurity','To provide a standard security framework to replace ISO and NIST','To provide a document for the vision and objective of each control','To provide compliance requirements for organisations'], answer: 0, explanation: 'The ISF Standard of Good Practice is recognised for security standards, aligns with Europe\'s data privacy regulations, and integrates IRAM.' },
+    { course: 'cyber', source: 'Cybersecurity Foundations', text: 'What is considered the main reference for cloud security?', options: ['ISO 27017','Cloud Security Alliance Security Guidance','NIST SP 800-144','CSA STAR'], answer: 1, explanation: 'The Cloud Security Alliance Security Guidance specifically focuses on critical areas in cloud computing along with its 14 areas of controls.' },
+    { course: 'cyber', source: 'Cybersecurity Foundations', text: 'Which assurance method is used to exploit around security controls?', options: ['Security control audits','Vulnerability scans','Penetration tests','Red team exercises'], answer: 2, explanation: 'Penetration testing uses known exploits and exploit techniques to circumvent security controls.' },
+    { course: 'cyber', source: 'Cybersecurity Foundations', text: 'Which stage of the threat hunting process references utilising a range of network and endpoint technologies?', options: ['Investigate','Trigger','Resolve','Analyse'], answer: 0, explanation: 'During the Investigate stage, network and endpoint technologies are used to confirm and obtain data on the timescale and impact of the compromise.' },
+    { course: 'cyber', source: 'Cybersecurity Foundations', text: 'What should happen when an indicator is turned into an incident?', options: ['Decide which incident is a priority.','Define the incident as a precursor.','Handle the incidents on a first-come-first-serve basis.','Escalate to management immediately.'], answer: 0, explanation: 'Once an indicator is turned into an incident, it is imperative to prioritise the incident in the handling process.' },
+    { course: 'cyber', source: 'Cybersecurity Foundations', text: 'In order to have a common language for incidents, the US CIRT defined seven categories. Which incident represents Category 0 (zero)?', options: ['Cyber exercises done to test a network','A breach of acceptable use','Successful installation of malicious software not quarantined','Unconfirmed but potentially malicious activity'], answer: 0, explanation: 'Category 0 refers to incidents that are part of cyber activities for testing network defences.' },
+    { course: 'cyber', source: 'Cybersecurity Foundations', text: 'AirMaze uses the Traffic Light Protocol for information being exchanged. Which colour would be used when sharing a sector-specific malware analysis?', options: ['Red','Green','White','Amber'], answer: 1, explanation: 'Green is used when information can only be shared within the recipient\'s sector community.' },
+    { course: 'cyber', source: 'Cybersecurity Foundations', text: 'The GFCE created five themes to help strengthen cyber capacity-building globally. Which theme is NOT covered?', options: ['Cybersecurity policy and strategy','Countering cybercrime','Cybersecurity culture and skill','Cybersecurity costs'], answer: 3, explanation: 'Budgeting for cybersecurity is not part of the GFCE\'s goals.' },
+    { course: 'cyber', source: 'Cybersecurity Foundations', text: 'At the global conference on cyberspace, seven principles were proposed. Which principle refers to the right to privacy and the protection of intellectual property?', options: ['Proportionality','Accessibility','Openness','Human rights'], answer: 3, explanation: 'The human rights principle states that the internet should encourage the right to privacy and the protection of intellectual property for all people.' },
+    // Cybersecurity Foundations — Final exam
+    { course: 'cyber', source: 'Cybersecurity Foundations', text: 'The IoT Security Foundation has provided compliance classes to an IoT device. Which class is given to a device with limited impact on an individual?', options: ['Class 3','Class 0','Class 1','Class 2'], answer: 1, explanation: 'Class 0 is assigned to IoT devices that have limited impact on an individual, representing the lowest compliance requirement.' },
+    { course: 'cyber', source: 'Cybersecurity Foundations', text: 'What would you develop to understand the effect on the business of a risk being realised?', options: ['Risk Leveling','Business Impact Report','Vulnerability Scan','Business Continuity Plan'], answer: 1, explanation: 'A Business Impact Report is developed to understand and document the effect on a business when a risk is realised.' },
+    { course: 'cyber', source: 'Cybersecurity Foundations', text: "The NIST Cybersecurity Framework is sometimes referred to as IPDRR. What does the 'P' stand for?", options: ['Preempt','Protect','Prevent','Prioritise'], answer: 1, explanation: 'IPDRR stands for Identify, Protect, Detect, Respond, Recover — the five core functions of the NIST Cybersecurity Framework.' },
+    { course: 'cyber', source: 'Cybersecurity Foundations', text: 'Which key concept in information security does the Orange Book refer to as a subsystem containing all the security code?', options: ['Formal security','Required testing','Trusted computing base','Reference monitor'], answer: 2, explanation: 'The trusted computing base is the subsystem in the Orange Book that contains all the security code of a system.' },
+    { course: 'cyber', source: 'Cybersecurity Foundations', text: 'Which assurance level requires that the system support mandatory access control?', options: ['B','C','D','A'], answer: 0, explanation: 'Orange Book assurance level B requires mandatory access control, unlike level C which uses discretionary access control.' },
+    { course: 'cyber', source: 'Cybersecurity Foundations', text: 'How many UN Cyber Norms are there?', options: ['7','11','3','10'], answer: 1, explanation: 'There are 11 UN Cyber Norms that were agreed upon to guide responsible state behaviour in cyberspace.' },
+    { course: 'cyber', source: 'Cybersecurity Foundations', text: 'A compromised website may download HTML code which takes advantage of a browser vulnerability. At what phase of the kill chain does this occur?', options: ['Reconnaissance','Action','Delivery','Exploitation'], answer: 3, explanation: 'Exploitation is the phase where the attacker takes advantage of a vulnerability on the target system, such as a browser weakness.' },
+    { course: 'cyber', source: 'Cybersecurity Foundations', text: 'Which principle did the UK propose so that cyberspace users would be more tolerant overall for diversity of language, culture, and ideas?', options: ['Accessibility','Human rights','Respect','Collaboration'], answer: 2, explanation: 'The UK proposed the respect principle to encourage cyberspace users to be more tolerant of diversity in language, culture, and ideas.' },
+
+    { course: 'cyber', source: 'Cybersecurity Foundations', text: 'IRAM is the risk methodology underlying the ISF SoGP. Which of these is NOT a phase of IRAM?', options: ['Risk Leveling','Threat and Vulnerability Assessment','Business Impact Assessment','Control Selection'], answer: 0, explanation: 'Risk Leveling is not a phase of IRAM. The IRAM phases include Business Impact Assessment, Threat and Vulnerability Assessment, and Control Selection.' },
+    { course: 'cyber', source: 'Cybersecurity Foundations', text: 'What are the types of controls known as in a multi-tier control strategy?', options: ['Defend, prevent, detect, respond','Diagnose, treat, recover, respond','Defend, protect, respond, recover','Deter, prevent, detect, correct'], answer: 3, explanation: 'A multi-tier control strategy uses deter, prevent, detect, and correct controls to provide layered security.' },
+    { course: 'cyber', source: 'Cybersecurity Foundations', text: 'Endpoint security in COBIT refers to what?', options: ['All of these answers','Laptops','Servers','Desktops'], answer: 0, explanation: 'In COBIT, endpoint security refers to all endpoint devices including laptops, servers, and desktops.' },
+    { course: 'cyber', source: 'Cybersecurity Foundations', text: 'Lynette is using a risk bubble chart. She has several risks in a gold area. What does this indicate?', options: ['The risks are accepted.','The risks need immediate resolution.','The risks are set for routine correction.','The risks are accepted but need monitoring.'], answer: 3, explanation: 'A gold area on a risk bubble chart indicates risks that are accepted but require ongoing monitoring.' },
+    { course: 'cyber', source: 'Cybersecurity Foundations', text: 'When doing control selection, "The higher the risk, the _____ the controls".', options: ['Stronger','Tighter','Simpler','Weaker'], answer: 0, explanation: 'Higher risk levels require stronger controls to adequately protect against the potential impact of a threat.' },
+    { course: 'cyber', source: 'Cybersecurity Foundations', text: 'What does the acronym TTP stand for in threat assessment?', options: ['Threats, Telltales and Practices','Tricks, Techniques and Puzzles','Trusted Third Party','Tactics, Techniques and Procedures'], answer: 3, explanation: 'TTP stands for Tactics, Techniques and Procedures — used in threat intelligence to describe how threat actors operate.' },
+    { course: 'cyber', source: 'Cybersecurity Foundations', text: 'A botmaster might deploy a RAT into a target. What is a RAT?', options: ['A response-attack tracker','Software used to carry infections','A remote access trojan','A crypto virus'], answer: 2, explanation: 'A Remote Access Trojan (RAT) gives an attacker remote control over an infected system, often used by botmasters.' },
+    { course: 'cyber', source: 'Cybersecurity Foundations', text: 'Which countries together developed and launched the first state sponsored cyber-attack with Stuxnet?', options: ['Russia and China','Iran and Syria','China and North Korea','US and Israel'], answer: 3, explanation: 'Stuxnet was widely attributed to a joint US and Israel operation targeting Iranian nuclear facilities.' },
+    { course: 'cyber', source: 'Cybersecurity Foundations', text: 'Where do you find the most comprehensive list of IoT controls?', options: ['IoT Security Foundation','OWASP','NIST','Industrial Internet Association'], answer: 0, explanation: 'The IoT Security Foundation provides the most comprehensive list of IoT security controls and compliance classes.' },
+    { course: 'cyber', source: 'Cybersecurity Foundations', text: 'To be compliant with the PCI Data Security Standard, how often do firewall rules need to be reviewed?', options: ['Every 6 months','Monthly','Annually','Weekly'], answer: 0, explanation: 'PCI DSS requires that firewall rules are reviewed every 6 months to ensure they remain appropriate and effective.' },
+    { course: 'cyber', source: 'Cybersecurity Foundations', text: 'Which framework should you use to align business and security requirements?', options: ['SABSA (Sherwood Applied Business Security Architecture)','Business and Security Architecture (BSA)','Information Assurance Architecture (IAA)','TOGAF'], answer: 0, explanation: 'SABSA is specifically designed to capture business requirements and align security architecture to meet those requirements.' },
+
+    { course: 'cyber', source: 'Cybersecurity Foundations', text: 'How many businesses experienced a Spectre/Meltdown attack?', options: ['Thousands','10','None of these answers','10–100'], answer: 0, explanation: 'Spectre and Meltdown affected thousands of businesses worldwide due to the widespread use of vulnerable processor architectures.' },
+    { course: 'cyber', source: 'Cybersecurity Foundations', text: 'What is NOT one of the five key characteristics of an APT?', options: ['Highly customized to a target','Object oriented','Stealthy','Contains zero-day exploits'], answer: 1, explanation: 'APTs are highly customized, stealthy, long-term, and often contain zero-day exploits. Object oriented is not a characteristic of an APT.' },
+    { course: 'cyber', source: 'Cybersecurity Foundations', text: 'Mounting a phishing attack against an individual is known as what?', options: ['Phocused phishing','UniPhishing','Hunting','Spear phishing'], answer: 3, explanation: 'Spear phishing is a targeted phishing attack directed at a specific individual rather than a broad audience.' },
+    { course: 'cyber', source: 'Cybersecurity Foundations', text: 'What does DKOM stand for?', options: ['Dual Keyed Object Manipulation','Direct Kernel Object Modification','Development of Kernel Output Mechanisms','Dependable Kernel Operating Mode'], answer: 1, explanation: 'DKOM (Direct Kernel Object Modification) is a technique used by rootkits to hide processes and files by manipulating kernel objects.' },
+    { course: 'cyber', source: 'Cybersecurity Foundations', text: 'What is required to minimise the damage from a newly detected incident?', options: ['Early containment','Appointment of a Major Incident Manager','Establishment of an incident response committee','Reporting the incident to law enforcement'], answer: 0, explanation: 'Early containment is critical to minimise damage when a new incident is detected, preventing it from spreading further.' },
+    { course: 'cyber', source: 'Cybersecurity Foundations', text: 'Which file is used to hold the cloaking CLSID?', options: ['win32cloak.sys','desktop.ini','autostart.bat','registry'], answer: 3, explanation: 'The registry is used to hold the cloaking CLSID, allowing malware to hide entries from normal system views.' },
+    { course: 'cyber', source: 'Cybersecurity Foundations', text: '_____ is an important tool to enable effective incident management.', options: ['A jump kit','An issue tracking system','A cyber crisis exercise','A forensic toolkit'], answer: 1, explanation: 'An issue tracking system is an important tool for enabling effective incident management by logging and tracking incidents.' },
+    { course: 'cyber', source: 'Cybersecurity Foundations', text: 'Where would you go to find an incident management maturity assessment tool?', options: ['NIST','ISACA','ISO','CREST'], answer: 3, explanation: 'CREST provides an incident management maturity assessment tool for evaluating incident response capability.' },
+    { course: 'cyber', source: 'Cybersecurity Foundations', text: 'Which organisation set up the Forum of Incident Response and Security Teams (FIRST)?', options: ['ISO','ITU','NIST','UN'], answer: 3, explanation: 'FIRST (Forum of Incident Response and Security Teams) was established under the auspices of the UN to coordinate global incident response.' },
+    { course: 'cyber', source: 'Cybersecurity Foundations', text: 'Which of these is NOT an assurance activity?', options: ['Vulnerability scan','Control audit','Access control','Pen test'], answer: 2, explanation: 'Access control is a security control, not an assurance activity. Assurance activities include vulnerability scans, control audits, and pen tests.' },
+
+    // Networking Basics — generated from course material
+    { course: 'net', source: 'Networking Basics', text: 'What does the acronym DORA stand for in the DHCP process?', options: ['Discover, Offer, Request, Acknowledge','Detect, Offer, Route, Assign','Discover, Obtain, Request, Assign','Detect, Operate, Route, Acknowledge'], answer: 0, explanation: 'DORA is the four-step DHCP process: Discover (client broadcasts), Offer (server responds), Request (client requests), Acknowledge (server confirms with IP info).' },
+    { course: 'net', source: 'Networking Basics', text: 'At which OSI layer do switches operate?', options: ['Layer 1 – Physical','Layer 2 – Data Link','Layer 3 – Network','Layer 4 – Transport'], answer: 1, explanation: 'Switches make forwarding decisions based on MAC addresses and operate at Layer 2 (Data Link). Data units at this layer are called frames.' },
+    { course: 'net', source: 'Networking Basics', text: 'At which OSI layer do routers operate?', options: ['Layer 1 – Physical','Layer 2 – Data Link','Layer 3 – Network','Layer 4 – Transport'], answer: 2, explanation: 'Routers make forwarding decisions based on IP addresses and operate at Layer 3 (Network). Data units at this layer are called packets.' },
+    { course: 'net', source: 'Networking Basics', text: 'What is the maximum cable distance for most twisted pair Ethernet categories?', options: ['55 metres','100 metres','150 metres','500 metres'], answer: 1, explanation: 'The maximum distance for most twisted pair Ethernet categories (Cat 5e, Cat 6, Cat 6A) is 100 metres before signal degradation occurs.' },
+    { course: 'net', source: 'Networking Basics', text: 'What does NAT stand for and what problem does it solve?', options: ['Network Address Translation — solves IPv4 exhaustion','Network Access Technology — solves routing loops','Node Authentication Technique — solves security issues','Network Allocation Table — solves MAC conflicts'], answer: 0, explanation: 'NAT (Network Address Translation) allows millions of devices to share a small pool of public IP addresses, solving IPv4 address exhaustion.' },
+    { course: 'net', source: 'Networking Basics', text: 'How many bits are in an IPv6 address?', options: ['32 bits','64 bits','128 bits','256 bits'], answer: 2, explanation: 'IPv6 uses 128-bit addresses, written in hexadecimal notation as 8 groups of 4 hex digits separated by colons, solving IPv4 exhaustion.' },
+    { course: 'net', source: 'Networking Basics', text: 'What is the NTP stratum number of an atomic clock?', options: ['Stratum 0','Stratum 1','Stratum 2','Stratum 16'], answer: 0, explanation: 'Stratum 0 is the atomic clock (Caesium-133). It is never directly accessible on the network. Stratum 1 servers learn directly from atomic clocks.' },
+    { course: 'net', source: 'Networking Basics', text: 'What is the difference between SMF and MMF fibre optic cabling?', options: ['SMF uses copper, MMF uses glass','SMF has a smaller core for long distances, MMF has a larger core for shorter distances','SMF is cheaper, MMF is more expensive','SMF uses electrical signals, MMF uses light'], answer: 1, explanation: 'Single-Mode Fibre (SMF) has a very small core supporting one light path — used for long distances. Multi-Mode Fibre (MMF) has a larger core with multiple light paths — shorter distances.' },
+    { course: 'net', source: 'Networking Basics', text: 'Which transport protocol is used when reliability is required, such as for web browsing and email?', options: ['UDP','TCP','ICMP','OSPF'], answer: 1, explanation: 'TCP (Transmission Control Protocol) confirms data was received, making it reliable. Used for web browsing (HTTP/HTTPS), email, and file transfer.' },
+    { course: 'net', source: 'Networking Basics', text: 'What port does DNS use?', options: ['80','123','443','53'], answer: 3, explanation: 'DNS uses port 53 over both TCP and UDP. It translates human-readable domain names into IP addresses.' },
+    { course: 'net', source: 'Networking Basics', text: 'What is a MAC address and where is it stored?', options: ['A logical address stored in the router','A 48-bit physical address burned in at manufacture and stored on the NIC','A 32-bit address assigned by DHCP','A 128-bit address used in IPv6'], answer: 1, explanation: 'A MAC address is a 48-bit physical address assigned by the manufacturer (burned-in address), stored on the NIC. The first 24 bits identify the manufacturer (OUI).' },
+    { course: 'net', source: 'Networking Basics', text: 'What does QoS stand for and how is it best described?', options: ['Quality of Speed — maximises bandwidth','Quality of Service — managed unfairness that prioritises traffic by business need','Queue of Signals — delays lower-priority packets indefinitely','Quality of Security — encrypts high-priority traffic'], answer: 1, explanation: 'QoS (Quality of Service) is described as managed unfairness — intentionally treating some traffic better than others. It is only useful for periodic, not persistent, congestion.' },
+    { course: 'net', source: 'Networking Basics', text: 'In the OSI model, what is the PDU (Protocol Data Unit) at Layer 4 – Transport?', options: ['Bits','Frames','Packets','Segments'], answer: 3, explanation: 'Layer 4 (Transport) uses Segments as its PDU. The mnemonic bottom-up is: Bits, Frames, Packets, Segments (Bacon Frying Produces Salivation).' },
+    { course: 'net', source: 'Networking Basics', text: 'What network type covers a large city and connects multiple offices at high speed?', options: ['PAN','LAN','MAN','WAN'], answer: 2, explanation: 'A MAN (Metropolitan Area Network) covers a large city and is used to connect multiple offices at high speed across an urban area.' },
+    { course: 'net', source: 'Networking Basics', text: 'What is PAT (Port Address Translation) also known as?', options: ['Dynamic NAT','NAT overload','Static NAT','Reverse NAT'], answer: 1, explanation: 'PAT (Port Address Translation) is also called NAT overload. It allows multiple inside devices to share a single public IP address, distinguished by unique source port numbers. Most common in home routers.' },
+    { course: 'net', source: 'Networking Basics', text: 'What is the purpose of plenum-rated cable?', options: ['It supports higher data speeds than standard cable','It is required in HVAC airflow areas as it does not release toxic fumes when burned','It is cheaper to manufacture than standard cable','It provides extra EMI shielding'], answer: 1, explanation: 'Plenum-rated cable is required in plenum spaces (above drop ceilings / below raised floors in HVAC airflow areas) because standard cable releases toxic fumes when burned.' },
+    { course: 'net', source: 'Networking Basics', text: 'What is the TCP/IP model equivalent of OSI layers 5, 6, and 7?', options: ['Transport layer','Internet layer','Network Access layer','Application layer'], answer: 3, explanation: 'The TCP/IP model combines OSI layers 5 (Session), 6 (Presentation), and 7 (Application) into a single Application layer.' },
+    { course: 'net', source: 'Networking Basics', text: 'What does EUI-64 allow a device to do in stateless DHCPv6?', options: ['Encrypt its IPv6 traffic','Self-generate its host portion from its 48-bit MAC address','Request a full IPv6 address from the DHCP server','Assign itself a static IP address'], answer: 1, explanation: 'In stateless DHCPv6, the router provides the network prefix via NDP and the client self-generates the host portion using EUI-64, derived from its 48-bit MAC address.' },
+
+  ];
+
+  let activeFilter = 'all';
+  let currentQuestions = [];
+  let currentIndex = 0;
+  let score = 0;
+  let answered = false;
+
+  function getFilteredQuestions() {
+    return activeFilter === 'all' ? [...ALL_QUESTIONS] : ALL_QUESTIONS.filter(q => q.course === activeFilter);
+  }
+
+  function shuffle(arr) {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  // Weighted shuffle — interleaves courses so no single course dominates
+  function weightedShuffle(questions) {
+    const groups = {};
+    questions.forEach(q => {
+      if (!groups[q.course]) groups[q.course] = [];
+      groups[q.course].push(q);
+    });
+    Object.keys(groups).forEach(k => { groups[k] = shuffle(groups[k]); });
+    const courses = shuffle(Object.keys(groups));
+    const result = [];
+    let i = 0, remaining = true;
+    while (remaining) {
+      remaining = false;
+      courses.forEach(c => {
+        if (groups[c][i]) { result.push(groups[c][i]); remaining = true; }
+      });
+      i++;
+    }
+    return result;
+  }
+
+  function updateStartScreen() {
+    const qs = getFilteredQuestions();
+    document.getElementById('totalQCount').textContent = qs.length;
+    const courses = activeFilter === 'all'
+      ? new Set(ALL_QUESTIONS.map(q => q.course)).size
+      : 1;
+    document.getElementById('totalCourses').textContent = courses;
+  }
+
+  function showScreen(id) {
+    ['startScreen','quizScreen','resultsScreen'].forEach(s => {
+      document.getElementById(s).classList.remove('active');
+    });
+    document.getElementById(id).classList.add('active');
+  }
+
+  function startQuiz() {
+    const filtered = getFilteredQuestions();
+    currentQuestions = activeFilter === "all" ? weightedShuffle(filtered) : shuffle(filtered);
+    currentIndex = 0;
+    score = 0;
+    showScreen('quizScreen');
+    renderQuestion();
+  }
+
+  function renderQuestion() {
+    answered = false;
+    const q = currentQuestions[currentIndex];
+    const total = currentQuestions.length;
+    document.getElementById('progressText').textContent = `Question ${currentIndex + 1} of ${total}`;
+    document.getElementById('scoreText').textContent = `Score: ${score}`;
+    document.getElementById('progressBar').style.width = `${(currentIndex / total) * 100}%`;
+    document.getElementById('qSource').textContent = q.source.toUpperCase();
+    document.getElementById('qText').textContent = q.text;
+    document.getElementById('explanation').className = 'explanation';
+    document.getElementById('explanation').textContent = '';
+    document.getElementById('nextBtn').className = 'btn-next';
+
+    const letters = ['A','B','C','D'];
+    const shuffledOpts = shuffle(q.options.map((o, i) => ({ text: o, originalIndex: i })));
+    const container = document.getElementById('optionsContainer');
+    container.innerHTML = '';
+    shuffledOpts.forEach((opt, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'option-btn';
+      btn.innerHTML = `<span class="option-letter">${letters[i]}</span>${opt.text}`;
+      btn.addEventListener('click', () => selectAnswer(opt.originalIndex, q, shuffledOpts));
+      container.appendChild(btn);
+    });
+  }
+
+  function selectAnswer(chosenOriginalIndex, q, shuffledOpts) {
+    if (answered) return;
+    answered = true;
+    const correct = chosenOriginalIndex === q.answer;
+    if (correct) score++;
+
+    const btns = document.querySelectorAll('.option-btn');
+    btns.forEach((btn, i) => {
+      btn.disabled = true;
+      const origIdx = shuffledOpts[i].originalIndex;
+      if (origIdx === q.answer) btn.classList.add('reveal');
+      if (origIdx === chosenOriginalIndex && !correct) btn.classList.add('wrong');
+      if (origIdx === chosenOriginalIndex && correct) btn.classList.add('correct');
+    });
+
+    const expEl = document.getElementById('explanation');
+    expEl.textContent = q.explanation;
+    expEl.className = 'explanation show' + (correct ? '' : ' wrong-exp');
+
+    const nextBtn = document.getElementById('nextBtn');
+    nextBtn.className = 'btn-next show';
+    nextBtn.textContent = currentIndex < currentQuestions.length - 1 ? 'Next →' : 'See results →';
+  }
+
+  function nextQuestion() {
+    currentIndex++;
+    if (currentIndex >= currentQuestions.length) {
+      showResults();
+    } else {
+      renderQuestion();
+    }
+  }
+
+  function showResults() {
+    showScreen('resultsScreen');
+    const total = currentQuestions.length;
+    const pct = Math.round((score / total) * 100);
+    const scoreEl = document.getElementById('resultsScore');
+    scoreEl.textContent = `${pct}%`;
+    scoreEl.className = 'results-score ' + (pct >= 80 ? 'great' : pct >= 60 ? 'ok' : 'poor');
+    document.getElementById('resultsLabel').textContent = pct >= 80 ? 'Great work!' : pct >= 60 ? 'Good effort — keep reviewing.' : 'Keep studying — you\'ve got this.';
+    document.getElementById('resultsBreakdown').textContent = `${score} correct out of ${total} questions`;
+    document.getElementById('progressBar').style.width = '100%';
+    document.getElementById('progressText').textContent = `Completed`;
+    document.getElementById('scoreText').textContent = `Score: ${score}/${total}`;
+  }
+
+  // Events
+  document.getElementById('startBtn').addEventListener('click', startQuiz);
+  document.getElementById('nextBtn').addEventListener('click', nextQuestion);
+  document.getElementById('retryBtn').addEventListener('click', () => {
+    currentQuestions = shuffle(currentQuestions);
+    currentIndex = 0; score = 0;
+    showScreen('quizScreen');
+    renderQuestion();
+  });
+  document.getElementById('newQuizBtn').addEventListener('click', () => {
+    showScreen('startScreen');
+    updateStartScreen();
+  });
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      activeFilter = tab.dataset.filter;
+      updateStartScreen();
+    });
+  });
+
+  updateStartScreen();
+</script>
+</body>
+</html>
