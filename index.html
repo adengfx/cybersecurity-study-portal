@@ -87,6 +87,20 @@
     gap: 0.4rem 1.5rem; transition: border-color 0.15s, background 0.15s;
     position: relative; overflow: hidden;
   }
+  @media (max-width: 480px) {
+    .course-card {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto auto auto;
+    }
+    .course-right {
+      grid-column: 1 !important;
+      grid-row: 3 !important;
+      flex-direction: row !important;
+      align-items: center !important;
+      justify-content: flex-start !important;
+      gap: 0.6rem !important;
+    }
+  }
   .course-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--accent); border-radius: 10px 0 0 10px; }
   .course-card:hover { border-color: var(--accent); background: var(--surface2); }
   .course-card.hidden { display: none; }
@@ -115,8 +129,8 @@
   .glossary-arrow { color: var(--muted); font-size: 1rem; }
 
   /* Placeholder */
-  .add-card { border: 1px dashed var(--border); border-radius: 10px; padding: 1.25rem 1.5rem; display: flex; align-items: center; gap: 0.75rem; color: var(--muted); font-size: 0.88rem; }
-  .add-icon { width: 28px; height: 28px; border-radius: 50%; border: 1px dashed var(--border); display: flex; align-items: center; justify-content: center; font-size: 1rem; color: var(--border); flex-shrink: 0; }
+  .add-card { border: 1px dashed var(--border); border-radius: 10px; padding: 1.25rem 1.5rem; display: flex; align-items: center; gap: 0.75rem; color: var(--muted); font-size: 0.88rem; background: var(--surface2); }
+  .add-icon { width: 28px; height: 28px; border-radius: 50%; border: 1px dashed var(--border); display: flex; align-items: center; justify-content: center; font-size: 1rem; color: var(--muted); flex-shrink: 0; }
 
   /* No results */
   .no-results { display: none; padding: 2rem; text-align: center; color: var(--muted); font-size: 0.9rem; }
@@ -149,15 +163,15 @@
         <button class="theme-btn" id="themeBtn" title="Toggle theme">🌙</button>
         <div class="stats">
           <div class="stat">
-            <div class="stat-num">3</div>
+            <div class="stat-num" id="statCompleted">—</div>
             <div class="stat-label">Completed</div>
           </div>
           <div class="stat">
-            <div class="stat-num">100%</div>
+            <div class="stat-num" id="statBest">—</div>
             <div class="stat-label">Best Score</div>
           </div>
           <div class="stat">
-            <div class="stat-num">7h 12m</div>
+            <div class="stat-num" id="statHours">—</div>
             <div class="stat-label">Study Hours</div>
           </div>
         </div>
@@ -201,7 +215,7 @@
 
     <div class="group-label" data-group="Security Fundamentals">Security Fundamentals</div>
 
-    <a class="course-card" href="cybersecurity_foundations_study_guide.html" data-title="Cybersecurity Foundations">
+    <a class="course-card" href="cybersecurity_foundations_study_guide.html" data-title="Cybersecurity Foundations" data-score="77" data-duration="211">
       <div class="course-title">Cybersecurity Foundations</div>
       <div class="course-meta">
         <span>Malcolm Shore</span>
@@ -215,7 +229,7 @@
       </div>
     </a>
 
-    <a class="course-card" href="it_security_foundations_study_guide.html" data-title="IT Security Foundations Core Concepts">
+    <a class="course-card" href="it_security_foundations_study_guide.html" data-title="IT Security Foundations Core Concepts" data-score="100" data-duration="112">
       <div class="course-title">IT Security Foundations: Core Concepts</div>
       <div class="course-meta">
         <span>Lisa Bock</span>
@@ -231,7 +245,7 @@
 
     <div class="group-label" data-group="Networking">Networking</div>
 
-    <a class="course-card" href="networking_basics_study_guide.html" data-title="Networking Basics">
+    <a class="course-card" href="networking_basics_study_guide.html" data-title="Networking Basics" data-duration="109">
       <div class="course-title">Networking Basics</div>
       <div class="course-meta">
         <span>Kevin Wallace</span>
@@ -260,7 +274,24 @@
 
 </div>
 <script>
-// Theme toggle — respects system preference, manual override saved to localStorage
+  // Compute stats from course cards
+  (function() {
+    const cards = document.querySelectorAll('.course-card');
+    let completed = 0, bestScore = null, totalMins = 0;
+    cards.forEach(card => {
+      completed++;
+      const score = parseInt(card.dataset.score);
+      if (!isNaN(score) && (bestScore === null || score > bestScore)) bestScore = score;
+      const dur = parseInt(card.dataset.duration);
+      if (!isNaN(dur)) totalMins += dur;
+    });
+    document.getElementById('statCompleted').textContent = completed;
+    document.getElementById('statBest').textContent = bestScore !== null ? bestScore + '%' : 'N/A';
+    const h = Math.floor(totalMins / 60), m = totalMins % 60;
+    document.getElementById('statHours').textContent = h + 'h ' + (m > 0 ? m + 'm' : '');
+  })();
+
+  // Theme toggle — respects system preference, manual override saved to localStorage
   const btn = document.getElementById('themeBtn');
   const html = document.documentElement;
   const systemDark = window.matchMedia('(prefers-color-scheme: dark)');
