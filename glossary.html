@@ -80,8 +80,8 @@
   #glossaryView.hidden { display: none; }
 
   .fc-counter { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; color: var(--muted); margin-bottom: 1rem; text-align: center; }
-  .fc-card-wrap { perspective: 1000px; margin-bottom: 1.5rem; cursor: pointer; }
-  .fc-card { width: 100%; min-height: 180px; position: relative; transform-style: preserve-3d; transition: transform 0.45s; border-radius: 10px; }
+  .fc-card-wrap { perspective: 1000px; margin-bottom: 1.5rem; cursor: pointer; min-height: 180px; }
+  .fc-card { width: 100%; height: 180px; position: relative; transform-style: preserve-3d; transition: transform 0.45s; border-radius: 10px; }
   .fc-card.flipped { transform: rotateY(180deg); }
   .fc-front, .fc-back {
     position: absolute; width: 100%; min-height: 180px;
@@ -91,7 +91,7 @@
     background: var(--surface); border: 1px solid var(--border);
     text-align: center;
   }
-  .fc-back { transform: rotateY(180deg); border-color: var(--accent); background: var(--surface2); }
+  .fc-back { transform: rotateY(180deg); border-color: var(--accent); background: var(--surface2); position: absolute; top: 0; left: 0; }
   .fc-hint { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--muted); margin-bottom: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; }
   .fc-term { font-family: 'IBM Plex Mono', monospace; font-size: 1.2rem; font-weight: 600; color: var(--heading); }
   .fc-source-tag { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--muted); margin-top: 0.5rem; }
@@ -333,6 +333,12 @@
       activeFilter = tab.dataset.filter;
       activeAlpha = null;
       render();
+      // If in flashcard mode, refresh the deck
+      if (document.getElementById('flashcardView').classList.contains('active')) {
+        fcTerms = shuffle([...getFcTerms()]);
+        fcIndex = 0;
+        renderFlashcard();
+      }
     });
   });
 

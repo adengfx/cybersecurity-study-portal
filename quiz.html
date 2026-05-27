@@ -395,6 +395,11 @@
       ? new Set(ALL_QUESTIONS.map(q => q.course)).size
       : 1;
     document.getElementById('totalCourses').textContent = courses;
+    if (activeFilter !== 'all') {
+      document.getElementById('perRoundNum').textContent = qs.length;
+    } else {
+      updatePerRound();
+    }
   }
 
   function showScreen(id) {
@@ -407,8 +412,12 @@
   function startQuiz() {
     const filtered = getFilteredQuestions();
     const allShuffled = activeFilter === "all" ? weightedShuffle(filtered) : shuffle(filtered);
-    const countVal = document.getElementById('qCountSelect').value;
-    currentQuestions = countVal === 'all' ? allShuffled : allShuffled.slice(0, parseInt(countVal));
+    if (activeFilter === 'all') {
+      const countVal = document.getElementById('qCountSelect').value;
+      currentQuestions = countVal === 'all' ? allShuffled : allShuffled.slice(0, parseInt(countVal));
+    } else {
+      currentQuestions = allShuffled;
+    }
     currentIndex = 0;
     score = 0;
     wrongAnswers = [];
@@ -527,42 +536,30 @@
   });
   document.getElementById('newQuizBtn').addEventListener('click', () => {
     showScreen('startScreen');
-    // Sync count dropdown with start screen stat
+    updateStartScreen();
+  });
+
   const qCountSelect = document.getElementById('qCountSelect');
   function updatePerRound() {
     const val = qCountSelect.value;
     document.getElementById('perRoundNum').textContent = val === 'all' ? '∞' : val;
   }
-  qCountSelect.addEventListener('change', updatePerRound);
-  updateStartScreen();
-  updatePerRound();
-  });
+  qCountSelect.addEventListener('change', () => { updatePerRound(); updateStartScreen(); });
+
   document.querySelectorAll('.tab').forEach(tab => {
     tab.addEventListener('click', () => {
       document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
       tab.classList.add('active');
       activeFilter = tab.dataset.filter;
-      // Sync count dropdown with start screen stat
-  const qCountSelect = document.getElementById('qCountSelect');
-  function updatePerRound() {
-    const val = qCountSelect.value;
-    document.getElementById('perRoundNum').textContent = val === 'all' ? '∞' : val;
-  }
-  qCountSelect.addEventListener('change', updatePerRound);
-  updateStartScreen();
-  updatePerRound();
+      updateStartScreen();
+      document.getElementById('countOptions').style.display = activeFilter === 'all' ? 'flex' : 'none';
     });
   });
 
-  // Sync count dropdown with start screen stat
-  const qCountSelect = document.getElementById('qCountSelect');
-  function updatePerRound() {
-    const val = qCountSelect.value;
-    document.getElementById('perRoundNum').textContent = val === 'all' ? '∞' : val;
-  }
-  qCountSelect.addEventListener('change', updatePerRound);
   updateStartScreen();
   updatePerRound();
+  document.getElementById('countOptions').style.display = 'flex'; // starts on All courses
+
 </script>
 </body>
 </html>
