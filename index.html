@@ -23,6 +23,12 @@
 
   /* Header */
   header { padding: 3rem 0 2.5rem; border-bottom: 1px solid var(--border); margin-bottom: 2rem; }
+  .topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; }
+  .topbar-back { display: inline-flex; align-items: center; gap: 0.4rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; color: var(--muted); text-decoration: none; letter-spacing: 0.05em; transition: color 0.15s; }
+  .topbar-back:hover { color: var(--accent); }
+  .theme-btn { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; color: var(--muted); cursor: pointer; font-size: 1rem; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; transition: border-color 0.15s, color 0.15s; flex-shrink: 0; }
+  .theme-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .header-subtitle { font-size: 0.88rem; color: var(--muted); margin-top: 0.5rem; }
   .header-inner { display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
   .header-left { flex: 1; }
 
@@ -135,6 +141,7 @@
 <body>
 <div class="container">
 
+  <div class="topbar"><span></span><button class="theme-btn" id="themeBtn" title="Toggle theme">🌙</button></div>
   <header>
     <div class="header-inner">
       <div class="header-left">
@@ -145,6 +152,7 @@
           </a>
         </div>
         <h1>Cybersecurity<br>Learning Hub</h1>
+        <p class="header-subtitle">Vibecoded study portal for cybersecurity courses, labs and certifications.</p>
       </div>
       <div class="header-right">
         <div class="stats">
@@ -161,7 +169,6 @@
             <div class="stat-label">Study Hours</div>
           </div>
         </div>
-        <button class="theme-btn" id="themeBtn" title="Toggle theme">🌙</button>
       </div>
     </div>
   </header>
@@ -192,12 +199,13 @@
   <!-- About -->
   <div class="about-section">
     <h2>About this project</h2>
-    <p>A vibecoded study portal built to get more out of LinkedIn Learning courses. I paste raw course notes into a Claude project, which builds structured study guides, updates the index, and keeps everything consistent across sessions. Each guide includes key terms, concept breakdowns, tables, and a revision quiz drawn from real exam questions.</p>
+    <p>A vibecoded study portal for tracking progress through cybersecurity courses, labs and certifications — across platforms including LinkedIn Learning, TryHackMe, and others. Course notes get pasted into a Claude project which builds structured study guides, updates the index, and keeps everything consistent. Each guide includes key terms, concept breakdowns, tables, and a revision quiz.</p>
     <div class="about-tags">
       <span class="about-tag">Vibecoded with Claude</span>
       <span class="about-tag">Pure HTML + CSS</span>
       <span class="about-tag">GitHub Pages</span>
       <span class="about-tag">LinkedIn Learning</span>
+      <span class="about-tag">TryHackMe</span>
     </div>
   </div>
 
