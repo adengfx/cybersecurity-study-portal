@@ -198,10 +198,8 @@
         <button class="btn-confirm" id="confirmBtn">Confirm answer</button>
       </div>
       <div class="explanation" id="explanation"></div>
-      <div class="key-hint" id="keyHint" style="font-family:'IBM Plex Mono',monospace;font-size:0.65rem;color:var(--muted);margin-top:0.5rem;text-align:right;">1–4 select · Enter confirm</div>
     </div>
     <div class="action-wrap">
-      <span class="keyboard-hint" id="kbHint">1–4 to select · Enter to confirm</span>
       <div>
         <button class="btn-confirm" id="confirmBtn">Confirm →</button>
         <button class="btn-next" id="nextBtn">Next →</button>
@@ -464,7 +462,6 @@
     selectedOriginalIndex = null;
     currentShuffledOpts = null;
     document.getElementById('confirmBtn').className = 'btn-confirm';
-    document.getElementById('kbHint').textContent = '1–4 to select · Enter to confirm';
     const q = currentQuestions[currentIndex];
     const total = currentQuestions.length;
     buildDots();
@@ -481,66 +478,53 @@
     const shuffledOpts = shuffle(q.options.map((o, i) => ({ text: o, originalIndex: i })));
     const container = document.getElementById('optionsContainer');
     container.innerHTML = '';
+    selectedOriginalIndex = null;
+    currentShuffledOpts = shuffledOpts;
+    document.getElementById('confirmWrap').style.display = 'none';
     shuffledOpts.forEach((opt, i) => {
       const btn = document.createElement('button');
       btn.className = 'option-btn';
       btn.innerHTML = `<span class="option-letter">${letters[i]}</span>${opt.text}`;
-      btn.addEventListener('click', () => selectOption(opt.originalIndex, btn));
+      btn.addEventListener('click', () => {
+        if (answered) return;
+        document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        selectedOriginalIndex = opt.originalIndex;
+        document.getElementById('confirmWrap').style.display = 'block';
+      });
       container.appendChild(btn);
     });
   }
 
-    let currentShuffledOpts = null;
-
-  function selectAnswer(chosenOriginalIndex, q, shuffledOpts) {
-    if (answered) return;
-    selectedOriginalIndex = chosenOriginalIndex;
-    currentShuffledOpts = shuffledOpts;
-
-    // Highlight selected, clear others
-    const btns = document.querySelectorAll('.option-btn');
-    btns.forEach((btn, i) => {
-      btn.classList.remove('selected');
-      if (shuffledOpts[i].originalIndex === chosenOriginalIndex) btn.classList.add('selected');
-    });
-
-    // Show confirm button
-    document.getElementById('confirmBtn').className = 'btn-confirm show';
-    document.getElementById('kbHint').textContent = 'Enter to confirm';
-  }
+  let currentShuffledOpts = null;
 
   function confirmAnswer() {
     if (answered || selectedOriginalIndex === null) return;
     answered = true;
     const q = currentQuestions[currentIndex];
-    const chosenOriginalIndex = selectedOriginalIndex;
-    const shuffledOpts = currentShuffledOpts;
-    const correct = chosenOriginalIndex === q.answer;
+    const correct = selectedOriginalIndex === q.answer;
     if (correct) score++;
-    else wrongAnswers.push({ index: currentIndex, q, chosenText: q.options[chosenOriginalIndex] });
+    else wrongAnswers.push({ index: currentIndex, q, chosenText: q.options[selectedOriginalIndex] });
+    document.getElementById('confirmWrap').style.display = 'none';
 
     const btns = document.querySelectorAll('.option-btn');
     btns.forEach((btn, i) => {
       btn.disabled = true;
-      btn.classList.remove('selected');
-      const origIdx = shuffledOpts[i].originalIndex;
+      const origIdx = currentShuffledOpts[i].originalIndex;
       if (origIdx === q.answer) btn.classList.add('reveal');
-      if (origIdx === chosenOriginalIndex && !correct) btn.classList.add('wrong');
-      if (origIdx === chosenOriginalIndex && correct) btn.classList.add('correct');
+      if (origIdx === selectedOriginalIndex && !correct) btn.classList.add('wrong');
+      if (origIdx === selectedOriginalIndex && correct) btn.classList.add('correct');
     });
 
     const expEl = document.getElementById('explanation');
     expEl.textContent = q.explanation;
     expEl.className = 'explanation show' + (correct ? '' : ' wrong-exp');
 
-    document.getElementById('confirmBtn').className = 'btn-confirm';
     const nextBtn = document.getElementById('nextBtn');
     nextBtn.className = 'btn-next show';
     nextBtn.textContent = currentIndex < currentQuestions.length - 1 ? 'Next →' : 'See results →';
-    document.getElementById('kbHint').textContent = 'Enter or Space for next';
-    buildDots();
+    document.getElementById('scoreText').textContent = `Score: ${score}`;
   }
-
   function nextQuestion() {
     currentIndex++;
     if (currentIndex >= currentQuestions.length) {
@@ -628,14 +612,7 @@
   }
 
   // Events
-  document.getElementById('confirmBtn').addEventListener('click', () => {
-    if (selectedOriginalIndex === null || answered) return;
-    const q = currentQuestions[currentIndex];
-    const shuffledIndices = JSON.parse(document.getElementById('optionsContainer').dataset.shuffled || '[]');
-    const shuffledOpts = shuffledIndices.map(i => ({ originalIndex: i, text: q.options[i] }));
-    selectAnswer(selectedOriginalIndex, q, shuffledOpts);
-    document.getElementById('confirmWrap').style.display = 'none';
-  });
+  document.getElementById('confirmBtn').addEventListener('click', confirmAnswer);
 
   document.getElementById('startBtn').addEventListener('click', startQuiz);
   document.getElementById('nextBtn').addEventListener('click', nextQuestion);
