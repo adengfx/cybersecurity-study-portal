@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Revision Quiz – Study Portal</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -121,6 +122,18 @@
   .missed-answer { font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; color: var(--accent3); margin-bottom: 0.3rem; }
   .missed-exp { font-size: 0.8rem; color: var(--muted); line-height: 1.5; }
 
+
+  /* Timer */
+  .timer-wrap { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; }
+  .timer-bar-bg { flex: 1; height: 4px; background: var(--border); border-radius: 4px; overflow: hidden; }
+  .timer-bar-fill { height: 100%; background: var(--accent3); border-radius: 4px; transition: width 1s linear, background 0.3s; }
+  .timer-bar-fill.warning { background: var(--accent2); }
+  .timer-num { font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem; color: var(--muted); width: 28px; text-align: right; flex-shrink: 0; }
+  .timed-toggle { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; }
+  .timed-toggle label { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; color: var(--muted); cursor: pointer; }
+  .timed-toggle input[type=checkbox] { accent-color: var(--accent); cursor: pointer; }
+  .timed-toggle select { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; background: var(--surface); border: 1px solid var(--border); color: var(--text); border-radius: 4px; padding: 0.15rem 0.4rem; cursor: pointer; }
+
   footer { border-top: 1px solid var(--border); padding-top: 1.5rem; font-size: 0.78rem; color: var(--muted); font-family: 'IBM Plex Mono', monospace; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-top: 3rem; }
 
   .quiz-options { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
@@ -167,6 +180,18 @@
     </select>
   </div>
 
+  <div class="timed-toggle" id="timedOptions">
+    <input type="checkbox" id="timedMode">
+    <label for="timedMode">Timed mode</label>
+    <select id="timerSeconds" disabled>
+      <option value="15">15s</option>
+      <option value="30" selected>30s</option>
+      <option value="45">45s</option>
+      <option value="60">60s</option>
+    </select>
+    <label for="timerSeconds" style="color:var(--muted);font-family:'IBM Plex Mono',monospace;font-size:0.72rem;">per question</label>
+  </div>
+
   <!-- Start screen -->
   <div id="startScreen" class="active">
     <div class="start-card">
@@ -186,6 +211,10 @@
     <div class="progress-label">
       <span id="progressText">Question 1 of 10</span>
       <span id="scoreText">Score: 0</span>
+    </div>
+    <div class="timer-wrap" id="timerWrap" style="display:none">
+      <div class="timer-bar-bg"><div class="timer-bar-fill" id="timerBar" style="width:100%"></div></div>
+      <div class="timer-num" id="timerNum">30</div>
     </div>
     <div class="progress-dots" id="progressDots"></div>
     <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressBar" style="width:0%"></div></div>
@@ -366,6 +395,52 @@
   ];
 
   let activeFilter = 'all';
+
+  let timedMode = false;
+  let timerSeconds = 30;
+  let timerInterval = null;
+  let timerRemaining = 0;
+
+  function startTimer() {
+    if (!timedMode) return;
+    timerRemaining = timerSeconds;
+    const bar = document.getElementById('timerBar');
+    const num = document.getElementById('timerNum');
+    bar.style.width = '100%';
+    bar.className = 'timer-bar-fill';
+    num.textContent = timerRemaining;
+    clearInterval(timerInterval);
+    timerInterval = setInterval(() => {
+      timerRemaining--;
+      const pct = (timerRemaining / timerSeconds) * 100;
+      bar.style.width = pct + '%';
+      num.textContent = timerRemaining;
+      if (pct <= 30) bar.className = 'timer-bar-fill warning';
+      if (timerRemaining <= 0) {
+        clearInterval(timerInterval);
+        // Auto-submit with no answer if time runs out
+        if (!answered) {
+          answered = true;
+          wrongAnswers.push({ index: currentIndex, q: currentQuestions[currentIndex], chosenText: 'Time expired' });
+          document.getElementById('confirmWrap').style.display = 'none';
+          document.querySelectorAll('.option-btn').forEach((btn, i) => {
+            btn.disabled = true;
+            if (currentShuffledOpts[i].originalIndex === currentQuestions[currentIndex].answer) btn.classList.add('reveal');
+          });
+          const expEl = document.getElementById('explanation');
+          expEl.textContent = '⏱ Time expired. ' + currentQuestions[currentIndex].explanation;
+          expEl.className = 'explanation show wrong-exp';
+          const nextBtn = document.getElementById('nextBtn');
+          nextBtn.className = 'btn-next show';
+          nextBtn.textContent = currentIndex < currentQuestions.length - 1 ? 'Next →' : 'See results →';
+          buildDots();
+        }
+      }
+    }, 1000);
+  }
+
+  function stopTimer() { clearInterval(timerInterval); }
+
   let currentQuestions = [];
   let currentIndex = 0;
   let score = 0;
@@ -498,6 +573,7 @@
   function confirmAnswer() {
     if (answered || selectedOriginalIndex === null) return;
     answered = true;
+    stopTimer();
     const q = currentQuestions[currentIndex];
     const correct = selectedOriginalIndex === q.answer;
     if (correct) score++;
@@ -610,7 +686,16 @@
 
   // Events
 
-  document.getElementById('startBtn').addEventListener('click', startQuiz);
+  document.getElementById('timedMode').addEventListener('change', function() {
+    document.getElementById('timerSeconds').disabled = !this.checked;
+  });
+
+  document.getElementById('startBtn').addEventListener('click', () => {
+    timedMode = document.getElementById('timedMode').checked;
+    timerSeconds = parseInt(document.getElementById('timerSeconds').value);
+    document.getElementById('timerWrap').style.display = timedMode ? 'flex' : 'none';
+    startQuiz();
+  });
   document.getElementById('nextBtn').addEventListener('click', nextQuestion);
   document.getElementById('confirmBtn').addEventListener('click', confirmAnswer);
   document.getElementById('retryMissedBtn').addEventListener('click', () => {

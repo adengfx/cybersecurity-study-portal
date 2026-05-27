@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Study Portal</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -118,6 +119,14 @@
   .course-link { font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; color: var(--accent); text-decoration: none; opacity: 0.7; transition: opacity 0.15s; }
   .course-link:hover { opacity: 1; }
 
+
+  /* About section */
+  .about-section { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem; margin-bottom: 2rem; }
+  .about-section h2 { font-size: 0.88rem; font-weight: 700; color: var(--heading); margin-bottom: 0.6rem; }
+  .about-section p { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
+  .about-section .about-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem; }
+  .about-tag { font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; padding: 0.15rem 0.5rem; border-radius: 4px; background: rgba(0,229,255,0.08); border: 1px solid rgba(0,229,255,0.2); color: var(--accent); }
+
   footer { border-top: 1px solid var(--border); padding-top: 1.5rem; font-size: 0.78rem; color: var(--muted); font-family: 'IBM Plex Mono', monospace; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
   footer a { color: var(--accent); text-decoration: none; }
   footer a:hover { text-decoration: underline; }
@@ -179,6 +188,18 @@
     </div>
     <span class="glossary-arrow">→</span>
   </a>
+
+  <!-- About -->
+  <div class="about-section">
+    <h2>About this project</h2>
+    <p>A vibecoded study portal built to get more out of LinkedIn Learning courses. I paste raw course notes into a Claude project, which builds structured study guides, updates the index, and keeps everything consistent across sessions. Each guide includes key terms, concept breakdowns, tables, and a revision quiz drawn from real exam questions.</p>
+    <div class="about-tags">
+      <span class="about-tag">Vibecoded with Claude</span>
+      <span class="about-tag">Pure HTML + CSS</span>
+      <span class="about-tag">GitHub Pages</span>
+      <span class="about-tag">LinkedIn Learning</span>
+    </div>
+  </div>
 
   <!-- Courses -->
   <div class="toolbar">
