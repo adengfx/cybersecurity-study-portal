@@ -96,6 +96,17 @@
   .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
 
   footer { border-top: 1px solid var(--border); padding-top: 1.5rem; font-size: 0.78rem; color: var(--muted); font-family: 'IBM Plex Mono', monospace; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-top: 3rem; }
+
+  .quiz-options { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+  .quiz-options label { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; color: var(--muted); letter-spacing: 0.08em; }
+  .q-count-select {
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem;
+    background: var(--surface); border: 1px solid var(--border);
+    color: var(--text); border-radius: 6px; padding: 0.3rem 0.65rem;
+    outline: none; cursor: pointer; transition: border-color 0.15s;
+  }
+  .q-count-select:focus { border-color: var(--accent); }
+
 </style>
 </head>
 <body>
@@ -119,13 +130,24 @@
     <button class="tab" data-filter="sec">IT Security Foundations</button>
   </div>
 
+  <div class="quiz-options" id="countOptions">
+    <label>Questions per round</label>
+    <select class="q-count-select" id="qCountSelect">
+      <option value="10">10</option>
+      <option value="20" selected>20</option>
+      <option value="30">30</option>
+      <option value="50">50</option>
+      <option value="all">All</option>
+    </select>
+  </div>
+
   <!-- Start screen -->
   <div id="startScreen" class="active">
     <div class="start-card">
       <h2>Ready to test yourself?</h2>
       <p>20 random questions drawn from your completed courses each round.</p>
       <div class="start-stats">
-        <div class="start-stat"><div class="num">20</div><div class="lbl">Per round</div></div>
+        <div class="start-stat"><div class="num" id="perRoundNum">20</div><div class="lbl">Per round</div></div>
         <div class="start-stat"><div class="num" id="totalQCount">0</div><div class="lbl">In pool</div></div>
         <div class="start-stat"><div class="num" id="totalCourses">3</div><div class="lbl">Courses</div></div>
       </div>
@@ -366,7 +388,8 @@
   function startQuiz() {
     const filtered = getFilteredQuestions();
     const allShuffled = activeFilter === "all" ? weightedShuffle(filtered) : shuffle(filtered);
-    currentQuestions = allShuffled.slice(0, 20);
+    const countVal = document.getElementById('qCountSelect').value;
+    currentQuestions = countVal === 'all' ? allShuffled : allShuffled.slice(0, parseInt(countVal));
     currentIndex = 0;
     score = 0;
     showScreen('quizScreen');
@@ -457,18 +480,42 @@
   });
   document.getElementById('newQuizBtn').addEventListener('click', () => {
     showScreen('startScreen');
-    updateStartScreen();
+    // Sync count dropdown with start screen stat
+  const qCountSelect = document.getElementById('qCountSelect');
+  function updatePerRound() {
+    const val = qCountSelect.value;
+    document.getElementById('perRoundNum').textContent = val === 'all' ? '∞' : val;
+  }
+  qCountSelect.addEventListener('change', updatePerRound);
+  updateStartScreen();
+  updatePerRound();
   });
   document.querySelectorAll('.tab').forEach(tab => {
     tab.addEventListener('click', () => {
       document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
       tab.classList.add('active');
       activeFilter = tab.dataset.filter;
-      updateStartScreen();
+      // Sync count dropdown with start screen stat
+  const qCountSelect = document.getElementById('qCountSelect');
+  function updatePerRound() {
+    const val = qCountSelect.value;
+    document.getElementById('perRoundNum').textContent = val === 'all' ? '∞' : val;
+  }
+  qCountSelect.addEventListener('change', updatePerRound);
+  updateStartScreen();
+  updatePerRound();
     });
   });
 
+  // Sync count dropdown with start screen stat
+  const qCountSelect = document.getElementById('qCountSelect');
+  function updatePerRound() {
+    const val = qCountSelect.value;
+    document.getElementById('perRoundNum').textContent = val === 'all' ? '∞' : val;
+  }
+  qCountSelect.addEventListener('change', updatePerRound);
   updateStartScreen();
+  updatePerRound();
 </script>
 </body>
 </html>
