@@ -53,6 +53,12 @@
     border-bottom: 1px solid var(--border);
     margin-bottom: 2.5rem;
   }
+  @media (max-width: 600px) {
+    body { padding-top: 0.5rem; }
+    header { padding-top: 1.25rem; }
+    footer { padding: 1rem !important; margin-top: 1.5rem !important; }
+    .toc ul { columns: 1; }
+  }
   header .label {
     font-family: 'IBM Plex Mono', monospace;
     font-size: 0.75rem;
@@ -95,7 +101,7 @@
     text-transform: uppercase;
     margin-bottom: 1rem;
   }
-  .toc ol {
+  .toc ul {
     columns: 2;
     column-gap: 2rem;
     padding-left: 1.2rem;
@@ -431,15 +437,15 @@
 <!-- TABLE OF CONTENTS -->
 <nav class="toc">
   <h2>Contents</h2>
-  <ol>
-    <li><a href="#ch0">Introduction: NIST CSF Overview</a></li>
-    <li><a href="#ch1">Chapter 1: Cyber Threats</a></li>
-    <li><a href="#ch2">Chapter 2: Frameworks for Protection</a></li>
-    <li><a href="#ch3">Chapter 3: Making Cybersecurity Effective</a></li>
-    <li><a href="#ch4">Chapter 4: Detecting & Managing Incidents</a></li>
-    <li><a href="#ch5">Chapter 5: Cybersecurity & AI</a></li>
-    <li><a href="#ch6">Chapter 6: Cyber Diplomacy</a></li>
-  </ol>
+  <ul>
+    <li><a href="#ch0">NIST CSF Overview</a></li>
+    <li><a href="#ch1">Cyber Threats</a></li>
+    <li><a href="#ch2">Frameworks for Protection</a></li>
+    <li><a href="#ch3">Making Cybersecurity Effective</a></li>
+    <li><a href="#ch4">Detecting & Managing Incidents</a></li>
+    <li><a href="#ch5">Cybersecurity & AI</a></li>
+    <li><a href="#ch6">Cyber Diplomacy</a></li>
+  </ul>
 </nav>
 
 <!-- ═══════════════════════════════════════════════
@@ -1112,6 +1118,9 @@
   </div>
 </div>
 
+<div style="text-align:center; padding: 1rem 0 0.5rem;">
+  <a href="#" style="font-family:'IBM Plex Mono',monospace; font-size:0.75rem; color:var(--muted); text-decoration:none; letter-spacing:0.05em; transition:color 0.15s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--muted)'">↑ Back to top</a>
+</div>
 <footer>
   <span>Aden's Study Portal · Cybersecurity Foundations</span>
   <span>Updated 27 May 2026</span>

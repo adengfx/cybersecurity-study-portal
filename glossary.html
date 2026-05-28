@@ -116,6 +116,9 @@
   .topbar { display: flex; align-items: center; justify-content: space-between; padding: 1.5rem 0 1rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border); }
   .topbar-back { display: inline-flex; align-items: center; gap: 0.4rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; color: var(--muted); text-decoration: none; letter-spacing: 0.05em; transition: color 0.15s; }
   .topbar-back:hover { color: var(--accent); }
+  @media (max-width: 600px) {
+    body { padding-top: 1rem; }
+  }
 </style>
 </head>
 <body>
