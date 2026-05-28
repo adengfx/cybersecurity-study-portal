@@ -2,7 +2,7 @@
 <html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Revision Quiz – Study Portal</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -86,6 +86,34 @@
   .btn-next { font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem; background: transparent; border: 1px solid var(--accent); color: var(--accent); border-radius: 6px; padding: 0.5rem 1.25rem; cursor: pointer; transition: background 0.15s; display: none; }
   .btn-next.show { display: inline-block; }
   .btn-next:hover { background: rgba(0,229,255,0.08); }
+
+  @media (max-width: 600px) {
+    .confirm-wrap { display: none !important; }
+    .action-wrap { display: none !important; }
+    .mobile-action-bar {
+      display: flex;
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      padding: 12px 16px;
+      padding-bottom: calc(12px + env(safe-area-inset-bottom));
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+      gap: 10px;
+      z-index: 200;
+    }
+    .mobile-action-bar .btn-confirm {
+      flex: 1; padding: 0.75rem; font-size: 0.85rem; border-radius: 8px; width: auto;
+    }
+    .mobile-action-bar .btn-next {
+      flex: 1; padding: 0.75rem; font-size: 0.85rem; border-radius: 8px;
+      display: none; text-align: center;
+    }
+    .mobile-action-bar .btn-next.show { display: block; }
+    #quizScreen.active { padding-bottom: 90px; }
+  }
+  @media (min-width: 601px) {
+    .mobile-action-bar { display: none; }
+  }
 
   /* Results */
   .results-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 2rem; text-align: center; margin-bottom: 1.5rem; }
@@ -230,6 +258,12 @@
         <button class="btn-next" id="nextBtn">Next →</button>
       </div>
     </div>
+  </div>
+
+  <!-- Mobile fixed action bar (only visible on small screens) -->
+  <div class="mobile-action-bar" id="mobileActionBar">
+    <button class="btn-confirm" id="mobileConfirmBtn">Confirm answer</button>
+    <button class="btn-next" id="mobileNextBtn">Next →</button>
   </div>
 
   <!-- Results screen -->
@@ -431,6 +465,10 @@
           const nextBtn = document.getElementById('nextBtn');
           nextBtn.className = 'btn-next show';
           nextBtn.textContent = currentIndex < currentQuestions.length - 1 ? 'Next →' : 'See results →';
+          const mNextBtn1 = document.getElementById('mobileNextBtn');
+          mNextBtn1.className = 'btn-next show';
+          mNextBtn1.textContent = nextBtn.textContent;
+          document.getElementById('mobileConfirmBtn').style.display = 'none';
           buildDots();
         }
       }
@@ -496,6 +534,8 @@
   }
 
   function showScreen(id) {
+    // Show/hide mobile action bar only on quiz screen
+    document.getElementById('mobileActionBar').style.display = id === 'quizScreen' ? '' : 'none';
     ['startScreen','quizScreen','resultsScreen'].forEach(s => {
       document.getElementById(s).classList.remove('active');
     });
@@ -543,6 +583,8 @@
     document.getElementById('explanation').className = 'explanation';
     document.getElementById('explanation').textContent = '';
     document.getElementById('nextBtn').className = 'btn-next';
+    document.getElementById('mobileNextBtn').className = 'btn-next';
+    document.getElementById('mobileConfirmBtn').style.display = '';
 
     const letters = ['A','B','C','D'];
     const shuffledOpts = shuffle(q.options.map((o, i) => ({ text: o, originalIndex: i })));
@@ -595,6 +637,10 @@
     const nextBtn = document.getElementById('nextBtn');
     nextBtn.className = 'btn-next show';
     nextBtn.textContent = currentIndex < currentQuestions.length - 1 ? 'Next →' : 'See results →';
+    const mNextBtn = document.getElementById('mobileNextBtn');
+    mNextBtn.className = 'btn-next show';
+    mNextBtn.textContent = nextBtn.textContent;
+    document.getElementById('mobileConfirmBtn').style.display = 'none';
     document.getElementById('scoreText').textContent = `Score: ${score}`;
   }
   function nextQuestion() {
@@ -698,6 +744,8 @@
   });
   document.getElementById('nextBtn').addEventListener('click', nextQuestion);
   document.getElementById('confirmBtn').addEventListener('click', confirmAnswer);
+  document.getElementById('mobileNextBtn').addEventListener('click', nextQuestion);
+  document.getElementById('mobileConfirmBtn').addEventListener('click', confirmAnswer);
   document.getElementById('retryMissedBtn').addEventListener('click', () => {
     currentQuestions = shuffle(wrongAnswers.map(w => w.q));
     currentIndex = 0; score = 0; wrongAnswers = [];

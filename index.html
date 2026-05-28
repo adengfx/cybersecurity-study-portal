@@ -2,7 +2,7 @@
 <html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Study Portal</title>
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -75,6 +75,11 @@
   .group-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin: 1.5rem 0 0.6rem; padding-bottom: 0.4rem; border-bottom: 1px solid var(--border); }
   .group-label:first-child { margin-top: 0; }
 
+  @media (max-width: 600px) {
+    .stats { justify-content: center; }
+    .stat { text-align: center; }
+  }
+
   /* Course cards */
   .courses { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 3rem; }
   .course-card {
@@ -83,6 +88,10 @@
     display: grid; grid-template-columns: 1fr auto; grid-template-rows: auto auto;
     gap: 0.4rem 1.5rem; transition: border-color 0.15s, background 0.15s;
     position: relative; overflow: hidden;
+  }
+  @media (max-width: 480px) {
+    .course-card { grid-template-columns: 1fr; grid-template-rows: auto auto auto; }
+    .course-right { grid-column: 1 !important; grid-row: 3 !important; flex-direction: row !important; align-items: center !important; justify-content: flex-start !important; gap: 0.6rem !important; }
   }
   @media (max-width: 480px) {
     .course-card { grid-template-columns: 1fr; grid-template-rows: auto auto auto; }
@@ -268,7 +277,7 @@
 
   <footer>
     <span>Study Portal · Cybersecurity track</span>
-    <a href="https://adengfx.github.io/cybersecurity-study-portal/" target="_blank">adengfx.github.io/cybersecurity-study-portal</a>
+    <a href="https://github.com/adengfx/cybersecurity-study-portal" target="_blank">View on GitHub</a>
   </footer>
 
 </div>
@@ -291,6 +300,23 @@
   })();
 
   // Compute stats from course cards
+  (function() {
+    const cards = document.querySelectorAll('.course-card');
+    let completed = 0, bestScore = null, totalMins = 0;
+    cards.forEach(card => {
+      completed++;
+      const score = parseInt(card.dataset.score);
+      if (!isNaN(score) && (bestScore === null || score > bestScore)) bestScore = score;
+      const dur = parseInt(card.dataset.duration);
+      if (!isNaN(dur)) totalMins += dur;
+    });
+    document.getElementById('statCompleted').textContent = completed;
+    document.getElementById('statBest').textContent = bestScore !== null ? bestScore + '%' : 'N/A';
+    const h = Math.floor(totalMins / 60), m = totalMins % 60;
+    document.getElementById('statHours').textContent = h + 'h ' + (m > 0 ? m + 'm' : '');
+  })();
+
+  // Compute stats
   (function() {
     const cards = document.querySelectorAll('.course-card');
     let completed = 0, bestScore = null, totalMins = 0;
