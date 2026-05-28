@@ -535,7 +535,7 @@
 
   function showScreen(id) {
     // Show/hide mobile action bar only on quiz screen
-    document.getElementById('mobileActionBar').style.display = id === 'quizScreen' ? '' : 'none';
+    document.getElementById('mobileActionBar').style.display = 'none';
     ['startScreen','quizScreen','resultsScreen'].forEach(s => {
       document.getElementById(s).classList.remove('active');
     });
@@ -585,6 +585,7 @@
     document.getElementById('nextBtn').className = 'btn-next';
     document.getElementById('mobileNextBtn').className = 'btn-next';
     document.getElementById('mobileConfirmBtn').style.display = '';
+    document.getElementById('mobileActionBar').style.display = 'none';
 
     const letters = ['A','B','C','D'];
     const shuffledOpts = shuffle(q.options.map((o, i) => ({ text: o, originalIndex: i })));
@@ -603,6 +604,9 @@
         btn.classList.add('selected');
         selectedOriginalIndex = opt.originalIndex;
         document.getElementById('confirmWrap').style.display = 'block';
+        document.getElementById('mobileActionBar').style.display = '';
+        document.getElementById('mobileConfirmBtn').style.display = '';
+        document.getElementById('mobileNextBtn').className = 'btn-next';
       });
       container.appendChild(btn);
     });
