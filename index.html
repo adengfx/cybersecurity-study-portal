@@ -2,15 +2,15 @@
 <html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
-  <meta name="description" content="Personal cybersecurity study portal with course notes, revision quizzes, flashcards and glossary. Covering Cybersecurity Foundations, Networking Basics and IT Security.">
+  <meta name="description" content="Personal cybersecurity study portal with course notes, lab guides, revision quizzes, flashcards and glossary. Covering Cybersecurity Foundations, Networking Basics, IT Security, and TryHackMe labs.">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Aden's Study Portal">
-  <meta property="og:description" content="Personal cybersecurity study portal with course notes, revision quizzes, flashcards and glossary. Covering Cybersecurity Foundations, Networking Basics and IT Security.">
+  <meta property="og:description" content="Personal cybersecurity study portal with course notes, lab guides, revision quizzes, flashcards and glossary. Covering Cybersecurity Foundations, Networking Basics, IT Security, and TryHackMe labs.">
   <meta property="og:url" content="https://adengfx.github.io/cybersecurity-study-portal/">
   <meta property="og:site_name" content="Aden's Study Portal">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Aden's Study Portal">
-  <meta name="twitter:description" content="Personal cybersecurity study portal with course notes, revision quizzes, flashcards and glossary. Covering Cybersecurity Foundations, Networking Basics and IT Security.">
+  <meta name="twitter:description" content="Personal cybersecurity study portal with course notes, lab guides, revision quizzes, flashcards and glossary. Covering Cybersecurity Foundations, Networking Basics, IT Security, and TryHackMe labs.">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Aden's Study Portal</title>
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
@@ -32,12 +32,6 @@
 
   /* Header */
   header { padding: 3rem 0 2.5rem; border-bottom: 1px solid var(--border); margin-bottom: 2rem; }
-  .topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; }
-  .topbar-back { display: inline-flex; align-items: center; gap: 0.4rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; color: var(--muted); text-decoration: none; letter-spacing: 0.05em; transition: color 0.15s; }
-  .topbar-back:hover { color: var(--accent); }
-
-  .theme-btn:hover { border-color: var(--accent); color: var(--accent); }
-  .header-subtitle { font-size: 0.88rem; color: var(--muted); margin-top: 0.5rem; }
   .logo-row { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; margin-bottom: 0.6rem; }
   .logo-row-left { display: flex; align-items: center; gap: 0.75rem; }
   .linkedin-badge {
@@ -49,11 +43,10 @@
   }
   .linkedin-badge:hover { border-color: #0a66c2; color: #0a66c2; }
   .linkedin-badge svg { flex-shrink: 0; }
-
   .logo { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; letter-spacing: 0.2em; color: var(--accent); text-transform: uppercase; }
   h1 { font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 700; color: var(--heading); letter-spacing: -0.02em; line-height: 1.1; }
+  .header-subtitle { font-size: 0.88rem; color: var(--muted); margin-top: 0.5rem; }
   .stats { display: flex; gap: 2.5rem; align-items: flex-end; margin-top: 1.5rem; justify-content: flex-end; }
-  .stat { text-align: left; }
   .stat-num { font-family: 'IBM Plex Mono', monospace; font-size: 1.4rem; font-weight: 600; color: var(--heading); line-height: 1; }
   .stat-label { font-size: 0.75rem; color: var(--muted); margin-top: 0.2rem; }
 
@@ -66,7 +59,37 @@
   }
   .theme-btn:hover { border-color: var(--accent); color: var(--accent); }
 
-  /* Toolbar */
+  /* Quick links */
+  .quick-links { margin-bottom: 2rem; display: flex; flex-direction: column; gap: 0.6rem; }
+  .glossary-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+    padding: 1rem 1.5rem; text-decoration: none; color: inherit;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 1rem; transition: border-color 0.15s, background 0.15s;
+  }
+  .glossary-card:hover { border-color: var(--accent); background: var(--surface2); }
+  .glossary-card-left { display: flex; align-items: center; gap: 0.75rem; }
+  .glossary-icon { font-size: 1.1rem; }
+  .glossary-title { font-weight: 700; color: var(--heading); font-size: 0.95rem; }
+  .glossary-sub { font-size: 0.8rem; color: var(--muted); margin-top: 0.1rem; }
+  .glossary-arrow { color: var(--muted); font-size: 1rem; }
+
+  /* Section tabs */
+  .section-tabs { display: flex; gap: 0.4rem; margin-bottom: 1.75rem; border-bottom: 1px solid var(--border); padding-bottom: 0; }
+  .section-tab {
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem; letter-spacing: 0.06em;
+    padding: 0.5rem 1.1rem 0.65rem; border: none; background: transparent;
+    color: var(--muted); cursor: pointer; transition: color 0.15s;
+    border-bottom: 2px solid transparent; margin-bottom: -1px;
+  }
+  .section-tab:hover { color: var(--text); }
+  .section-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* Tab panels */
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* Search */
   .toolbar { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; flex-wrap: wrap; }
   .search-wrap { flex: 1; min-width: 200px; position: relative; }
   .search-wrap input {
@@ -78,48 +101,19 @@
   .search-wrap input:focus { border-color: var(--accent); }
   .search-wrap input::placeholder { color: var(--muted); }
   .search-icon { position: absolute; left: 0.7rem; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 0.85rem; pointer-events: none; }
-  .section-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
 
   /* Group label */
   .group-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin: 1.5rem 0 0.6rem; padding-bottom: 0.4rem; border-bottom: 1px solid var(--border); }
   .group-label:first-child { margin-top: 0; }
 
-  @media (max-width: 600px) {
-    body { padding-top: 1rem; }
-    .stats { justify-content: center; }
-    .stat { text-align: center; }
-  }
-
   /* Course cards */
-  .courses { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 3rem; }
+  .courses { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 2rem; }
   .course-card {
     background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
     padding: 1.25rem 1.5rem; text-decoration: none; color: inherit;
     display: grid; grid-template-columns: 1fr auto; grid-template-rows: auto auto;
     gap: 0.4rem 1.5rem; transition: border-color 0.15s, background 0.15s;
     position: relative; overflow: hidden;
-  }
-  @media (max-width: 480px) {
-    .course-card { grid-template-columns: 1fr; grid-template-rows: auto auto auto; }
-    .course-right { grid-column: 1 !important; grid-row: 3 !important; flex-direction: row !important; align-items: center !important; justify-content: flex-start !important; gap: 0.6rem !important; }
-  }
-  @media (max-width: 480px) {
-    .course-card { grid-template-columns: 1fr; grid-template-rows: auto auto auto; }
-    .course-right { grid-column: 1 !important; grid-row: 3 !important; flex-direction: row !important; align-items: center !important; justify-content: flex-start !important; gap: 0.6rem !important; }
-  }
-  @media (max-width: 480px) {
-    .course-card {
-      grid-template-columns: 1fr;
-      grid-template-rows: auto auto auto;
-    }
-    .course-right {
-      grid-column: 1 !important;
-      grid-row: 3 !important;
-      flex-direction: row !important;
-      align-items: center !important;
-      justify-content: flex-start !important;
-      gap: 0.6rem !important;
-    }
   }
   .course-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--accent); border-radius: 10px 0 0 10px; }
   .course-card:hover { border-color: var(--accent); background: var(--surface2); }
@@ -132,34 +126,64 @@
   .score.pending { color: var(--muted); font-size: 0.8rem; }
   .pill { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; letter-spacing: 0.08em; padding: 0.2rem 0.55rem; border-radius: 20px; white-space: nowrap; }
   .pill.complete { background: rgba(126,231,135,0.1); border: 1px solid rgba(126,231,135,0.3); color: var(--accent3); }
+  .pill.in-progress { background: rgba(210,168,255,0.1); border: 1px solid rgba(210,168,255,0.3); color: var(--accent4); }
+  .pill.locked { background: transparent; border: 1px solid var(--border); color: var(--muted); }
   .cert-tag { font-size: 0.72rem; color: var(--accent4); background: rgba(210,168,255,0.08); border: 1px solid rgba(210,168,255,0.2); border-radius: 4px; padding: 0.1rem 0.4rem; font-family: 'IBM Plex Mono', monospace; }
+  .platform-tag { font-size: 0.72rem; color: var(--accent2); background: rgba(255,107,53,0.08); border: 1px solid rgba(255,107,53,0.2); border-radius: 4px; padding: 0.1rem 0.4rem; font-family: 'IBM Plex Mono', monospace; }
 
-  /* Glossary link card */
-  .glossary-card {
-    background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
-    padding: 1.1rem 1.5rem; text-decoration: none; color: inherit;
-    display: flex; align-items: center; justify-content: space-between;
-    gap: 1rem; transition: border-color 0.15s, background 0.15s; margin-bottom: 0.75rem;
-  }
-  .glossary-card:hover { border-color: var(--accent); background: var(--surface2); }
-  .glossary-card-left { display: flex; align-items: center; gap: 0.75rem; }
-  .glossary-icon { font-size: 1.1rem; }
-  .glossary-title { font-weight: 700; color: var(--heading); font-size: 0.95rem; }
-  .glossary-sub { font-size: 0.8rem; color: var(--muted); margin-top: 0.1rem; }
-  .glossary-arrow { color: var(--muted); font-size: 1rem; }
-
-  /* Placeholder */
+  /* Placeholder add card */
   .add-card { border: 1px dashed var(--border); border-radius: 10px; padding: 1.25rem 1.5rem; display: flex; align-items: center; gap: 0.75rem; color: var(--muted); font-size: 0.88rem; background: var(--surface2); }
   .add-icon { width: 28px; height: 28px; border-radius: 50%; border: 1px dashed var(--border); display: flex; align-items: center; justify-content: center; font-size: 1rem; color: var(--muted); flex-shrink: 0; }
 
-  /* No results */
   .no-results { display: none; padding: 2rem; text-align: center; color: var(--muted); font-size: 0.9rem; }
 
-  /* Course link */
-  .course-link { font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; color: var(--accent); text-decoration: none; opacity: 0.7; transition: opacity 0.15s; }
-  .course-link:hover { opacity: 1; }
+  /* ── Roadmap (Labs tab) ─────────────────────────────── */
+  .roadmap-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 1.25rem; padding-bottom: 0.4rem; border-bottom: 1px solid var(--border); }
 
-  footer { border-top: 1px solid var(--border); padding-top: 1.5rem; font-size: 0.78rem; color: var(--muted); font-family: 'IBM Plex Mono', monospace; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
+  .roadmap { display: flex; align-items: stretch; gap: 0; margin-bottom: 2.5rem; }
+
+  .roadmap-step {
+    flex: 1; background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 1.25rem 1.2rem; text-decoration: none;
+    color: inherit; transition: border-color 0.15s, background 0.15s;
+    position: relative; overflow: hidden; display: flex; flex-direction: column; gap: 0.5rem;
+  }
+  .roadmap-step::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; border-radius: 10px 0 0 10px; }
+  .roadmap-step.done::before { background: var(--accent3); }
+  .roadmap-step.active::before { background: var(--accent4); }
+  .roadmap-step.future::before { background: var(--border); }
+  .roadmap-step.done:hover { border-color: var(--accent3); background: var(--surface2); }
+  .roadmap-step.active:hover { border-color: var(--accent4); background: var(--surface2); }
+  .roadmap-step.future { opacity: 0.55; pointer-events: none; }
+
+  .roadmap-arrow {
+    display: flex; align-items: center; justify-content: center;
+    padding: 0 0.5rem; color: var(--muted); font-size: 1rem; flex-shrink: 0;
+  }
+
+  .rs-num { font-family: 'IBM Plex Mono', monospace; font-size: 0.63rem; color: var(--muted); margin-bottom: 0.1rem; }
+  .rs-title { font-size: 0.95rem; font-weight: 700; color: var(--heading); line-height: 1.2; }
+  .rs-sub { font-size: 0.78rem; color: var(--muted); margin-top: 0.15rem; }
+  .rs-pill { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 0.08em; padding: 0.15rem 0.45rem; border-radius: 20px; white-space: nowrap; display: inline-block; margin-top: auto; }
+  .rs-pill.done { background: rgba(126,231,135,0.1); border: 1px solid rgba(126,231,135,0.3); color: var(--accent3); }
+  .rs-pill.active { background: rgba(210,168,255,0.1); border: 1px solid rgba(210,168,255,0.3); color: var(--accent4); }
+  .rs-pill.future { background: transparent; border: 1px solid var(--border); color: var(--muted); }
+
+  .rs-progress { height: 3px; background: var(--border); border-radius: 2px; margin-top: 0.4rem; overflow: hidden; }
+  .rs-progress-fill { height: 100%; border-radius: 2px; }
+  .rs-progress-fill.active { background: var(--accent4); }
+  .rs-progress-fill.done { background: var(--accent3); }
+
+  @media (max-width: 600px) {
+    body { padding-top: 1rem; }
+    .stats { justify-content: center; }
+    .roadmap { flex-direction: column; gap: 0.5rem; }
+    .roadmap-arrow { transform: rotate(90deg); padding: 0; height: 1.5rem; }
+    .course-card { grid-template-columns: 1fr; grid-template-rows: auto auto auto; }
+    .course-right { grid-column: 1 !important; grid-row: 3 !important; flex-direction: row !important; align-items: center !important; justify-content: flex-start !important; gap: 0.6rem !important; }
+  }
+
+  footer { border-top: 1px solid var(--border); padding-top: 1.5rem; font-size: 0.78rem; color: var(--muted); font-family: 'IBM Plex Mono', monospace; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
   footer a { color: var(--accent); text-decoration: none; }
   footer a:hover { text-decoration: underline; }
 </style>
@@ -196,91 +220,142 @@
   </header>
 
   <!-- Quick links -->
-  <div style="margin-bottom: 2.5rem;">
-  <a class="glossary-card" href="quiz.html">
-    <div class="glossary-card-left">
-      <span class="glossary-icon">🧠</span>
-      <div>
-        <div class="glossary-title">Revision Quiz</div>
-        <div class="glossary-sub">Test yourself with randomised questions from all courses</div>
+  <div class="quick-links">
+    <a class="glossary-card" href="quiz.html">
+      <div class="glossary-card-left">
+        <span class="glossary-icon">🧠</span>
+        <div>
+          <div class="glossary-title">Revision Quiz</div>
+          <div class="glossary-sub">Test yourself with randomised questions from all courses</div>
+        </div>
       </div>
-    </div>
-    <span class="glossary-arrow">→</span>
-  </a>
-
-  <a class="glossary-card" href="glossary.html">
-    <div class="glossary-card-left">
-      <span class="glossary-icon">📖</span>
-      <div>
-        <div class="glossary-title">Glossary</div>
-        <div class="glossary-sub">All key terms across every course in one place</div>
+      <span class="glossary-arrow">→</span>
+    </a>
+    <a class="glossary-card" href="glossary.html">
+      <div class="glossary-card-left">
+        <span class="glossary-icon">📖</span>
+        <div>
+          <div class="glossary-title">Glossary</div>
+          <div class="glossary-sub">All key terms across every course in one place</div>
+        </div>
       </div>
-    </div>
-    <span class="glossary-arrow">→</span>
-  </a>
+      <span class="glossary-arrow">→</span>
+    </a>
   </div>
 
-  <!-- Courses -->
-  <div class="toolbar">
-    <div class="search-wrap">
-      <span class="search-icon">🔍</span>
-      <input type="text" id="searchInput" placeholder="Search courses…" autocomplete="off">
-    </div>
-    <div class="section-label">Courses</div>
+  <!-- Section tabs -->
+  <div class="section-tabs">
+    <button class="section-tab active" data-tab="courses">Courses</button>
+    <button class="section-tab" data-tab="labs">Labs</button>
   </div>
 
-  <div class="courses" id="courseList">
-
-    <div class="group-label" data-group="Security Fundamentals">Security Fundamentals</div>
-
-    <a class="course-card" href="cybersecurity_foundations_study_guide.html" data-title="Cybersecurity Foundations" data-score="77" data-duration="211">
-      <div class="course-title">Cybersecurity Foundations</div>
-      <div class="course-meta">
-        <span>Malcolm Shore</span>
-        <span class="cert-tag">NASBA cert</span>
-        <span>27 May 2026</span>
-        <span>3h 31m</span>
+  <!-- ── COURSES TAB ───────────────────────────────────── -->
+  <div class="tab-panel active" id="tab-courses">
+    <div class="toolbar">
+      <div class="search-wrap">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" placeholder="Search courses…" autocomplete="off">
       </div>
-      <div class="course-right">
-        <span class="score pass">Exam 77%</span>
-        <span class="pill complete">✓ Complete</span>
-      </div>
-    </a>
+    </div>
 
-    <a class="course-card" href="it_security_foundations_study_guide.html" data-title="IT Security Foundations Core Concepts" data-score="100" data-duration="112">
-      <div class="course-title">IT Security Foundations: Core Concepts</div>
-      <div class="course-meta">
-        <span>Lisa Bock</span>
-        <span class="cert-tag">NASBA cert</span>
-        <span>27 May 2026</span>
-        <span>1h 52m</span>
-      </div>
-      <div class="course-right">
-        <span class="score pass">Exam 100%</span>
-        <span class="pill complete">✓ Complete</span>
-      </div>
-    </a>
+    <div class="courses" id="courseList">
+      <div class="group-label">Security Fundamentals</div>
 
-    <div class="group-label" data-group="Networking">Networking</div>
+      <a class="course-card" href="cybersecurity_foundations_study_guide.html" data-title="Cybersecurity Foundations" data-score="77" data-duration="211">
+        <div class="course-title">Cybersecurity Foundations</div>
+        <div class="course-meta">
+          <span>Malcolm Shore</span>
+          <span class="cert-tag">NASBA cert</span>
+          <span>27 May 2026</span>
+          <span>3h 31m</span>
+        </div>
+        <div class="course-right">
+          <span class="score pass">Exam 77%</span>
+          <span class="pill complete">✓ Complete</span>
+        </div>
+      </a>
 
-    <a class="course-card" href="networking_basics_study_guide.html" data-title="Networking Basics" data-duration="109">
-      <div class="course-title">Networking Basics</div>
-      <div class="course-meta">
-        <span>Kevin Wallace</span>
-        <span>24 May 2026</span>
-        <span>1h 49m</span>
-      </div>
-      <div class="course-right">
-        <span class="score pending">N/A</span>
-        <span class="pill complete">✓ Complete</span>
-      </div>
-    </a>
+      <a class="course-card" href="it_security_foundations_study_guide.html" data-title="IT Security Foundations Core Concepts" data-score="100" data-duration="112">
+        <div class="course-title">IT Security Foundations: Core Concepts</div>
+        <div class="course-meta">
+          <span>Lisa Bock</span>
+          <span class="cert-tag">NASBA cert</span>
+          <span>27 May 2026</span>
+          <span>1h 52m</span>
+        </div>
+        <div class="course-right">
+          <span class="score pass">Exam 100%</span>
+          <span class="pill complete">✓ Complete</span>
+        </div>
+      </a>
 
-    <div class="no-results" id="noResults">No courses match your search.</div>
+      <div class="group-label">Networking</div>
+
+      <a class="course-card" href="networking_basics_study_guide.html" data-title="Networking Basics" data-duration="109">
+        <div class="course-title">Networking Basics</div>
+        <div class="course-meta">
+          <span>Kevin Wallace</span>
+          <span>24 May 2026</span>
+          <span>1h 49m</span>
+        </div>
+        <div class="course-right">
+          <span class="score pending">N/A</span>
+          <span class="pill complete">✓ Complete</span>
+        </div>
+      </a>
+
+      <div class="no-results" id="noResults">No courses match your search.</div>
+
+      <div class="add-card">
+        <div class="add-icon">+</div>
+        Next course notes will appear here once added.
+      </div>
+    </div>
+  </div>
+
+  <!-- ── LABS TAB ──────────────────────────────────────── -->
+  <div class="tab-panel" id="tab-labs">
+
+    <div class="roadmap-label">TryHackMe · SOC Analyst Roadmap</div>
+
+    <div class="roadmap">
+
+      <!-- Step 1: Pre-Security -->
+      <div class="roadmap-step future" data-href="labs/presecurity/">
+        <div class="rs-num">Step 1</div>
+        <div class="rs-title">Pre-Security</div>
+        <div class="rs-sub">7 modules · 31 rooms</div>
+        <div class="rs-progress"><div class="rs-progress-fill" style="width: 0%;"></div></div>
+        <span class="rs-pill future">Not started</span>
+      </div>
+
+      <div class="roadmap-arrow">→</div>
+
+      <!-- Step 2: Cyber Security 101 -->
+      <div class="roadmap-step future" data-href="labs/cybersecurity101/">
+        <div class="rs-num">Step 2</div>
+        <div class="rs-title">Cyber Security 101</div>
+        <div class="rs-sub">14 sections · 47 rooms</div>
+        <div class="rs-progress"><div class="rs-progress-fill" style="width: 0%;"></div></div>
+        <span class="rs-pill future">Not started</span>
+      </div>
+
+      <div class="roadmap-arrow">→</div>
+
+      <!-- Step 3: SOC Level 1 -->
+      <div class="roadmap-step future" data-href="labs/soc1/">
+        <div class="rs-num">Step 3</div>
+        <div class="rs-title">SOC Level 1</div>
+        <div class="rs-sub">14 sections · 55 rooms</div>
+        <div class="rs-progress"><div class="rs-progress-fill" style="width: 0%;"></div></div>
+        <span class="rs-pill future">Not started</span>
+      </div>
+
+    </div>
 
     <div class="add-card">
       <div class="add-icon">+</div>
-      Next course notes will appear here once added.
+      Additional pathways will appear here once added.
     </div>
 
   </div>
@@ -292,9 +367,9 @@
 
 </div>
 <script>
-  // Compute stats from course cards
+  // Stats — courses only
   (function() {
-    const cards = document.querySelectorAll('.course-card');
+    const cards = document.querySelectorAll('#courseList .course-card');
     let completed = 0, bestScore = null, totalMins = 0;
     cards.forEach(card => {
       completed++;
@@ -306,44 +381,20 @@
     document.getElementById('statCompleted').textContent = completed;
     document.getElementById('statBest').textContent = bestScore !== null ? bestScore + '%' : 'N/A';
     const h = Math.floor(totalMins / 60), m = totalMins % 60;
-    document.getElementById('statHours').textContent = h + 'h ' + (m > 0 ? m + 'm' : '');
+    document.getElementById('statHours').textContent = h + 'h' + (m > 0 ? ' ' + m + 'm' : '');
   })();
 
-  // Compute stats from course cards
-  (function() {
-    const cards = document.querySelectorAll('.course-card');
-    let completed = 0, bestScore = null, totalMins = 0;
-    cards.forEach(card => {
-      completed++;
-      const score = parseInt(card.dataset.score);
-      if (!isNaN(score) && (bestScore === null || score > bestScore)) bestScore = score;
-      const dur = parseInt(card.dataset.duration);
-      if (!isNaN(dur)) totalMins += dur;
+  // Section tabs
+  document.querySelectorAll('.section-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.section-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      tab.classList.add('active');
+      document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
     });
-    document.getElementById('statCompleted').textContent = completed;
-    document.getElementById('statBest').textContent = bestScore !== null ? bestScore + '%' : 'N/A';
-    const h = Math.floor(totalMins / 60), m = totalMins % 60;
-    document.getElementById('statHours').textContent = h + 'h ' + (m > 0 ? m + 'm' : '');
-  })();
+  });
 
-  // Compute stats
-  (function() {
-    const cards = document.querySelectorAll('.course-card');
-    let completed = 0, bestScore = null, totalMins = 0;
-    cards.forEach(card => {
-      completed++;
-      const score = parseInt(card.dataset.score);
-      if (!isNaN(score) && (bestScore === null || score > bestScore)) bestScore = score;
-      const dur = parseInt(card.dataset.duration);
-      if (!isNaN(dur)) totalMins += dur;
-    });
-    document.getElementById('statCompleted').textContent = completed;
-    document.getElementById('statBest').textContent = bestScore !== null ? bestScore + '%' : 'N/A';
-    const h = Math.floor(totalMins / 60), m = totalMins % 60;
-    document.getElementById('statHours').textContent = h + 'h ' + (m > 0 ? m + 'm' : '');
-  })();
-
-  // Theme toggle — respects system preference, manual override saved to localStorage
+  // Theme
   const btn = document.getElementById('themeBtn');
   const html = document.documentElement;
   const systemDark = window.matchMedia('(prefers-color-scheme: dark)');
@@ -357,7 +408,6 @@
     localStorage.setItem('theme', next);
     btn.textContent = next === 'dark' ? '☀️' : '🌙';
   });
-  // Auto-update if system preference changes and no manual override
   systemDark.addEventListener('change', e => {
     if (!localStorage.getItem('theme')) {
       const next = e.matches ? 'dark' : 'light';
@@ -366,29 +416,25 @@
     }
   });
 
-  // Search
+  // Search (courses tab only)
   const input = document.getElementById('searchInput');
   const noResults = document.getElementById('noResults');
   input.addEventListener('input', () => {
     const q = input.value.toLowerCase().trim();
-    const cards = document.querySelectorAll('.course-card');
-    const groups = document.querySelectorAll('.group-label');
     let visible = 0;
-    cards.forEach(card => {
-      const title = card.getAttribute('data-title').toLowerCase();
-      const show = !q || title.includes(q);
+    document.querySelectorAll('#courseList .course-card').forEach(card => {
+      const show = !q || card.dataset.title.toLowerCase().includes(q);
       card.classList.toggle('hidden', !show);
       if (show) visible++;
     });
-    // Hide group labels if all cards in group hidden
-    groups.forEach(group => {
-      let next = group.nextElementSibling;
+    document.querySelectorAll('#courseList .group-label').forEach(gl => {
+      let next = gl.nextElementSibling;
       let anyVisible = false;
       while (next && !next.classList.contains('group-label') && !next.classList.contains('add-card') && !next.classList.contains('no-results')) {
         if (!next.classList.contains('hidden')) anyVisible = true;
         next = next.nextElementSibling;
       }
-      group.style.display = anyVisible ? '' : 'none';
+      gl.style.display = anyVisible ? '' : 'none';
     });
     noResults.style.display = visible === 0 && q ? 'block' : 'none';
   });

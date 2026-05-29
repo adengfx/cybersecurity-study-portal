@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+  <meta name="description" content="TryHackMe Cyber Security 101 pathway study notes — 14 sections covering networking, cryptography, Linux, Windows, offensive and defensive security tools, and OWASP Top 10.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Cyber Security 101 – Aden's Study Portal">
+  <meta property="og:description" content="TryHackMe Cyber Security 101 pathway study notes — 14 sections covering networking, cryptography, Linux, Windows, offensive and defensive security tools, and OWASP Top 10.">
+  <meta property="og:url" content="https://adengfx.github.io/cybersecurity-study-portal/labs/cybersecurity101/">
+  <meta property="og:site_name" content="Aden's Study Portal">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Cyber Security 101 – Aden's Study Portal">
+  <meta name="twitter:description" content="TryHackMe Cyber Security 101 pathway study notes — 14 sections covering networking, cryptography, Linux, Windows, offensive and defensive security tools, and OWASP Top 10.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Cyber Security 101 – Aden's Study Portal</title>
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+    --bg: #0d1117; --surface: #161b22; --surface2: #1c2330; --border: #30363d;
+    --accent: #00e5ff; --accent2: #ff6b35; --accent3: #7ee787; --accent4: #d2a8ff;
+    --text: #e6edf3; --muted: #8b949e; --heading: #f0f6fc;
+  }
+  [data-theme="light"] {
+    --bg: #f6f8fa; --surface: #ffffff; --surface2: #f0f2f5; --border: #d0d7de;
+    --accent: #0077aa; --accent2: #d04a00; --accent3: #1a7f37; --accent4: #6e40c9;
+    --text: #24292f; --muted: #57606a; --heading: #1f2328;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; min-height: 100vh; padding: 2rem 1rem 4rem; transition: background 0.2s, color 0.2s; }
+  .container { max-width: 860px; margin: 0 auto; }
+  .topbar { display: flex; align-items: center; justify-content: space-between; padding-bottom: 1.5rem; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border); }
+  .topbar-back { display: inline-flex; align-items: center; gap: 0.4rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; color: var(--muted); text-decoration: none; letter-spacing: 0.05em; transition: color 0.15s; }
+  .topbar-back:hover { color: var(--accent); }
+  .theme-btn { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; color: var(--muted); cursor: pointer; font-size: 1rem; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; transition: border-color 0.15s, color 0.15s; flex-shrink: 0; }
+  .theme-btn:hover { border-color: var(--accent); color: var(--accent); }
+  header { padding: 2rem 0 2.5rem; border-bottom: 1px solid var(--border); margin-bottom: 2.5rem; }
+  .label { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; letter-spacing: 0.2em; color: var(--accent4); text-transform: uppercase; margin-bottom: 0.6rem; }
+  .platform-tag { font-size: 0.72rem; color: var(--accent2); background: rgba(255,107,53,0.08); border: 1px solid rgba(255,107,53,0.2); border-radius: 4px; padding: 0.1rem 0.5rem; font-family: 'IBM Plex Mono', monospace; }
+  h1 { font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 700; color: var(--heading); letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 0.5rem; }
+  .subtitle { font-size: 0.88rem; color: var(--muted); margin-bottom: 1.5rem; }
+  .pathway-stats { display: flex; gap: 2rem; flex-wrap: wrap; }
+  .pstat-num { font-family: 'IBM Plex Mono', monospace; font-size: 1.3rem; font-weight: 600; color: var(--heading); line-height: 1; }
+  .pstat-label { font-size: 0.75rem; color: var(--muted); margin-top: 0.2rem; }
+  .progress-section { margin-bottom: 2.5rem; }
+  .progress-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
+  .progress-title { font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+  .progress-pct { font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem; color: var(--accent4); }
+  .progress-track { height: 6px; background: var(--border); border-radius: 4px; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--accent4); border-radius: 4px; }
+  .module-group { margin-bottom: 0.5rem; margin-top: 2rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); padding-bottom: 0.4rem; border-bottom: 1px solid var(--border); }
+  .module-group:first-of-type { margin-top: 0; }
+  .rooms { display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 1rem; }
+  .room-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+    padding: 1rem 1.25rem; text-decoration: none; color: inherit;
+    display: grid; grid-template-columns: 1fr auto;
+    gap: 0.3rem 1rem; transition: border-color 0.15s, background 0.15s;
+    position: relative; overflow: hidden;
+  }
+  .room-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--accent4); border-radius: 10px 0 0 10px; }
+  .room-card:hover { border-color: var(--accent4); background: var(--surface2); }
+  .room-card.locked { opacity: 0.45; pointer-events: none; }
+  .room-card.locked::before { background: var(--border); }
+  .room-title { font-size: 0.95rem; font-weight: 700; color: var(--heading); grid-column: 1; grid-row: 1; }
+  .room-meta { font-size: 0.8rem; color: var(--muted); grid-column: 1; grid-row: 2; display: flex; gap: 0.6rem; flex-wrap: wrap; align-items: center; }
+  .room-right { grid-column: 2; grid-row: 1 / 3; display: flex; flex-direction: column; align-items: flex-end; justify-content: center; gap: 0.4rem; }
+  .pill { font-family: 'IBM Plex Mono', monospace; font-size: 0.63rem; letter-spacing: 0.08em; padding: 0.18rem 0.5rem; border-radius: 20px; white-space: nowrap; }
+  .pill.complete { background: rgba(126,231,135,0.1); border: 1px solid rgba(126,231,135,0.3); color: var(--accent3); }
+  .pill.in-progress { background: rgba(210,168,255,0.1); border: 1px solid rgba(210,168,255,0.3); color: var(--accent4); }
+  .pill.not-started { background: transparent; border: 1px solid var(--border); color: var(--muted); }
+  @media (max-width: 480px) {
+    .room-card { grid-template-columns: 1fr; }
+    .room-right { grid-column: 1; grid-row: 3; flex-direction: row; align-items: center; justify-content: flex-start; gap: 0.5rem; }
+    .pathway-stats { gap: 1.25rem; }
+  }
+  footer { border-top: 1px solid var(--border); padding-top: 1.5rem; font-size: 0.78rem; color: var(--muted); font-family: 'IBM Plex Mono', monospace; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-top: 3rem; }
+  footer a { color: var(--accent); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="topbar">
+    <a class="topbar-back" href="../../index.html">← Back to Portal</a>
+    <button class="theme-btn" id="themeBtn" title="Toggle theme">🌙</button>
+  </div>
+  <header>
+    <div class="label">TryHackMe · Lab Pathway</div>
+    <h1>Cyber Security 101</h1>
+    <p class="subtitle">A solid introduction to all major areas of cyber security — networking, cryptography, Linux, Windows, exploitation, defensive tools, and career paths. · 14 sections · 47 rooms</p>
+    <div class="pathway-stats">
+      <div class="pstat"><div class="pstat-num" id="statDone">—</div><div class="pstat-label">Sections done</div></div>
+      <div class="pstat"><div class="pstat-num" id="statRooms">—</div><div class="pstat-label">Rooms done</div></div>
+      <div class="pstat"><div class="pstat-num">47</div><div class="pstat-label">Total rooms</div></div>
+    </div>
+  </header>
+  <div class="progress-section">
+    <div class="progress-header">
+      <span class="progress-title">Pathway progress</span>
+      <span class="progress-pct" id="progressPct">—</span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="progressFill" style="width: 0%;"></div></div>
+  </div>
+
+  <div class="module-group">Section 1 — Start Your Cyber Security Journey</div>
+  <div class="rooms">
+    <div class="room-card locked"><div class="room-title">Offensive Security Intro</div><div class="room-meta"><span>Hacking your first machine</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Defensive Security Intro</div><div class="room-meta"><span>Blue team fundamentals</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Search Skills</div><div class="room-meta"><span>OSINT and research techniques</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+  </div>
+
+  <div class="module-group">Section 2 — Linux Fundamentals</div>
+  <div class="rooms">
+    <div class="room-card locked"><div class="room-title">Linux Fundamentals Part 1</div><div class="room-meta"><span>Navigation, files, directories</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Linux Fundamentals Part 2</div><div class="room-meta"><span>Permissions, processes, packages</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Linux Fundamentals Part 3</div><div class="room-meta"><span>Automation, cron, services</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+  </div>
+
+  <div class="module-group">Section 3 — Windows and AD Fundamentals</div>
+  <div class="rooms">
+    <div class="room-card locked"><div class="room-title">Windows Fundamentals 1</div><div class="room-meta"><span>File system, control panel, UAC</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Windows Fundamentals 2</div><div class="room-meta"><span>System tools, task manager, MSConfig</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Windows Fundamentals 3</div><div class="room-meta"><span>Defender, BitLocker, Windows Update</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Active Directory Basics</div><div class="room-meta"><span>Domains, users, group policy</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+  </div>
+
+  <div class="module-group">Section 4 — Command Line</div>
+  <div class="rooms">
+    <div class="room-card locked"><div class="room-title">Windows Command Line</div><div class="room-meta"><span>cmd.exe essentials</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Windows PowerShell</div><div class="room-meta"><span>PowerShell scripting basics</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Linux Shells</div><div class="room-meta"><span>Bash, scripting, piping</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+  </div>
+
+  <div class="module-group">Section 5 — Networking</div>
+  <div class="rooms">
+    <div class="room-card locked"><div class="room-title">Networking Concepts</div><div class="room-meta"><span>OSI, TCP/IP, addressing</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Networking Essentials</div><div class="room-meta"><span>Switches, routers, DHCP, DNS</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Networking Core Protocols</div><div class="room-meta"><span>HTTP, FTP, SMTP, SSH</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Networking Secure Protocols</div><div class="room-meta"><span>TLS, HTTPS, VPNs, SSH</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Wireshark: The Basics</div><div class="room-meta"><span>Packet capture and analysis</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Tcpdump: The Basics</div><div class="room-meta"><span>CLI packet capture</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Nmap: The Basics</div><div class="room-meta"><span>Network scanning and enumeration</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+  </div>
+
+  <div class="module-group">Section 6 — Cryptography</div>
+  <div class="rooms">
+    <div class="room-card locked"><div class="room-title">Cryptography Basics</div><div class="room-meta"><span>Symmetric and asymmetric encryption</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Public Key Cryptography Basics</div><div class="room-meta"><span>RSA, PKI, certificates</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Hashing Basics</div><div class="room-meta"><span>MD5, SHA, integrity checks</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">John the Ripper: The Basics</div><div class="room-meta"><span>Password cracking fundamentals</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+  </div>
+
+  <div class="module-group">Section 7 — Exploitation Basics</div>
+  <div class="rooms">
+    <div class="room-card locked"><div class="room-title">Moniker Link (CVE-2024-21413)</div><div class="room-meta"><span>Real-world CVE walkthrough</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Metasploit: Introduction</div><div class="room-meta"><span>Framework overview and setup</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Metasploit: Exploitation</div><div class="room-meta"><span>Running exploits</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Metasploit: Meterpreter</div><div class="room-meta"><span>Post-exploitation shell</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Blue</div><div class="room-meta"><span>EternalBlue exploit lab</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+  </div>
+
+  <div class="module-group">Section 8 — Web Hacking</div>
+  <div class="rooms">
+    <div class="room-card locked"><div class="room-title">Web Application Basics</div><div class="room-meta"><span>HTTP, cookies, web architecture</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">JavaScript Essentials</div><div class="room-meta"><span>JS in the browser, DOM, XSS</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">SQL Fundamentals</div><div class="room-meta"><span>Queries, databases, SQLi intro</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Burp Suite: The Basics</div><div class="room-meta"><span>Intercept, modify, repeat requests</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+  </div>
+
+  <div class="module-group">Section 9 — Offensive Security Tooling</div>
+  <div class="rooms">
+    <div class="room-card locked"><div class="room-title">Hydra</div><div class="room-meta"><span>Brute-force credential attacks</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Gobuster: The Basics</div><div class="room-meta"><span>Directory and subdomain brute-forcing</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Shells Overview</div><div class="room-meta"><span>Reverse and bind shells</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">SQLMap: The Basics</div><div class="room-meta"><span>Automated SQL injection</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+  </div>
+
+  <div class="module-group">Section 10 — Defensive Security</div>
+  <div class="rooms">
+    <div class="room-card locked"><div class="room-title">Defensive Security Intro</div><div class="room-meta"><span>Blue team overview</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">SOC Fundamentals</div><div class="room-meta"><span>Tiers, tools, analyst workflow</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Digital Forensics Fundamentals</div><div class="room-meta"><span>Evidence, artefacts, chain of custody</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Incident Response Fundamentals</div><div class="room-meta"><span>IR lifecycle and playbooks</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Logs Fundamentals</div><div class="room-meta"><span>Log types, sources, analysis</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+  </div>
+
+  <div class="module-group">Section 11 — Security Solutions</div>
+  <div class="rooms">
+    <div class="room-card locked"><div class="room-title">Introduction to SIEM</div><div class="room-meta"><span>What SIEMs do and how they work</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Firewall Fundamentals</div><div class="room-meta"><span>Stateful, stateless, next-gen firewalls</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">IDS Fundamentals</div><div class="room-meta"><span>Intrusion detection systems</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Vulnerability Scanner Overview</div><div class="room-meta"><span>Nessus, OpenVAS, scanning basics</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+  </div>
+
+  <div class="module-group">Section 12 — Defensive Security Tooling</div>
+  <div class="rooms">
+    <div class="room-card locked"><div class="room-title">CyberChef: The Basics</div><div class="room-meta"><span>Encoding, decoding, data transformation</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">CAPA: The Basics</div><div class="room-meta"><span>Malware capability detection</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">REMnux: Getting Started</div><div class="room-meta"><span>Linux malware analysis distro</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">FlareVM: Arsenal of Tools</div><div class="room-meta"><span>Windows malware analysis environment</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+  </div>
+
+  <div class="module-group">Section 13 — Build Your Cyber Security Career</div>
+  <div class="rooms">
+    <div class="room-card locked"><div class="room-title">Security Principles</div><div class="room-meta"><span>CIA triad, risk, defence in depth</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Careers in Cyber</div><div class="room-meta"><span>Roles, paths, job market</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Training Impact on Teams</div><div class="room-meta"><span>How security training shapes culture</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+  </div>
+
+  <div class="module-group">Section 14 — OWASP Top 10 (2025)</div>
+  <div class="rooms">
+    <div class="room-card locked"><div class="room-title">OWASP Top 10 2025: IAAA Failures</div><div class="room-meta"><span>Identity, auth and access failures</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">OWASP Top 10 2025: Application Design Flaws</div><div class="room-meta"><span>Insecure design patterns</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">OWASP Top 10 2025: Insecure Data Handling</div><div class="room-meta"><span>Data exposure and injection</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+  </div>
+
+  <footer>
+    <span>Aden's Study Portal · Cyber Security 101</span>
+    <a href="https://tryhackme.com/path/outline/cybersecurity101" target="_blank" rel="noopener">View on TryHackMe ↗</a>
+  </footer>
+</div>
+<script>
+  (function() {
+    const all = document.querySelectorAll('.room-card');
+    const done = document.querySelectorAll('.room-card.complete');
+    let sectionsDone = 0;
+    document.querySelectorAll('.module-group').forEach(mg => {
+      let next = mg.nextElementSibling;
+      while (next && next.classList.contains('rooms')) {
+        const total = next.querySelectorAll('.room-card').length;
+        const comp = next.querySelectorAll('.room-card.complete').length;
+        if (total > 0 && comp === total) sectionsDone++;
+        next = next.nextElementSibling;
+      }
+    });
+    document.getElementById('statDone').textContent = sectionsDone;
+    document.getElementById('statRooms').textContent = done.length;
+    const pct = Math.round((done.length / all.length) * 100);
+    document.getElementById('progressPct').textContent = pct + '%';
+    document.getElementById('progressFill').style.width = pct + '%';
+  })();
+  const btn = document.getElementById('themeBtn');
+  const html = document.documentElement;
+  const systemDark = window.matchMedia('(prefers-color-scheme: dark)');
+  const saved = localStorage.getItem('theme');
+  const theme = saved || (systemDark.matches ? 'dark' : 'light');
+  html.setAttribute('data-theme', theme);
+  btn.textContent = theme === 'dark' ? '☀️' : '🌙';
+  btn.addEventListener('click', () => {
+    const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    btn.textContent = next === 'dark' ? '☀️' : '🌙';
+  });
+  systemDark.addEventListener('change', e => {
+    if (!localStorage.getItem('theme')) {
+      const t = e.matches ? 'dark' : 'light';
+      html.setAttribute('data-theme', t);
+      btn.textContent = t === 'dark' ? '☀️' : '🌙';
+    }
+  });
+</script>
+</body>
+</html>

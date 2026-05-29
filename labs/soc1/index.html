@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+  <meta name="description" content="TryHackMe SOC Level 1 pathway study notes — 14 sections covering blue team operations, SIEM, phishing analysis, network and web security monitoring, malware, and threat intelligence.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="SOC Level 1 – Aden's Study Portal">
+  <meta property="og:description" content="TryHackMe SOC Level 1 pathway study notes — 14 sections covering blue team operations, SIEM, phishing analysis, network and web security monitoring, malware, and threat intelligence.">
+  <meta property="og:url" content="https://adengfx.github.io/cybersecurity-study-portal/labs/soc1/">
+  <meta property="og:site_name" content="Aden's Study Portal">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="SOC Level 1 – Aden's Study Portal">
+  <meta name="twitter:description" content="TryHackMe SOC Level 1 pathway study notes — 14 sections covering blue team operations, SIEM, phishing analysis, network and web security monitoring, malware, and threat intelligence.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>SOC Level 1 – Aden's Study Portal</title>
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+    --bg: #0d1117; --surface: #161b22; --surface2: #1c2330; --border: #30363d;
+    --accent: #00e5ff; --accent2: #ff6b35; --accent3: #7ee787; --accent4: #d2a8ff;
+    --text: #e6edf3; --muted: #8b949e; --heading: #f0f6fc;
+  }
+  [data-theme="light"] {
+    --bg: #f6f8fa; --surface: #ffffff; --surface2: #f0f2f5; --border: #d0d7de;
+    --accent: #0077aa; --accent2: #d04a00; --accent3: #1a7f37; --accent4: #6e40c9;
+    --text: #24292f; --muted: #57606a; --heading: #1f2328;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; min-height: 100vh; padding: 2rem 1rem 4rem; transition: background 0.2s, color 0.2s; }
+  .container { max-width: 860px; margin: 0 auto; }
+  .topbar { display: flex; align-items: center; justify-content: space-between; padding-bottom: 1.5rem; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border); }
+  .topbar-back { display: inline-flex; align-items: center; gap: 0.4rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; color: var(--muted); text-decoration: none; letter-spacing: 0.05em; transition: color 0.15s; }
+  .topbar-back:hover { color: var(--accent); }
+  .theme-btn { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; color: var(--muted); cursor: pointer; font-size: 1rem; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; transition: border-color 0.15s, color 0.15s; flex-shrink: 0; }
+  .theme-btn:hover { border-color: var(--accent); color: var(--accent); }
+  header { padding: 2rem 0 2.5rem; border-bottom: 1px solid var(--border); margin-bottom: 2.5rem; }
+  .label { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; letter-spacing: 0.2em; color: var(--accent4); text-transform: uppercase; margin-bottom: 0.6rem; }
+  .platform-tag { font-size: 0.72rem; color: var(--accent2); background: rgba(255,107,53,0.08); border: 1px solid rgba(255,107,53,0.2); border-radius: 4px; padding: 0.1rem 0.5rem; font-family: 'IBM Plex Mono', monospace; }
+  h1 { font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 700; color: var(--heading); letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 0.5rem; }
+  .subtitle { font-size: 0.88rem; color: var(--muted); margin-bottom: 1.5rem; }
+  .cert-banner { background: rgba(210,168,255,0.06); border: 1px solid rgba(210,168,255,0.2); border-radius: 8px; padding: 0.75rem 1rem; display: flex; align-items: center; gap: 0.6rem; font-size: 0.82rem; color: var(--accent4); margin-bottom: 1.5rem; font-family: 'IBM Plex Mono', monospace; }
+  .pathway-stats { display: flex; gap: 2rem; flex-wrap: wrap; }
+  .pstat-num { font-family: 'IBM Plex Mono', monospace; font-size: 1.3rem; font-weight: 600; color: var(--heading); line-height: 1; }
+  .pstat-label { font-size: 0.75rem; color: var(--muted); margin-top: 0.2rem; }
+  .progress-section { margin-bottom: 2.5rem; }
+  .progress-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
+  .progress-title { font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+  .progress-pct { font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem; color: var(--accent4); }
+  .progress-track { height: 6px; background: var(--border); border-radius: 4px; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--accent4); border-radius: 4px; }
+  .module-group { margin-bottom: 0.5rem; margin-top: 2rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); padding-bottom: 0.4rem; border-bottom: 1px solid var(--border); }
+  .module-group:first-of-type { margin-top: 0; }
+  .rooms { display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 1rem; }
+  .room-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+    padding: 1rem 1.25rem; text-decoration: none; color: inherit;
+    display: grid; grid-template-columns: 1fr auto;
+    gap: 0.3rem 1rem; transition: border-color 0.15s, background 0.15s;
+    position: relative; overflow: hidden;
+  }
+  .room-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--accent4); border-radius: 10px 0 0 10px; }
+  .room-card:hover { border-color: var(--accent4); background: var(--surface2); }
+  .room-card.locked { opacity: 0.45; pointer-events: none; }
+  .room-card.locked::before { background: var(--border); }
+  .room-card.scenario::before { background: var(--accent2); }
+  .room-card.scenario:hover { border-color: var(--accent2); }
+  .room-title { font-size: 0.95rem; font-weight: 700; color: var(--heading); grid-column: 1; grid-row: 1; }
+  .room-meta { font-size: 0.8rem; color: var(--muted); grid-column: 1; grid-row: 2; display: flex; gap: 0.6rem; flex-wrap: wrap; align-items: center; }
+  .room-right { grid-column: 2; grid-row: 1 / 3; display: flex; flex-direction: column; align-items: flex-end; justify-content: center; gap: 0.4rem; }
+  .pill { font-family: 'IBM Plex Mono', monospace; font-size: 0.63rem; letter-spacing: 0.08em; padding: 0.18rem 0.5rem; border-radius: 20px; white-space: nowrap; }
+  .pill.complete { background: rgba(126,231,135,0.1); border: 1px solid rgba(126,231,135,0.3); color: var(--accent3); }
+  .pill.in-progress { background: rgba(210,168,255,0.1); border: 1px solid rgba(210,168,255,0.3); color: var(--accent4); }
+  .pill.not-started { background: transparent; border: 1px solid var(--border); color: var(--muted); }
+  .pill.scenario-tag { background: rgba(255,107,53,0.08); border: 1px solid rgba(255,107,53,0.2); color: var(--accent2); }
+  @media (max-width: 480px) {
+    .room-card { grid-template-columns: 1fr; }
+    .room-right { grid-column: 1; grid-row: 3; flex-direction: row; align-items: center; justify-content: flex-start; gap: 0.5rem; }
+    .pathway-stats { gap: 1.25rem; }
+  }
+  footer { border-top: 1px solid var(--border); padding-top: 1.5rem; font-size: 0.78rem; color: var(--muted); font-family: 'IBM Plex Mono', monospace; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-top: 3rem; }
+  footer a { color: var(--accent); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="topbar">
+    <a class="topbar-back" href="../../index.html">← Back to Portal</a>
+    <button class="theme-btn" id="themeBtn" title="Toggle theme">🌙</button>
+  </div>
+  <header>
+    <div class="label">TryHackMe · Lab Pathway</div>
+    <h1>SOC Level 1</h1>
+    <p class="subtitle">The skills needed to work as a SOC Tier 1 analyst — alert triage, SIEM, phishing analysis, network and endpoint monitoring, malware concepts, and threat intelligence. · 14 sections · 55 rooms</p>
+    <div class="cert-banner">🎓 Complete this path to earn a TryHackMe certificate of completion</div>
+    <div class="pathway-stats">
+      <div class="pstat"><div class="pstat-num" id="statDone">—</div><div class="pstat-label">Sections done</div></div>
+      <div class="pstat"><div class="pstat-num" id="statRooms">—</div><div class="pstat-label">Rooms done</div></div>
+      <div class="pstat"><div class="pstat-num">55</div><div class="pstat-label">Total rooms</div></div>
+    </div>
+  </header>
+  <div class="progress-section">
+    <div class="progress-header">
+      <span class="progress-title">Pathway progress</span>
+      <span class="progress-pct" id="progressPct">—</span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="progressFill" style="width: 0%;"></div></div>
+  </div>
+
+  <div class="module-group">Section 1 — Blue Team Introduction</div>
+  <div class="rooms">
+    <div class="room-card locked"><div class="room-title">Junior Security Analyst Intro</div><div class="room-meta"><span>SOC Tier 1 role and responsibilities</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">SOC Role in Blue Team</div><div class="room-meta"><span>How the SOC fits into an organisation</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Humans as Attack Vectors</div><div class="room-meta"><span>Social engineering, phishing, insider threats</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Systems as Attack Vectors</div><div class="room-meta"><span>Vulnerabilities, misconfigurations, attack surface</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+  </div>
+
+  <div class="module-group">Section 2 — SOC Team Internals</div>
+  <div class="rooms">
+    <div class="room-card locked"><div class="room-title">SOC L1 Alert Triage</div><div class="room-meta"><span>Prioritising and classifying alerts</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">SOC L1 Alert Reporting</div><div class="room-meta"><span>Writing escalation reports</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">SOC Workbooks and Lookups</div><div class="room-meta"><span>Runbooks, playbooks, lookup tables</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">SOC Metrics and Objectives</div><div class="room-meta"><span>KPIs, MTTR, MTTD, SLAs</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked scenario"><div class="room-title">Introduction to Phishing</div><div class="room-meta"><span>Scenario</span></div><div class="room-right"><span class="pill scenario-tag">Scenario</span></div></div>
+  </div>
+
+  <div class="module-group">Section 3 — Core SOC Solutions</div>
+  <div class="rooms">
+    <div class="room-card locked"><div class="room-title">Introduction to EDR</div><div class="room-meta"><span>Endpoint detection and response tools</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Introduction to SIEM</div><div class="room-meta"><span>What SIEMs do and how they work</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Splunk: The Basics</div><div class="room-meta"><span>SPL queries, dashboards, alerts</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Elastic Stack: The Basics</div><div class="room-meta"><span>Elasticsearch, Kibana, log ingestion</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Introduction to SOAR</div><div class="room-meta"><span>Security orchestration, automation, response</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+  </div>
+
+  <div class="module-group">Section 4 — Cyber Defence Frameworks</div>
+  <div class="rooms">
+    <div class="room-card locked"><div class="room-title">Pyramid of Pain</div><div class="room-meta"><span>IOC types and attacker friction</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Cyber Kill Chain</div><div class="room-meta"><span>Lockheed Martin's 7-stage attack model</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Unified Kill Chain</div><div class="room-meta"><span>Extended kill chain combining multiple models</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">MITRE</div><div class="room-meta"><span>ATT&CK framework — tactics, techniques, procedures</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Summit</div><div class="room-meta"><span>Applying defence frameworks in practice</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Eviction</div><div class="room-meta"><span>Removing adversary presence from a network</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+  </div>
+
+  <div class="module-group">Section 5 — Phishing Analysis</div>
+  <div class="rooms">
+    <div class="room-card locked"><div class="room-title">Phishing Analysis Fundamentals</div><div class="room-meta"><span>Email headers, spoofing, indicators</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Phishing Emails in Action</div><div class="room-meta"><span>Analysing real phishing samples</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Phishing Analysis Tools</div><div class="room-meta"><span>VirusTotal, URLScan, PhishTool</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Phishing Prevention</div><div class="room-meta"><span>SPF, DKIM, DMARC, email gateways</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">The Greenholt Phish</div><div class="room-meta"><span>Phishing investigation challenge</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Snapped Phish-ing Line</div><div class="room-meta"><span>Phishing campaign investigation</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked scenario"><div class="room-title">Phishing Unfolding</div><div class="room-meta"><span>Scenario</span></div><div class="room-right"><span class="pill scenario-tag">Scenario</span></div></div>
+  </div>
+
+  <div class="module-group">Section 6 — Network Traffic Analysis</div>
+  <div class="rooms">
+    <div class="room-card locked"><div class="room-title">Network Traffic Basics</div><div class="room-meta"><span>Capturing and reading network traffic</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Wireshark: The Basics</div><div class="room-meta"><span>Packet capture and display filters</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Wireshark: Packet Operations</div><div class="room-meta"><span>Statistics, streams, carving</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Wireshark: Traffic Analysis</div><div class="room-meta"><span>Detecting anomalies and attacks</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">NetworkMiner</div><div class="room-meta"><span>Passive network forensics tool</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+  </div>
+
+  <div class="module-group">Section 7 — Network Security Monitoring</div>
+  <div class="rooms">
+    <div class="room-card locked"><div class="room-title">Network Security Essentials</div><div class="room-meta"><span>NSM concepts and workflow</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Network Discovery Detection</div><div class="room-meta"><span>Detecting scanning and enumeration</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Data Exfiltration Detection</div><div class="room-meta"><span>Spotting data leaving the network</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Man-in-the-Middle Detection</div><div class="room-meta"><span>ARP spoofing and MITM indicators</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">IDS Fundamentals</div><div class="room-meta"><span>Intrusion detection systems and signatures</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Snort</div><div class="room-meta"><span>Writing and using Snort rules</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+  </div>
+
+  <div class="module-group">Section 8 — Web Security Monitoring</div>
+  <div class="rooms">
+    <div class="room-card locked"><div class="room-title">Web Security Essentials</div><div class="room-meta"><span>HTTP logs, web attack patterns</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Detecting Web Attacks</div><div class="room-meta"><span>SQLi, XSS, path traversal in logs</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Detecting Web Shells</div><div class="room-meta"><span>Identifying web shell activity</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Detecting Web DDoS</div><div class="room-meta"><span>Volume-based attack detection</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+  </div>
+
+  <div class="module-group">Section 9 — Windows Security Monitoring</div>
+  <div class="rooms">
+    <div class="room-card locked"><div class="room-title">Windows Logging for SOC</div><div class="room-meta"><span>Event IDs, log sources, Sysmon</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Windows Threat Detection 1</div><div class="room-meta"><span>Persistence and privilege escalation</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Windows Threat Detection 2</div><div class="room-meta"><span>Lateral movement and credential access</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Windows Threat Detection 3</div><div class="room-meta"><span>Defence evasion and execution</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+  </div>
+
+  <div class="module-group">Section 10 — Linux Security Monitoring</div>
+  <div class="rooms">
+    <div class="room-card locked"><div class="room-title">Linux Logging for SOC</div><div class="room-meta"><span>Syslog, auth.log, auditd</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Linux Threat Detection 1</div><div class="room-meta"><span>Reconnaissance and initial access</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Linux Threat Detection 2</div><div class="room-meta"><span>Persistence and privilege escalation</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Linux Threat Detection 3</div><div class="room-meta"><span>Lateral movement and exfiltration</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+  </div>
+
+  <div class="module-group">Section 11 — Malware Concepts for SOC</div>
+  <div class="rooms">
+    <div class="room-card locked"><div class="room-title">Malware Classification</div><div class="room-meta"><span>Trojans, worms, ransomware, RATs</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Intro to Malware Analysis</div><div class="room-meta"><span>Static and dynamic analysis basics</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Living Off the Land Attacks</div><div class="room-meta"><span>LOLBins, built-in tool abuse</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Shadow Trace</div><div class="room-meta"><span>Malware investigation challenge</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+  </div>
+
+  <div class="module-group">Section 12 — Threat Analysis Tools</div>
+  <div class="rooms">
+    <div class="room-card locked"><div class="room-title">Intro to Cyber Threat Intel</div><div class="room-meta"><span>CTI concepts, IOCs, threat actors</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">File and Hash Threat Intel</div><div class="room-meta"><span>VirusTotal, MalwareBazaar, hash lookups</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">IP and Domain Threat Intel</div><div class="room-meta"><span>Shodan, AbuseIPDB, URLScan</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Invite Only</div><div class="room-meta"><span>Threat intel investigation challenge</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+  </div>
+
+  <div class="module-group">Section 13 — SIEM Triage for SOC</div>
+  <div class="rooms">
+    <div class="room-card locked"><div class="room-title">Log Analysis with SIEM</div><div class="room-meta"><span>Querying logs to find threats</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Alert Triage With Splunk</div><div class="room-meta"><span>Investigating alerts in Splunk</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Alert Triage With Elastic</div><div class="room-meta"><span>Investigating alerts in Elastic/Kibana</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">ItsyBitsy</div><div class="room-meta"><span>SIEM investigation challenge</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Benign</div><div class="room-meta"><span>False positive analysis challenge</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+  </div>
+
+  <div class="module-group">Section 14 — SOC Level 1 Capstone Challenges</div>
+  <div class="rooms">
+    <div class="room-card locked"><div class="room-title">Tempest</div><div class="room-meta"><span>Full SOC investigation scenario</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Boogeyman 1</div><div class="room-meta"><span>Capstone challenge — part 1</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Boogeyman 2</div><div class="room-meta"><span>Capstone challenge — part 2</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <div class="room-card locked"><div class="room-title">Boogeyman 3</div><div class="room-meta"><span>Capstone challenge — part 3</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+  </div>
+
+  <footer>
+    <span>Aden's Study Portal · SOC Level 1</span>
+    <a href="https://tryhackme.com/path/outline/soclevel1" target="_blank" rel="noopener">View on TryHackMe ↗</a>
+  </footer>
+</div>
+<script>
+  (function() {
+    const all = document.querySelectorAll('.room-card');
+    const done = document.querySelectorAll('.room-card.complete');
+    let sectionsDone = 0;
+    document.querySelectorAll('.module-group').forEach(mg => {
+      let next = mg.nextElementSibling;
+      while (next && next.classList.contains('rooms')) {
+        const total = next.querySelectorAll('.room-card').length;
+        const comp = next.querySelectorAll('.room-card.complete').length;
+        if (total > 0 && comp === total) sectionsDone++;
+        next = next.nextElementSibling;
+      }
+    });
+    document.getElementById('statDone').textContent = sectionsDone;
+    document.getElementById('statRooms').textContent = done.length;
+    const pct = Math.round((done.length / all.length) * 100);
+    document.getElementById('progressPct').textContent = pct + '%';
+    document.getElementById('progressFill').style.width = pct + '%';
+  })();
+  const btn = document.getElementById('themeBtn');
+  const html = document.documentElement;
+  const systemDark = window.matchMedia('(prefers-color-scheme: dark)');
+  const saved = localStorage.getItem('theme');
+  const theme = saved || (systemDark.matches ? 'dark' : 'light');
+  html.setAttribute('data-theme', theme);
+  btn.textContent = theme === 'dark' ? '☀️' : '🌙';
+  btn.addEventListener('click', () => {
+    const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    btn.textContent = next === 'dark' ? '☀️' : '🌙';
+  });
+  systemDark.addEventListener('change', e => {
+    if (!localStorage.getItem('theme')) {
+      const t = e.matches ? 'dark' : 'light';
+      html.setAttribute('data-theme', t);
+      btn.textContent = t === 'dark' ? '☀️' : '🌙';
+    }
+  });
+</script>
+</body>
+</html>
