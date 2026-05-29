@@ -205,16 +205,16 @@
     <p class="header-subtitle">Vibecoded study portal for cybersecurity courses, labs and certifications.</p>
     <div class="stats">
       <div class="stat">
-        <div class="stat-num" id="statCompleted">—</div>
-        <div class="stat-label">Completed</div>
+        <div class="stat-num" id="statA">—</div>
+        <div class="stat-label" id="statALabel">Completed</div>
       </div>
       <div class="stat">
-        <div class="stat-num" id="statBest">—</div>
-        <div class="stat-label">Best Score</div>
+        <div class="stat-num" id="statB">—</div>
+        <div class="stat-label" id="statBLabel">Best Score</div>
       </div>
       <div class="stat">
-        <div class="stat-num" id="statHours">—</div>
-        <div class="stat-label">Study Hours</div>
+        <div class="stat-num" id="statC">—</div>
+        <div class="stat-label" id="statCLabel">Study Hours</div>
       </div>
     </div>
   </header>
@@ -367,8 +367,8 @@
 
 </div>
 <script>
-  // Stats — courses only
-  (function() {
+  // Stats
+  const courseStats = (function() {
     const cards = document.querySelectorAll('#courseList .course-card');
     let completed = 0, bestScore = null, totalMins = 0;
     cards.forEach(card => {
@@ -378,20 +378,47 @@
       const dur = parseInt(card.dataset.duration);
       if (!isNaN(dur)) totalMins += dur;
     });
-    document.getElementById('statCompleted').textContent = completed;
-    document.getElementById('statBest').textContent = bestScore !== null ? bestScore + '%' : 'N/A';
     const h = Math.floor(totalMins / 60), m = totalMins % 60;
-    document.getElementById('statHours').textContent = h + 'h' + (m > 0 ? ' ' + m + 'm' : '');
+    return {
+      a: completed, aLabel: 'Completed',
+      b: bestScore !== null ? bestScore + '%' : 'N/A', bLabel: 'Best Score',
+      c: h + 'h' + (m > 0 ? ' ' + m + 'm' : ''), cLabel: 'Study Hours'
+    };
   })();
 
+  const labStats = (function() {
+    const pathways = document.querySelectorAll('#tab-labs .roadmap-step').length;
+    // Total rooms across all pathways (31 + 47 + 55)
+    const totalRooms = 133;
+    return {
+      a: pathways, aLabel: 'Pathways',
+      b: 0, bLabel: 'Rooms Done',
+      c: totalRooms, cLabel: 'Total Rooms'
+    };
+  })();
+
+  function setStats(s) {
+    document.getElementById('statA').textContent = s.a;
+    document.getElementById('statALabel').textContent = s.aLabel;
+    document.getElementById('statB').textContent = s.b;
+    document.getElementById('statBLabel').textContent = s.bLabel;
+    document.getElementById('statC').textContent = s.c;
+    document.getElementById('statCLabel').textContent = s.cLabel;
+  }
+
   // Section tabs
+  const savedTab = sessionStorage.getItem('activeTab') || 'courses';
+  function activateTab(tabName) {
+    document.querySelectorAll('.section-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.querySelector(`.section-tab[data-tab="${tabName}"]`).classList.add('active');
+    document.getElementById('tab-' + tabName).classList.add('active');
+    setStats(tabName === 'labs' ? labStats : courseStats);
+    sessionStorage.setItem('activeTab', tabName);
+  }
+  activateTab(savedTab);
   document.querySelectorAll('.section-tab').forEach(tab => {
-    tab.addEventListener('click', () => {
-      document.querySelectorAll('.section-tab').forEach(t => t.classList.remove('active'));
-      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-      tab.classList.add('active');
-      document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
-    });
+    tab.addEventListener('click', () => activateTab(tab.dataset.tab));
   });
 
   // Theme
