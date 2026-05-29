@@ -386,16 +386,11 @@
     };
   })();
 
-  const labStats = (function() {
-    const pathways = document.querySelectorAll('#tab-labs .roadmap-step').length;
-    // Total rooms across all pathways (31 + 47 + 55)
-    const totalRooms = 133;
-    return {
-      a: pathways, aLabel: 'Pathways',
-      b: 0, bLabel: 'Rooms Done',
-      c: totalRooms, cLabel: 'Total Rooms'
-    };
-  })();
+  const labStats = {
+    a: 3, aLabel: 'Pathways',
+    b: 0, bLabel: 'Rooms Done',
+    c: 133, cLabel: 'Total Rooms'
+  };
 
   function setStats(s) {
     document.getElementById('statA').textContent = s.a;
@@ -416,10 +411,13 @@
     setStats(tabName === 'labs' ? labStats : courseStats);
     sessionStorage.setItem('activeTab', tabName);
   }
-  activateTab(savedTab);
   document.querySelectorAll('.section-tab').forEach(tab => {
     tab.addEventListener('click', () => activateTab(tab.dataset.tab));
   });
+  // Run after DOM is fully ready to ensure stats render correctly
+  window.addEventListener('DOMContentLoaded', () => activateTab(savedTab));
+  // Fallback in case DOMContentLoaded already fired
+  if (document.readyState !== 'loading') activateTab(savedTab);
 
   // Theme
   const btn = document.getElementById('themeBtn');
