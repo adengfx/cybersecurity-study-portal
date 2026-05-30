@@ -2,10 +2,10 @@
 <html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
-<meta name="description" content="Task completion record for Extending Your Network — TryHackMe Pre-Security pathway.">
+<meta name="description" content="Room notes for Extending Your Network — TryHackMe Pre-Security pathway.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Extending Your Network – Aden's Study Portal">
-<meta property="og:description" content="Task completion record for Extending Your Network — TryHackMe Pre-Security pathway.">
+<meta property="og:description" content="Room notes for Extending Your Network — TryHackMe Pre-Security pathway.">
 <meta property="og:url" content="https://adengfx.github.io/cybersecurity-study-portal/labs/presecurity/extending-your-network.html">
 <meta property="og:site_name" content="Aden's Study Portal">
 <meta name="twitter:card" content="summary">
@@ -69,17 +69,20 @@
 
   .task-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; margin-bottom: 1.25rem; }
   .task-title { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent2); margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
-  .task-desc { font-size: 0.9rem; color: var(--muted); margin-bottom: 1rem; line-height: 1.6; }
+  .task-notes { margin-bottom: 1.25rem; }
+  .qa-divider { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.75rem; padding-top: 0.75rem; border-top: 1px solid var(--border); }
   .qa-list { list-style: none; padding: 0; }
-  .qa-item { padding: 0.6rem 0; border-bottom: 1px solid rgba(48,54,61,0.5); }
+  .qa-item { padding: 0.55rem 0; border-bottom: 1px solid rgba(48,54,61,0.5); }
   .qa-item:last-child { border-bottom: none; }
-  .qa-q { font-size: 0.88rem; color: var(--text); margin-bottom: 0.25rem; }
-  .qa-a { font-family: 'IBM Plex Mono', monospace; font-size: 0.82rem; color: var(--accent3); }
+  .qa-q { font-size: 0.87rem; color: var(--text); margin-bottom: 0.2rem; }
+  .qa-a { font-family: 'IBM Plex Mono', monospace; font-size: 0.81rem; color: var(--accent3); }
   .flag-pill { display: inline-block; font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem; background: rgba(126,231,135,0.08); border: 1px solid rgba(126,231,135,0.25); color: var(--accent3); border-radius: 4px; padding: 0.15rem 0.5rem; }
   .practical-note { font-size: 0.85rem; color: var(--muted); background: var(--surface2); border-radius: 6px; padding: 0.75rem 1rem; margin-bottom: 0.75rem; border-left: 3px solid var(--accent2); }
   .log-block { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 1rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; color: var(--muted); line-height: 1.8; margin: 0.75rem 0; }
   .room-img { width: 100%; max-width: 100%; height: auto; border-radius: 6px; border: 1px solid var(--border); margin-top: 0.75rem; margin-bottom: 0.25rem; display: block; object-fit: contain; }
   .img-caption { font-size: 0.75rem; color: var(--muted); text-align: center; margin-bottom: 0.75rem; font-family: 'IBM Plex Mono', monospace; }
+  .section h3 { font-size: 1rem; font-weight: 700; color: var(--accent); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+  .section h3::before { content: ''; display: inline-block; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; flex-shrink: 0; }
 </style>
 </head>
 <body>
@@ -104,11 +107,18 @@
 
   <div class="task-block">
     <div class="task-title">Task 1 — Introduction to Port Forwarding</div>
-    <p class="task-desc">Port forwarding is essential for connecting applications and services to the internet. Without it, servers are only accessible within the same local network (intranet). Port forwarding opens specific ports on a router so external traffic can reach internal servers. Different from firewalls — port forwarding opens ports, firewalls determine if traffic can travel across them.</p>
-    <img src="images/image30.png" alt="Intranet only" class="room-img">
-    <p class="img-caption">Without port forwarding — server accessible to local network only</p>
-    <img src="images/image31.png" alt="Port forwarding public" class="room-img">
-    <p class="img-caption">With port forwarding — server accessible from the internet</p>
+    <div class="task-notes">
+      <ul class="notes">
+        <li><strong>Port forwarding</strong> is an essential component for connecting applications and services to the internet. Without it, web servers and other services are only accessible to devices within the same local network — this internal-only access is known as an <strong>intranet</strong>.</li>
+        <li>If an admin wants a service to be publicly accessible, they must implement port forwarding. This opens specific ports on the router, allowing external traffic from the internet to reach the internal server.</li>
+        <li>Port forwarding is easy to confuse with firewall behaviour. Port forwarding <strong>opens specific ports</strong>; firewalls <strong>determine whether traffic is permitted</strong> to travel across those ports. Even if ports are opened via port forwarding, a firewall can still block traffic on them.</li>
+      </ul>
+      <img src="images/image30.png" alt="Intranet only" class="room-img">
+      <p class="img-caption">Without port forwarding — web server accessible to local network only (intranet)</p>
+      <img src="images/image31.png" alt="Port forwarding public access" class="room-img">
+      <p class="img-caption">With port forwarding — web server accessible from the public internet</p>
+    </div>
+    <div class="qa-divider">Answer the questions below</div>
     <ul class="qa-list">
       <li class="qa-item"><div class="qa-q">What is the name used to describe the internal network accessible within a company?</div><div class="qa-a">Intranet</div></li>
     </ul>
@@ -116,7 +126,16 @@
 
   <div class="task-block">
     <div class="task-title">Task 2 — Firewalls 101</div>
-    <p class="task-desc">A firewall determines what traffic is allowed to enter or exit a network — like border security. Rules can be based on: source network, destination network, destination port, and protocol (TCP/UDP/both). Firewalls perform packet inspection. Two primary categories: Stateful (uses entire connection context, dynamic decisions, resource-intensive — blocks entire device if connection is bad) and Stateless (uses static rules on individual packets, less resource-intensive but less intelligent — only as good as rules defined, useful against DDoS).</p>
+    <div class="task-notes">
+      <ul class="notes">
+        <li>A <strong>firewall</strong> is a device within a network responsible for determining what traffic is allowed to enter or exit — think of it as border security for a network.</li>
+        <li>An admin can configure a firewall to permit or deny traffic based on: where traffic is coming from, where it is going, which port it is destined for, and which protocol (TCP, UDP, or both) it uses. Firewalls perform <strong>packet inspection</strong> to determine answers to these questions.</li>
+        <li>Firewalls come in all shapes and sizes — from dedicated hardware appliances in large enterprise networks to software-based firewalls like Snort on a home system.</li>
+        <li><strong>Stateful firewall:</strong> Uses the entire connection context (not just individual packets) to make dynamic decisions about whether traffic is acceptable. More resource-intensive but more intelligent — for example, if a connection from a host is determined to be bad, the entire device can be blocked. Can allow the early stages of a TCP handshake that later fails.</li>
+        <li><strong>Stateless firewall:</strong> Applies a static set of rules to evaluate individual packets in isolation. A device sending one bad packet will not necessarily mean the entire device is blocked. Much less resource-intensive but less intelligent — only as effective as the rules defined. Particularly useful against large volumes of traffic from a fixed set of hosts, such as a Distributed Denial of Service (DDoS) attack.</li>
+      </ul>
+    </div>
+    <div class="qa-divider">Answer the questions below</div>
     <ul class="qa-list">
       <li class="qa-item"><div class="qa-q">What is the technical term for the type of firewall that inspects the entire connection?</div><div class="qa-a">Stateful</div></li>
       <li class="qa-item"><div class="qa-q">What is the technical term for the type of firewall that inspects individual packets?</div><div class="qa-a">Stateless</div></li>
@@ -125,7 +144,13 @@
 
   <div class="task-block">
     <div class="task-title">Task 3 — Practical: Firewall</div>
-    <p class="task-desc">Opened a static site showing 198.51.100.34 sending malicious traffic to web server 203.0.110.1 on port 80. Configured the firewall to block the malicious packets from reaching the web server.</p>
+    <div class="task-notes">
+      <ul class="notes">
+        <li>Opened a static site showing a network scenario where <strong>198.51.100.34</strong> was sending malicious traffic to web server <strong>203.0.110.1</strong> on port 80.</li>
+        <li>Task required configuring the firewall rules to block all malicious packets from reaching the web server — dropping traffic from the attacker's IP on the relevant port.</li>
+      </ul>
+    </div>
+    <div class="qa-divider">Answer the questions below</div>
     <ul class="qa-list">
       <li class="qa-item"><div class="qa-q">What is the flag given after successfully dropping all the packets from the target IP address?</div><div class="qa-a"><span class="flag-pill">THM{FIREWALLS_RULE}</span></div></li>
     </ul>
@@ -133,9 +158,19 @@
 
   <div class="task-block">
     <div class="task-title">Task 4 — VPN Basics</div>
-    <p class="task-desc">A VPN allows devices on separate networks to communicate securely via a dedicated encrypted tunnel. Devices remain part of their original networks but also form a private network together. Benefits: geographical connectivity, privacy (encryption), anonymity. VPN technologies: PPP (authentication and encryption, non-routable), PPTP (allows PPP data to leave network, easy to set up but weakly encrypted), IPSec (encrypts using IP framework, difficult to set up but strongly encrypted and widely supported).</p>
-    <img src="images/image34.png" alt="VPN diagram" class="room-img">
-    <p class="img-caption">VPN connecting two separate office networks</p>
+    <div class="task-notes">
+      <ul class="notes">
+        <li>A <strong>VPN (Virtual Private Network)</strong> is a technology that allows devices on separate, geographically different networks to communicate securely by creating a dedicated encrypted path between them — known as a <strong>tunnel</strong>. Devices connected through this tunnel form their own private network.</li>
+        <li>For example, two offices in different cities can be connected via VPN so that resources like servers and infrastructure can be accessed from either location as if they were on the same LAN.</li>
+        <li>VPN benefits: <strong>connectivity</strong> (geographically separate networks can communicate), <strong>privacy</strong> (encryption protects data in transit — useful on public Wi-Fi), <strong>anonymity</strong> (journalists and activists depend on VPNs to safely report in countries with restricted freedom of speech).</li>
+        <li><strong>PPP:</strong> Technology used by PPTP to allow authentication and encrypt data. Uses a private key and public certificate (similar to SSH). Not capable of leaving a network by itself (non-routable).</li>
+        <li><strong>PPTP (Point-to-Point Tunneling Protocol):</strong> Allows PPP data to travel and leave a network. Very easy to set up and supported by most devices, but weakly encrypted compared to alternatives.</li>
+        <li><strong>IPSec (Internet Protocol Security):</strong> Encrypts data using the existing IP framework. Difficult to set up but provides strong encryption and is supported on many devices.</li>
+      </ul>
+      <img src="images/image34.png" alt="VPN three networks" class="room-img">
+      <p class="img-caption">VPN creating a private tunnel between two separate office networks</p>
+    </div>
+    <div class="qa-divider">Answer the questions below</div>
     <ul class="qa-list">
       <li class="qa-item"><div class="qa-q">What VPN technology only encrypts and provides the authentication of data?</div><div class="qa-a">PPP</div></li>
       <li class="qa-item"><div class="qa-q">What VPN technology uses the IP framework?</div><div class="qa-a">IPSec</div></li>
@@ -144,13 +179,22 @@
 
   <div class="task-block">
     <div class="task-title">Task 5 — LAN Networking Devices</div>
-    <p class="task-desc">Routers connect networks and pass data between them (routing). Operate at Layer 3 of OSI. Often have admin interfaces for configuring port forwarding and firewalling. Routing protocols choose the best path based on: shortest path, reliability, connection speed (copper vs fibre). Switches: Layer 2 switches forward frames by MAC address only. Layer 3 switches can also route packets using IP — these are exclusive (a Layer 2 switch cannot operate at Layer 3). VLAN (Virtual Local Area Network) — virtually splits devices into separate segments for security. Example: Sales and Accounts can both access the internet but cannot communicate directly with each other.</p>
-    <img src="images/image35.png" alt="Router paths" class="room-img">
-    <p class="img-caption">Router selecting optimal path between networks</p>
-    <img src="images/image36.png" alt="Layer 2 switch" class="room-img">
-    <p class="img-caption">Layer 2 switch — forwards frames by MAC address</p>
-    <img src="images/image37.png" alt="VLAN diagram" class="room-img">
-    <p class="img-caption">VLAN segregation — departments on separate virtual networks</p>
+    <div class="task-notes">
+      <ul class="notes">
+        <li>A <strong>router's</strong> job is to connect networks and pass data between them — this is called routing. Routers operate at <strong>Layer 3 of the OSI model</strong> and often feature an admin interface (web or console) for configuring port forwarding and firewall rules. When devices are connected by multiple paths, routing protocols decide which path to use based on: shortest path, reliability, and physical connection speed (copper vs fibre).</li>
+        <li>A <strong>switch</strong> is a dedicated networking device responsible for connecting multiple devices using ethernet. Switches can operate at either Layer 2 or Layer 3 of the OSI model — these are <strong>exclusive</strong>; a Layer 2 switch cannot also operate at Layer 3.</li>
+        <li><strong>Layer 2 switch:</strong> Forwards frames to the correct device using MAC addresses. Solely responsible for getting the frame to the right device on the same network — cannot route between networks.</li>
+        <li><strong>Layer 3 switch:</strong> More sophisticated — can perform some routing responsibilities in addition to switching. Can forward frames (as Layer 2 does) and also route packets between networks using IP.</li>
+        <li><strong>VLAN (Virtual Local Area Network):</strong> Allows specific devices within a network to be virtually split into separate segments, even if they are physically connected to the same switch. Each segment is treated as its own network with its own rules — providing security through isolation. Example: a Sales department and an Accounts department can both access the internet via the same switch but cannot communicate directly with each other.</li>
+      </ul>
+      <img src="images/image35.png" alt="Router paths" class="room-img">
+      <p class="img-caption">Router selecting the most optimal path between networks</p>
+      <img src="images/image36.png" alt="Layer 2 switch" class="room-img">
+      <p class="img-caption">Layer 2 switch — forwarding frames to the correct device using MAC addresses</p>
+      <img src="images/image37.png" alt="VLAN diagram" class="room-img">
+      <p class="img-caption">VLAN — Sales and Accounts departments isolated on separate virtual networks</p>
+    </div>
+    <div class="qa-divider">Answer the questions below</div>
     <ul class="qa-list">
       <li class="qa-item"><div class="qa-q">What is the verb for the action that a router does?</div><div class="qa-a">Routing</div></li>
       <li class="qa-item"><div class="qa-q">What are the two different layers of switches? Separate by a comma.</div><div class="qa-a">Layer 2, Layer 3</div></li>
@@ -159,8 +203,11 @@
 
   <div class="task-block">
     <div class="task-title">Task 6 — Practical: Network Simulator</div>
-    <p class="task-desc">Opened the network simulator and sent a TCP packet from Computer 1 to Computer 3. Counted the handshake entries in the network log.</p>
-    <div class="log-block">HANDSHAKE: Starting TCP/IP Handshake between computer1 and computer3
+    <div class="task-notes">
+      <ul class="notes">
+        <li>Opened the network simulator attached to the task. Sent a TCP packet from Computer 1 to Computer 3 and observed the network log to see how the data travels — including the TCP handshake, ARP requests between devices and the router, and the final packet delivery.</li>
+      </ul>
+      <div class="log-block">HANDSHAKE: Starting TCP/IP Handshake between computer1 and computer3
 HANDSHAKE: Sending SYN Packet from computer1 to computer3
 ROUTING: computer1 says computer3 is not on my local network sending to gateway: router
 ARP REQUEST: Who has router tell computer1
@@ -172,6 +219,8 @@ HANDSHAKE: computer1 received SYN/ACK Packet from computer3, sending ACK packet 
 HANDSHAKE: computer3 received ACK packet from computer1, Handshake Complete
 TCP: Sending TCP packet from computer1 to computer3
 TCP: computer3 received TCP Packet from computer1, sending ACK Packet to computer1</div>
+    </div>
+    <div class="qa-divider">Answer the questions below</div>
     <ul class="qa-list">
       <li class="qa-item"><div class="qa-q">How many HANDSHAKE entries are there in the network log?</div><div class="qa-a">5</div></li>
       <li class="qa-item"><div class="qa-q">What is the flag given after successfully performing the simulation?</div><div class="qa-a"><span class="flag-pill">THM{PACKET_STAR}</span></div></li>
@@ -183,20 +232,19 @@ TCP: computer3 received TCP Packet from computer1, sending ACK Packet to compute
   </div>
   <footer>Aden's Study Portal · TryHackMe Pre-Security</footer>
 </div>
-
 <script>
-  const btn = document.getElementById('themeBtn');
-  const html = document.documentElement;
-  const sys = window.matchMedia('(prefers-color-scheme: dark)');
-  const saved = localStorage.getItem('theme');
-  const t = saved || (sys.matches ? 'dark' : 'light');
-  html.setAttribute('data-theme', t);
-  btn.textContent = t === 'dark' ? '☀️' : '🌙';
-  btn.addEventListener('click', () => {
-    const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-    html.setAttribute('data-theme', next);
-    localStorage.setItem('theme', next);
-    btn.textContent = next === 'dark' ? '☀️' : '🌙';
+  const btn=document.getElementById('themeBtn');
+  const html=document.documentElement;
+  const sys=window.matchMedia('(prefers-color-scheme: dark)');
+  const saved=localStorage.getItem('theme');
+  const t=saved||(sys.matches?'dark':'light');
+  html.setAttribute('data-theme',t);
+  btn.textContent=t==='dark'?'☀️':'🌙';
+  btn.addEventListener('click',()=>{
+    const next=html.getAttribute('data-theme')==='dark'?'light':'dark';
+    html.setAttribute('data-theme',next);
+    localStorage.setItem('theme',next);
+    btn.textContent=next==='dark'?'☀️':'🌙';
   });
 </script>
 </body>

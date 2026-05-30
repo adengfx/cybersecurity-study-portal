@@ -2,10 +2,10 @@
 <html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
-<meta name="description" content="Task completion record for OSI Model — TryHackMe Pre-Security pathway.">
+<meta name="description" content="Room notes for OSI Model — TryHackMe Pre-Security pathway.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="OSI Model – Aden's Study Portal">
-<meta property="og:description" content="Task completion record for OSI Model — TryHackMe Pre-Security pathway.">
+<meta property="og:description" content="Room notes for OSI Model — TryHackMe Pre-Security pathway.">
 <meta property="og:url" content="https://adengfx.github.io/cybersecurity-study-portal/labs/presecurity/osi-model.html">
 <meta property="og:site_name" content="Aden's Study Portal">
 <meta name="twitter:card" content="summary">
@@ -69,17 +69,20 @@
 
   .task-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; margin-bottom: 1.25rem; }
   .task-title { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent2); margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
-  .task-desc { font-size: 0.9rem; color: var(--muted); margin-bottom: 1rem; line-height: 1.6; }
+  .task-notes { margin-bottom: 1.25rem; }
+  .qa-divider { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.75rem; padding-top: 0.75rem; border-top: 1px solid var(--border); }
   .qa-list { list-style: none; padding: 0; }
-  .qa-item { padding: 0.6rem 0; border-bottom: 1px solid rgba(48,54,61,0.5); }
+  .qa-item { padding: 0.55rem 0; border-bottom: 1px solid rgba(48,54,61,0.5); }
   .qa-item:last-child { border-bottom: none; }
-  .qa-q { font-size: 0.88rem; color: var(--text); margin-bottom: 0.25rem; }
-  .qa-a { font-family: 'IBM Plex Mono', monospace; font-size: 0.82rem; color: var(--accent3); }
+  .qa-q { font-size: 0.87rem; color: var(--text); margin-bottom: 0.2rem; }
+  .qa-a { font-family: 'IBM Plex Mono', monospace; font-size: 0.81rem; color: var(--accent3); }
   .flag-pill { display: inline-block; font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem; background: rgba(126,231,135,0.08); border: 1px solid rgba(126,231,135,0.25); color: var(--accent3); border-radius: 4px; padding: 0.15rem 0.5rem; }
   .practical-note { font-size: 0.85rem; color: var(--muted); background: var(--surface2); border-radius: 6px; padding: 0.75rem 1rem; margin-bottom: 0.75rem; border-left: 3px solid var(--accent2); }
   .log-block { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 1rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; color: var(--muted); line-height: 1.8; margin: 0.75rem 0; }
   .room-img { width: 100%; max-width: 100%; height: auto; border-radius: 6px; border: 1px solid var(--border); margin-top: 0.75rem; margin-bottom: 0.25rem; display: block; object-fit: contain; }
   .img-caption { font-size: 0.75rem; color: var(--muted); text-align: center; margin-bottom: 0.75rem; font-family: 'IBM Plex Mono', monospace; }
+  .section h3 { font-size: 1rem; font-weight: 700; color: var(--accent); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+  .section h3::before { content: ''; display: inline-block; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; flex-shrink: 0; }
 </style>
 </head>
 <body>
@@ -104,9 +107,16 @@
 
   <div class="task-block">
     <div class="task-title">Task 1 — What is the OSI Model?</div>
-    <p class="task-desc">The OSI (Open Systems Interconnection) model is a critical framework that dictates how all networking devices send, receive, and interpret data. Devices with different functions and designs can still communicate because they follow the same model. Consists of seven layers (Layer 7 to Layer 1). At each layer, specific information is added to data — this process is called encapsulation.</p>
-    <img src="images/image23.png" alt="OSI model" class="room-img">
-    <p class="img-caption">The seven layers of the OSI model</p>
+    <div class="task-notes">
+      <ul class="notes">
+        <li>The <strong>OSI (Open Systems Interconnection) Model</strong> is a critical framework used in networking. It provides a standardised model that dictates how all networking devices send, receive, and interpret data.</li>
+        <li>One of its key benefits is that devices with different functions and designs can still communicate with each other on the same network — because they all follow the same model.</li>
+        <li>The OSI model consists of <strong>seven layers</strong>, arranged from Layer 7 down to Layer 1. At every individual layer, specific processes take place and specific pieces of information are added to the data being transmitted. This process of adding information at each layer is called <strong>encapsulation</strong>.</li>
+      </ul>
+      <img src="images/image23.png" alt="OSI model diagram" class="room-img">
+      <p class="img-caption">The seven layers of the OSI model</p>
+    </div>
+    <div class="qa-divider">Answer the questions below</div>
     <ul class="qa-list">
       <li class="qa-item"><div class="qa-q">What does the "OSI" in "OSI Model" stand for?</div><div class="qa-a">Open Systems Interconnection</div></li>
       <li class="qa-item"><div class="qa-q">How many layers does the OSI model have?</div><div class="qa-a">7</div></li>
@@ -116,7 +126,14 @@
 
   <div class="task-block">
     <div class="task-title">Task 2 — Layer 1: Physical</div>
-    <p class="task-desc">The Physical layer references the physical hardware components used in networking. Devices transfer data via electrical signals in binary (1s and 0s). Ethernet cables connect devices at this layer.</p>
+    <div class="task-notes">
+      <ul class="notes">
+        <li>The Physical layer is one of the easiest to grasp. It references the physical hardware components used in networking — the lowest layer of the model.</li>
+        <li>Devices at this layer transfer data between each other using <strong>electrical signals</strong> in a binary numbering system (1s and 0s).</li>
+        <li>Physical examples include ethernet cables that connect devices together.</li>
+      </ul>
+    </div>
+    <div class="qa-divider">Answer the questions below</div>
     <ul class="qa-list">
       <li class="qa-item"><div class="qa-q">What is the name of this layer?</div><div class="qa-a">Physical</div></li>
       <li class="qa-item"><div class="qa-q">What is the name of the numbering system that is both 0s and 1s?</div><div class="qa-a">Binary</div></li>
@@ -126,7 +143,14 @@
 
   <div class="task-block">
     <div class="task-title">Task 3 — Layer 2: Data Link</div>
-    <p class="task-desc">The Data Link layer focuses on physical addressing. It receives packets from the Network layer and adds the physical MAC address of the receiving endpoint. Every network-enabled device has a Network Interface Card (NIC) with a unique MAC address set by the manufacturer — literally burnt into the card (cannot be changed but can be spoofed). Also presents data in a format suitable for transmission.</p>
+    <div class="task-notes">
+      <ul class="notes">
+        <li>The Data Link layer focuses on <strong>physical addressing</strong> of transmission. It receives a packet from the Network layer (which includes the IP address of the remote computer) and adds the <strong>physical MAC address</strong> of the receiving endpoint.</li>
+        <li>Inside every network-enabled device is a <strong>Network Interface Card (NIC)</strong> — a piece of hardware that comes with a unique MAC address assigned by the manufacturer. This address is literally burnt into the card and cannot be permanently changed (though it can be spoofed).</li>
+        <li>When information is sent across a network, it is the physical MAC address that is used to identify exactly where to deliver it. The Data Link layer is also responsible for presenting data in a format suitable for transmission.</li>
+      </ul>
+    </div>
+    <div class="qa-divider">Answer the questions below</div>
     <ul class="qa-list">
       <li class="qa-item"><div class="qa-q">What is the name of this layer?</div><div class="qa-a">Data Link</div></li>
       <li class="qa-item"><div class="qa-q">What is the name of the piece of hardware that all networked devices come with?</div><div class="qa-a">Network Interface Card</div></li>
@@ -135,9 +159,16 @@
 
   <div class="task-block">
     <div class="task-title">Task 4 — Layer 3: Network</div>
-    <p class="task-desc">The Network layer is where routing and reassembly of data takes place. Routing determines the most optimal path based on: shortest path, reliability, and physical connection speed (copper vs fibre). Protocols: OSPF (Open Shortest Path First) and RIP (Routing Information Protocol). Everything dealt with via IP addresses. Routers are Layer 3 devices.</p>
-    <img src="images/image19.png" alt="Network layer routing" class="room-img">
-    <p class="img-caption">Routing — finding the most optimal path</p>
+    <div class="task-notes">
+      <ul class="notes">
+        <li>The Network layer is where the magic of <strong>routing and reassembly</strong> of data takes place. Routing determines the most optimal path for data chunks to travel to reach their destination.</li>
+        <li>Protocols at this layer handle path selection: <span class="term">OSPF</span> (Open Shortest Path First) and <span class="term">RIP</span> (Routing Information Protocol). The factors that determine the chosen route are: which path is shortest (fewest devices to traverse), which path is most reliable (have packets been lost on it before), and which path has the fastest physical connection (copper is slower, fibre is considerably faster).</li>
+        <li>Everything at this layer is dealt with via <strong>IP addresses</strong>. Devices capable of delivering packets using the Network layer — such as routers — are known as <strong>Layer 3 devices</strong>.</li>
+      </ul>
+      <img src="images/image19.png" alt="Network layer routing" class="room-img">
+      <p class="img-caption">Layer 3 routing — finding the most optimal path across the network</p>
+    </div>
+    <div class="qa-divider">Answer the questions below</div>
     <ul class="qa-list">
       <li class="qa-item"><div class="qa-q">What is the name of this layer?</div><div class="qa-a">Network</div></li>
       <li class="qa-item"><div class="qa-q">Will packets take the most optimal route across a network? (Y/N)</div><div class="qa-a">Y</div></li>
@@ -149,11 +180,18 @@
 
   <div class="task-block">
     <div class="task-title">Task 5 — Layer 4: Transport</div>
-    <p class="task-desc">The Transport layer transmits data using TCP or UDP. TCP is reliable and connection-based — reserves a constant connection, performs error checking, guarantees accuracy. Used for file sharing, browsing, email. Slower than UDP. UDP is stateless — no connection reserved, no error checking, no guarantee of delivery. Faster. Used for video streaming, ARP, DHCP, voice chat.</p>
-    <img src="images/image24.png" alt="TCP" class="room-img">
-    <p class="img-caption">TCP — reliable but slower</p>
-    <img src="images/image25.png" alt="UDP" class="room-img">
-    <p class="img-caption">UDP — fast but no delivery guarantee</p>
+    <div class="task-notes">
+      <ul class="notes">
+        <li>The Transport layer plays a vital part in transmitting data across a network. When data is sent between devices it follows either <strong>TCP</strong> or <strong>UDP</strong>.</li>
+        <li><strong>TCP (Transmission Control Protocol)</strong> is designed with reliability and guarantee in mind. It reserves a constant connection between two devices for the duration of the transfer and incorporates error checking — ensuring data sent in small chunks from the Session layer has been received and reassembled in the correct order. Advantages: guarantees accuracy of data, capable of synchronising between devices to prevent flooding. Disadvantage: significantly slower than UDP due to the additional processing involved. Used for file sharing, internet browsing, and sending email — situations where data must be accurate and complete.</li>
+        <li><strong>UDP (User Datagram Protocol)</strong> is not nearly as advanced. Any data sent via UDP is sent regardless of whether it arrives — there is no synchronisation, no error checking, and no guarantee. Advantages: much faster than TCP, leaves the application layer to decide pacing, does not reserve a continuous connection. Disadvantage: doesn't care if data is received, meaning unstable connections result in a poor user experience. UDP is useful for video streaming (where a few pixelated frames are acceptable) and for protocols like ARP and DHCP.</li>
+      </ul>
+      <img src="images/image24.png" alt="TCP" class="room-img">
+      <p class="img-caption">TCP — reliable and connection-based but slower</p>
+      <img src="images/image25.png" alt="UDP" class="room-img">
+      <p class="img-caption">UDP — fast and stateless but no delivery guarantee</p>
+    </div>
+    <div class="qa-divider">Answer the questions below</div>
     <ul class="qa-list">
       <li class="qa-item"><div class="qa-q">What is the name of this layer?</div><div class="qa-a">Transport</div></li>
       <li class="qa-item"><div class="qa-q">What does TCP stand for?</div><div class="qa-a">Transmission Control Protocol</div></li>
@@ -168,7 +206,15 @@
 
   <div class="task-block">
     <div class="task-title">Task 6 — Layer 5: Session</div>
-    <p class="task-desc">The Session layer creates and maintains connections to other devices. Once a connection is established, a session is created and remains active while the connection is active. Sessions can contain checkpoints — if data is lost, only the newest pieces need re-sending, saving bandwidth. Sessions are unique; data cannot travel across different sessions.</p>
+    <div class="task-notes">
+      <ul class="notes">
+        <li>Once data has been correctly translated and formatted from the Presentation layer, the Session layer begins to create and maintain a connection to the destination device.</li>
+        <li>Once a connection is established, a <strong>session</strong> is created — and it remains active for as long as the connection is active. The Session layer is also responsible for closing connections that have been lost or left idle.</li>
+        <li>Sessions can contain <strong>checkpoints</strong> — if data is lost partway through, only the most recent pieces need to be re-sent rather than starting over, which saves bandwidth.</li>
+        <li>Sessions are unique — data cannot travel across different sessions, only within its own.</li>
+      </ul>
+    </div>
+    <div class="qa-divider">Answer the questions below</div>
     <ul class="qa-list">
       <li class="qa-item"><div class="qa-q">What is the name of this layer?</div><div class="qa-a">Session</div></li>
       <li class="qa-item"><div class="qa-q">What is the technical term for when a connection is successfully established?</div><div class="qa-a">Session</div></li>
@@ -177,7 +223,14 @@
 
   <div class="task-block">
     <div class="task-title">Task 7 — Layer 6: Presentation</div>
-    <p class="task-desc">The Presentation layer is where standardisation begins. Acts as a translator between the Application layer and the rest of the model — ensures data sent in one format can be understood by a device using another format. Security features such as data encryption (e.g. HTTPS) occur at this layer.</p>
+    <div class="task-notes">
+      <ul class="notes">
+        <li>The Presentation layer is where standardisation begins. Software can be developed in many different ways, but data ultimately needs to be handled in a consistent way — this layer acts as a <strong>translator</strong> between the Application layer and the rest of the model.</li>
+        <li>It ensures that data sent from one software format can be understood by a receiving device using a different format — for example, data sent across different email clients.</li>
+        <li>Security features such as <strong>data encryption</strong> (e.g. HTTPS) occur at the Presentation layer.</li>
+      </ul>
+    </div>
+    <div class="qa-divider">Answer the questions below</div>
     <ul class="qa-list">
       <li class="qa-item"><div class="qa-q">What is the name of this layer?</div><div class="qa-a">Presentation</div></li>
       <li class="qa-item"><div class="qa-q">What is the main purpose that this layer acts as?</div><div class="qa-a">Translator</div></li>
@@ -186,7 +239,14 @@
 
   <div class="task-block">
     <div class="task-title">Task 8 — Layer 7: Application</div>
-    <p class="task-desc">The Application layer is where protocols and rules determine how users interact with data sent and received. Everyday apps such as browsers and email clients provide a GUI (Graphical User Interface) for users. DNS — how website addresses are translated into IP addresses — also operates here.</p>
+    <div class="task-notes">
+      <ul class="notes">
+        <li>The Application layer is the layer most familiar to everyday users. It is where protocols and rules are in place to determine how users should interact with data being sent or received.</li>
+        <li>Everyday applications such as browsers and email clients provide a <strong>GUI (Graphical User Interface)</strong> for users to interact with data at this layer.</li>
+        <li>Other protocols operating at the Application layer include <span class="term">DNS</span> — the system that translates human-readable website addresses into IP addresses that computers can understand.</li>
+      </ul>
+    </div>
+    <div class="qa-divider">Answer the questions below</div>
     <ul class="qa-list">
       <li class="qa-item"><div class="qa-q">What is the name of this layer?</div><div class="qa-a">Application</div></li>
       <li class="qa-item"><div class="qa-q">What is the technical term given to the name of the software that users interact with?</div><div class="qa-a">Graphical User Interface</div></li>
@@ -195,7 +255,12 @@
 
   <div class="task-block">
     <div class="task-title">Task 9 — Practical: OSI Game</div>
-    <p class="task-desc">A dungeon-style game where each door represents a layer of the OSI model. Two door options per level — must choose the correct layer in order to progress through the model from Layer 1 to Layer 7.</p>
+    <div class="task-notes">
+      <ul class="notes">
+        <li>A dungeon-style game in which each room presents two doors — one for each of two OSI layers. The correct door follows the OSI model order from Layer 1 to Layer 7. Choosing the correct door at each level progresses through the model.</li>
+      </ul>
+    </div>
+    <div class="qa-divider">Answer the questions below</div>
     <ul class="qa-list">
       <li class="qa-item"><div class="qa-q">Completed the OSI game?</div><div class="qa-a">No answer needed</div></li>
     </ul>
@@ -206,20 +271,19 @@
   </div>
   <footer>Aden's Study Portal · TryHackMe Pre-Security</footer>
 </div>
-
 <script>
-  const btn = document.getElementById('themeBtn');
-  const html = document.documentElement;
-  const sys = window.matchMedia('(prefers-color-scheme: dark)');
-  const saved = localStorage.getItem('theme');
-  const t = saved || (sys.matches ? 'dark' : 'light');
-  html.setAttribute('data-theme', t);
-  btn.textContent = t === 'dark' ? '☀️' : '🌙';
-  btn.addEventListener('click', () => {
-    const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-    html.setAttribute('data-theme', next);
-    localStorage.setItem('theme', next);
-    btn.textContent = next === 'dark' ? '☀️' : '🌙';
+  const btn=document.getElementById('themeBtn');
+  const html=document.documentElement;
+  const sys=window.matchMedia('(prefers-color-scheme: dark)');
+  const saved=localStorage.getItem('theme');
+  const t=saved||(sys.matches?'dark':'light');
+  html.setAttribute('data-theme',t);
+  btn.textContent=t==='dark'?'☀️':'🌙';
+  btn.addEventListener('click',()=>{
+    const next=html.getAttribute('data-theme')==='dark'?'light':'dark';
+    html.setAttribute('data-theme',next);
+    localStorage.setItem('theme',next);
+    btn.textContent=next==='dark'?'☀️':'🌙';
   });
 </script>
 </body>

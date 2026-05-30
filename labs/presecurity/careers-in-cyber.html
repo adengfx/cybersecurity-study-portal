@@ -2,10 +2,10 @@
 <html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
-<meta name="description" content="Task completion record for Careers in Cyber — TryHackMe Pre-Security pathway.">
+<meta name="description" content="Room notes for Careers in Cyber — TryHackMe Pre-Security pathway.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Careers in Cyber – Aden's Study Portal">
-<meta property="og:description" content="Task completion record for Careers in Cyber — TryHackMe Pre-Security pathway.">
+<meta property="og:description" content="Room notes for Careers in Cyber — TryHackMe Pre-Security pathway.">
 <meta property="og:url" content="https://adengfx.github.io/cybersecurity-study-portal/labs/presecurity/careers-in-cyber.html">
 <meta property="og:site_name" content="Aden's Study Portal">
 <meta name="twitter:card" content="summary">
@@ -69,17 +69,20 @@
 
   .task-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; margin-bottom: 1.25rem; }
   .task-title { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent2); margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
-  .task-desc { font-size: 0.9rem; color: var(--muted); margin-bottom: 1rem; line-height: 1.6; }
+  .task-notes { margin-bottom: 1.25rem; }
+  .qa-divider { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.75rem; padding-top: 0.75rem; border-top: 1px solid var(--border); }
   .qa-list { list-style: none; padding: 0; }
-  .qa-item { padding: 0.6rem 0; border-bottom: 1px solid rgba(48,54,61,0.5); }
+  .qa-item { padding: 0.55rem 0; border-bottom: 1px solid rgba(48,54,61,0.5); }
   .qa-item:last-child { border-bottom: none; }
-  .qa-q { font-size: 0.88rem; color: var(--text); margin-bottom: 0.25rem; }
-  .qa-a { font-family: 'IBM Plex Mono', monospace; font-size: 0.82rem; color: var(--accent3); }
+  .qa-q { font-size: 0.87rem; color: var(--text); margin-bottom: 0.2rem; }
+  .qa-a { font-family: 'IBM Plex Mono', monospace; font-size: 0.81rem; color: var(--accent3); }
   .flag-pill { display: inline-block; font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem; background: rgba(126,231,135,0.08); border: 1px solid rgba(126,231,135,0.25); color: var(--accent3); border-radius: 4px; padding: 0.15rem 0.5rem; }
   .practical-note { font-size: 0.85rem; color: var(--muted); background: var(--surface2); border-radius: 6px; padding: 0.75rem 1rem; margin-bottom: 0.75rem; border-left: 3px solid var(--accent2); }
   .log-block { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 1rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; color: var(--muted); line-height: 1.8; margin: 0.75rem 0; }
   .room-img { width: 100%; max-width: 100%; height: auto; border-radius: 6px; border: 1px solid var(--border); margin-top: 0.75rem; margin-bottom: 0.25rem; display: block; object-fit: contain; }
   .img-caption { font-size: 0.75rem; color: var(--muted); text-align: center; margin-bottom: 0.75rem; font-family: 'IBM Plex Mono', monospace; }
+  .section h3 { font-size: 1rem; font-weight: 700; color: var(--accent); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+  .section h3::before { content: ''; display: inline-block; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; flex-shrink: 0; }
 </style>
 </head>
 <body>
@@ -104,7 +107,19 @@
 
   <div class="task-block">
     <div class="task-title">Task 1 — Careers in Cyber Security</div>
-    <p class="task-desc">This room covered the various careers in cyber security. Key roles: Security Analyst, Security Engineer, Incident Responder, Digital Forensics Examiner, Malware Analyst, Penetration Tester, Red Teamer. The path to a career in cyber is achievable through consistent learning and hands-on practice — building skills incrementally leads to first industry roles.</p>
+    <div class="task-notes">
+      <ul class="notes">
+        <li>A career in cyber security is achievable through consistent learning and regular hands-on practice. Building habits — learning a little each day — leads to the skills needed to land a first industry role.</li>
+        <li><strong>Security Analyst:</strong> Explores and evaluates company networks to uncover actionable data. Works with stakeholders and engineering teams to analyse security throughout the organisation.</li>
+        <li><strong>Security Engineer:</strong> Develops and implements security solutions using threat and vulnerability data. Works to circumvent attacks and maintain best security practices.</li>
+        <li><strong>Incident Responder:</strong> Identifies and mitigates attacks whilst operations are still unfolding. Creates and executes plans, policies, and protocols for during and after incidents.</li>
+        <li><strong>Digital Forensics Examiner:</strong> Responsible for using digital forensics to investigate incidents. Collects and analyses digital evidence whilst maintaining the integrity of the chain of custody.</li>
+        <li><strong>Malware Analyst:</strong> Analyses malware to understand its purpose, origins, and potential impact. Sometimes called a reverse-engineer as the role requires reversing compiled programs.</li>
+        <li><strong>Penetration Tester:</strong> Tests technology products, systems, and networks for exploitable vulnerabilities on behalf of clients. Reports findings and provides remediation advice.</li>
+        <li><strong>Red Teamer:</strong> Plays the role of an adversary, attacking an organisation to provide feedback from an enemy's perspective. Tests detection and response capabilities as well as prevention.</li>
+      </ul>
+    </div>
+    <div class="qa-divider">Answer the questions below</div>
     <ul class="qa-list">
       <li class="qa-item"><div class="qa-q">Read the above and continue to the next room!</div><div class="qa-a">No answer needed</div></li>
     </ul>
@@ -115,20 +130,19 @@
   </div>
   <footer>Aden's Study Portal · TryHackMe Pre-Security</footer>
 </div>
-
 <script>
-  const btn = document.getElementById('themeBtn');
-  const html = document.documentElement;
-  const sys = window.matchMedia('(prefers-color-scheme: dark)');
-  const saved = localStorage.getItem('theme');
-  const t = saved || (sys.matches ? 'dark' : 'light');
-  html.setAttribute('data-theme', t);
-  btn.textContent = t === 'dark' ? '☀️' : '🌙';
-  btn.addEventListener('click', () => {
-    const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-    html.setAttribute('data-theme', next);
-    localStorage.setItem('theme', next);
-    btn.textContent = next === 'dark' ? '☀️' : '🌙';
+  const btn=document.getElementById('themeBtn');
+  const html=document.documentElement;
+  const sys=window.matchMedia('(prefers-color-scheme: dark)');
+  const saved=localStorage.getItem('theme');
+  const t=saved||(sys.matches?'dark':'light');
+  html.setAttribute('data-theme',t);
+  btn.textContent=t==='dark'?'☀️':'🌙';
+  btn.addEventListener('click',()=>{
+    const next=html.getAttribute('data-theme')==='dark'?'light':'dark';
+    html.setAttribute('data-theme',next);
+    localStorage.setItem('theme',next);
+    btn.textContent=next==='dark'?'☀️':'🌙';
   });
 </script>
 </body>

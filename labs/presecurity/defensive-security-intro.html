@@ -2,10 +2,10 @@
 <html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
-<meta name="description" content="Task completion record for Defensive Security Intro — TryHackMe Pre-Security pathway.">
+<meta name="description" content="Room notes for Defensive Security Intro — TryHackMe Pre-Security pathway.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Defensive Security Intro – Aden's Study Portal">
-<meta property="og:description" content="Task completion record for Defensive Security Intro — TryHackMe Pre-Security pathway.">
+<meta property="og:description" content="Room notes for Defensive Security Intro — TryHackMe Pre-Security pathway.">
 <meta property="og:url" content="https://adengfx.github.io/cybersecurity-study-portal/labs/presecurity/defensive-security-intro.html">
 <meta property="og:site_name" content="Aden's Study Portal">
 <meta name="twitter:card" content="summary">
@@ -69,17 +69,20 @@
 
   .task-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; margin-bottom: 1.25rem; }
   .task-title { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent2); margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
-  .task-desc { font-size: 0.9rem; color: var(--muted); margin-bottom: 1rem; line-height: 1.6; }
+  .task-notes { margin-bottom: 1.25rem; }
+  .qa-divider { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.75rem; padding-top: 0.75rem; border-top: 1px solid var(--border); }
   .qa-list { list-style: none; padding: 0; }
-  .qa-item { padding: 0.6rem 0; border-bottom: 1px solid rgba(48,54,61,0.5); }
+  .qa-item { padding: 0.55rem 0; border-bottom: 1px solid rgba(48,54,61,0.5); }
   .qa-item:last-child { border-bottom: none; }
-  .qa-q { font-size: 0.88rem; color: var(--text); margin-bottom: 0.25rem; }
-  .qa-a { font-family: 'IBM Plex Mono', monospace; font-size: 0.82rem; color: var(--accent3); }
+  .qa-q { font-size: 0.87rem; color: var(--text); margin-bottom: 0.2rem; }
+  .qa-a { font-family: 'IBM Plex Mono', monospace; font-size: 0.81rem; color: var(--accent3); }
   .flag-pill { display: inline-block; font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem; background: rgba(126,231,135,0.08); border: 1px solid rgba(126,231,135,0.25); color: var(--accent3); border-radius: 4px; padding: 0.15rem 0.5rem; }
   .practical-note { font-size: 0.85rem; color: var(--muted); background: var(--surface2); border-radius: 6px; padding: 0.75rem 1rem; margin-bottom: 0.75rem; border-left: 3px solid var(--accent2); }
   .log-block { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 1rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; color: var(--muted); line-height: 1.8; margin: 0.75rem 0; }
   .room-img { width: 100%; max-width: 100%; height: auto; border-radius: 6px; border: 1px solid var(--border); margin-top: 0.75rem; margin-bottom: 0.25rem; display: block; object-fit: contain; }
   .img-caption { font-size: 0.75rem; color: var(--muted); text-align: center; margin-bottom: 0.75rem; font-family: 'IBM Plex Mono', monospace; }
+  .section h3 { font-size: 1rem; font-weight: 700; color: var(--accent); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+  .section h3::before { content: ''; display: inline-block; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; flex-shrink: 0; }
 </style>
 </head>
 <body>
@@ -104,7 +107,15 @@
 
   <div class="task-block">
     <div class="task-title">Task 1 — Introduction to Defensive Security</div>
-    <p class="task-desc">Defensive security is concerned with preventing intrusions and detecting/responding to them when they occur. Blue teams form the core of the defensive security landscape. Key tasks include: user awareness training, asset management, patching systems, setting up firewalls and IPS, and logging and monitoring.</p>
+    <div class="task-notes">
+      <ul class="notes">
+        <li>Defensive security is concerned with two main tasks: <strong>preventing intrusions</strong> from occurring, and <strong>detecting and responding</strong> to intrusions when they do occur.</li>
+        <li><strong>Blue teams</strong> form the core of the defensive security landscape.</li>
+        <li>Key defensive tasks include: user awareness training, documenting and managing assets, updating and patching systems, setting up firewalls and IPS (Intrusion Prevention Systems), and implementing proper logging and monitoring.</li>
+        <li>Defensive security also encompasses: Security Operations Centers (SOC), Threat Intelligence, Digital Forensics and Incident Response (DFIR), and Malware Analysis.</li>
+      </ul>
+    </div>
+    <div class="qa-divider">Answer the questions below</div>
     <ul class="qa-list">
       <li class="qa-item"><div class="qa-q">Which team focuses on defensive security?</div><div class="qa-a">Blue Team</div></li>
     </ul>
@@ -112,7 +123,17 @@
 
   <div class="task-block">
     <div class="task-title">Task 2 — Areas of Defensive Security</div>
-    <p class="task-desc">Covers the Security Operations Center (SOC) and threat intelligence, plus Digital Forensics and Incident Response (DFIR) and malware analysis. SOC monitors networks for vulnerabilities, policy violations, unauthorised activity, and intrusions. Threat intelligence collects and analyses data about adversaries to achieve threat-informed defence. DFIR covers file system, memory, system logs, and network log analysis. Incident response follows four phases: Preparation → Detection & Analysis → Containment, Eradication & Recovery → Post-Incident Activity. Malware types: Virus (spreads via programs), Ransomware (encrypts files for ransom), Trojan horse (hides malicious function). Analysis methods: Static (inspect without running) and Dynamic (run in controlled environment).</p>
+    <div class="task-notes">
+      <ul class="notes">
+        <li><strong>Security Operations Center (SOC)</strong> — a team of cybersecurity professionals who monitor a network and its systems to detect malicious events. Main areas of interest: vulnerabilities (weaknesses requiring patching or mitigation), policy violations (e.g. uploading company data to an unauthorised service), unauthorised activity (e.g. stolen credentials being used), and network intrusions.</li>
+        <li><strong>Threat Intelligence</strong> — information gathered about actual and potential enemies. Purpose is threat-informed defence. Data is collected (locally via network logs or publicly via forums/feeds), processed into a usable format, and analysed to identify attacker TTPs (Tactics, Techniques and Procedures) and predict future activity.</li>
+        <li><strong>Digital Forensics</strong> — applies scientific methods to investigate digital crimes. Focus areas: file system (installed programs, created/deleted files), system memory (malware that runs only in memory), system logs (records of activity even after an attacker attempts to clear traces), and network logs.</li>
+        <li><strong>Incident Response</strong> — a structured methodology for responding to data breaches and cyber attacks. Four phases: Preparation → Detection and Analysis → Containment, Eradication and Recovery → Post-Incident Activity.</li>
+        <li><strong>Malware Analysis</strong> — studying malicious software to understand its purpose and behaviour. Static analysis inspects the program without running it (requires assembly language knowledge). Dynamic analysis runs it in a controlled environment to observe its behaviour.</li>
+        <li>Malware types: <strong>Virus</strong> (attaches to programs, spreads and damages files), <strong>Ransomware</strong> (encrypts files and demands payment for decryption), <strong>Trojan horse</strong> (disguises itself as legitimate software while hiding a malicious function).</li>
+      </ul>
+    </div>
+    <div class="qa-divider">Answer the questions below</div>
     <ul class="qa-list">
       <li class="qa-item"><div class="qa-q">What would you call a team of cyber security professionals that monitors a network and its systems for malicious events?</div><div class="qa-a">Security Operations Center</div></li>
       <li class="qa-item"><div class="qa-q">What does DFIR stand for?</div><div class="qa-a">Digital Forensics and Incident Response</div></li>
@@ -122,8 +143,15 @@
 
   <div class="task-block">
     <div class="task-title">Task 3 — Practical Example of Defensive Security</div>
-    <p class="task-desc">Simulated being a SOC analyst at a bank using a SIEM tool. Reviewed alerts, investigated a suspicious IP address using an IP scanner which confirmed it was malicious, escalated to team lead, then blocked the IP address.</p>
-    <p class="practical-note">Steps: SIEM alert received → Identified potential malicious attempt → IP scanner confirmed malicious → Escalated to team lead → Blocked IP address → Challenge completed.</p>
+    <div class="task-notes">
+      <ul class="notes">
+        <li>Simulated working as a SOC analyst at a bank. The bank's SOC uses a <strong>SIEM</strong> (Security Information and Event Management) tool, which gathers security-related events from various sources and presents them in a dashboard, generating alerts when suspicious activity is detected.</li>
+        <li>Not all alerts are malicious — for example, multiple failed login attempts may simply mean a user has forgotten their password. Unknown IP connections could be a new legitimate user or an unauthorised access attempt. The analyst uses expertise to distinguish between the two.</li>
+        <li>Workflow followed: SIEM alert received → identified potential malicious attempt → investigated the IP address using an IP scanner → scanner confirmed the IP was malicious → escalated to team lead → IP address blocked.</li>
+      </ul>
+      <p class="practical-note">Steps: Review SIEM alert → Identify suspicious connection → IP scanner confirms malicious → Escalate to team lead → Block IP address → Challenge completed.</p>
+    </div>
+    <div class="qa-divider">Answer the questions below</div>
     <ul class="qa-list">
       <li class="qa-item"><div class="qa-q">What is the flag that you obtained by following along?</div><div class="qa-a"><span class="flag-pill">THM{THREAT-BLOCKED}</span></div></li>
     </ul>
@@ -134,20 +162,19 @@
   </div>
   <footer>Aden's Study Portal · TryHackMe Pre-Security</footer>
 </div>
-
 <script>
-  const btn = document.getElementById('themeBtn');
-  const html = document.documentElement;
-  const sys = window.matchMedia('(prefers-color-scheme: dark)');
-  const saved = localStorage.getItem('theme');
-  const t = saved || (sys.matches ? 'dark' : 'light');
-  html.setAttribute('data-theme', t);
-  btn.textContent = t === 'dark' ? '☀️' : '🌙';
-  btn.addEventListener('click', () => {
-    const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-    html.setAttribute('data-theme', next);
-    localStorage.setItem('theme', next);
-    btn.textContent = next === 'dark' ? '☀️' : '🌙';
+  const btn=document.getElementById('themeBtn');
+  const html=document.documentElement;
+  const sys=window.matchMedia('(prefers-color-scheme: dark)');
+  const saved=localStorage.getItem('theme');
+  const t=saved||(sys.matches?'dark':'light');
+  html.setAttribute('data-theme',t);
+  btn.textContent=t==='dark'?'☀️':'🌙';
+  btn.addEventListener('click',()=>{
+    const next=html.getAttribute('data-theme')==='dark'?'light':'dark';
+    html.setAttribute('data-theme',next);
+    localStorage.setItem('theme',next);
+    btn.textContent=next==='dark'?'☀️':'🌙';
   });
 </script>
 </body>

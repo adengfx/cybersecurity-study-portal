@@ -2,10 +2,10 @@
 <html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
-<meta name="description" content="Task completion record for What is Networking? — TryHackMe Pre-Security pathway.">
+<meta name="description" content="Room notes for What is Networking? — TryHackMe Pre-Security pathway.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="What is Networking? – Aden's Study Portal">
-<meta property="og:description" content="Task completion record for What is Networking? — TryHackMe Pre-Security pathway.">
+<meta property="og:description" content="Room notes for What is Networking? — TryHackMe Pre-Security pathway.">
 <meta property="og:url" content="https://adengfx.github.io/cybersecurity-study-portal/labs/presecurity/what-is-networking.html">
 <meta property="og:site_name" content="Aden's Study Portal">
 <meta name="twitter:card" content="summary">
@@ -69,17 +69,20 @@
 
   .task-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; margin-bottom: 1.25rem; }
   .task-title { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent2); margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
-  .task-desc { font-size: 0.9rem; color: var(--muted); margin-bottom: 1rem; line-height: 1.6; }
+  .task-notes { margin-bottom: 1.25rem; }
+  .qa-divider { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.75rem; padding-top: 0.75rem; border-top: 1px solid var(--border); }
   .qa-list { list-style: none; padding: 0; }
-  .qa-item { padding: 0.6rem 0; border-bottom: 1px solid rgba(48,54,61,0.5); }
+  .qa-item { padding: 0.55rem 0; border-bottom: 1px solid rgba(48,54,61,0.5); }
   .qa-item:last-child { border-bottom: none; }
-  .qa-q { font-size: 0.88rem; color: var(--text); margin-bottom: 0.25rem; }
-  .qa-a { font-family: 'IBM Plex Mono', monospace; font-size: 0.82rem; color: var(--accent3); }
+  .qa-q { font-size: 0.87rem; color: var(--text); margin-bottom: 0.2rem; }
+  .qa-a { font-family: 'IBM Plex Mono', monospace; font-size: 0.81rem; color: var(--accent3); }
   .flag-pill { display: inline-block; font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem; background: rgba(126,231,135,0.08); border: 1px solid rgba(126,231,135,0.25); color: var(--accent3); border-radius: 4px; padding: 0.15rem 0.5rem; }
   .practical-note { font-size: 0.85rem; color: var(--muted); background: var(--surface2); border-radius: 6px; padding: 0.75rem 1rem; margin-bottom: 0.75rem; border-left: 3px solid var(--accent2); }
   .log-block { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 1rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; color: var(--muted); line-height: 1.8; margin: 0.75rem 0; }
   .room-img { width: 100%; max-width: 100%; height: auto; border-radius: 6px; border: 1px solid var(--border); margin-top: 0.75rem; margin-bottom: 0.25rem; display: block; object-fit: contain; }
   .img-caption { font-size: 0.75rem; color: var(--muted); text-align: center; margin-bottom: 0.75rem; font-family: 'IBM Plex Mono', monospace; }
+  .section h3 { font-size: 1rem; font-weight: 700; color: var(--accent); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+  .section h3::before { content: ''; display: inline-block; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; flex-shrink: 0; }
 </style>
 </head>
 <body>
@@ -104,7 +107,13 @@
 
   <div class="task-block">
     <div class="task-title">Task 1 — What is Networking?</div>
-    <p class="task-desc">A network can be formed from 2 devices to billions — ranging from laptops and phones to security cameras, traffic lights, and farming equipment. Networks are integrated into everyday life.</p>
+    <div class="task-notes">
+      <ul class="notes">
+        <li>A network can be formed from just 2 devices all the way up to billions — ranging from laptops and phones to security cameras, traffic lights, and farming equipment.</li>
+        <li>Networks are deeply integrated into everyday life, often operating invisibly in the background.</li>
+      </ul>
+    </div>
+    <div class="qa-divider">Answer the questions below</div>
     <ul class="qa-list">
       <li class="qa-item"><div class="qa-q">What is the key term for when devices are connected?</div><div class="qa-a">Network</div></li>
     </ul>
@@ -112,11 +121,19 @@
 
   <div class="task-block">
     <div class="task-title">Task 2 — What is the Internet?</div>
-    <p class="task-desc">The internet is a network of networks. The first iteration was ARPANET in the late 1960s, funded by the US Department of Defense — the first documented network in action. In 1989, Tim Berners-Lee invented the World Wide Web, making the internet a repository for storing and sharing information. Small networks are called private networks; networks connecting them are public networks (the internet).</p>
-    <img src="images/image12.png" alt="Internet network diagram" class="room-img">
-    <p class="img-caption">Basic internet diagram</p>
-    <img src="images/image13.png" alt="Public and private networks" class="room-img">
-    <p class="img-caption">Internet made up of many small private networks</p>
+    <div class="task-notes">
+      <ul class="notes">
+        <li>The internet is a <strong>network of networks</strong>. Small individual networks are called <strong>private networks</strong>; the networks that connect them together are called <strong>public networks</strong> — collectively known as the internet.</li>
+        <li>The first iteration of the internet was the <strong>ARPANET</strong> project in the late 1960s, funded by the US Department of Defense — the first documented network in action.</li>
+        <li>It wasn't until <strong>1989</strong> that the internet as we know it today was invented by <strong>Tim Berners-Lee</strong> with the creation of the <strong>World Wide Web</strong>, transforming the internet into a repository for storing and sharing information.</li>
+        <li>Devices identify themselves on a network using a set of labels — an <strong>IP address</strong> (name) and a <strong>MAC address</strong> (fingerprint).</li>
+      </ul>
+      <img src="images/image12.png" alt="Internet network diagram" class="room-img">
+      <p class="img-caption">Basic internet diagram — private networks joined together via public networks</p>
+      <img src="images/image13.png" alt="Public vs private networks" class="room-img">
+      <p class="img-caption">The internet made up of many small private networks connected together</p>
+    </div>
+    <div class="qa-divider">Answer the questions below</div>
     <ul class="qa-list">
       <li class="qa-item"><div class="qa-q">Who invented the World Wide Web?</div><div class="qa-a">Tim Berners-Lee</div></li>
     </ul>
@@ -124,7 +141,15 @@
 
   <div class="task-block">
     <div class="task-title">Task 3 — Identifying Devices on a Network</div>
-    <p class="task-desc">Devices identify themselves using an IP address (name) and a MAC address (fingerprint). IP addresses are divided into four octets, can be public or private, and cannot be active more than once on the same network. IPv4 is exhausted; IPv6 supports 340 trillion+ addresses. MAC addresses are 12-character hexadecimal numbers — first half vendor-specific, second half unique to the device. Can be spoofed.</p>
+    <div class="task-notes">
+      <ul class="notes">
+        <li>To communicate and maintain order, devices must be both identifying and identifiable on a network. Two identifiers are used: <strong>IP address</strong> (the name) and <strong>MAC address</strong> (the fingerprint).</li>
+        <li><strong>IP addresses</strong> are divided into four octets (e.g. 192.168.1.100). The value of each octet summarises to form the device's IP address. IP addresses can change between devices but cannot be active more than once within the same network. Addresses can be <strong>public</strong> (used to identify a device on the internet) or <strong>private</strong> (used to identify a device within a local network).</li>
+        <li><span class="term">IPv4</span> has been exhausted. <span class="term">IPv6</span> was created to solve this — supporting over 340 trillion IP addresses and being more efficient due to new methodologies.</li>
+        <li><strong>MAC addresses</strong> are the fingerprint of the device itself — a 12-character hexadecimal number (e.g. <span class="term">a4:c3:f0:85:ac:2d</span>). The first half is vendor-specific (identifies the manufacturer); the second half is unique to the network interface. MAC addresses are literally burnt into the network card at manufacture — they cannot be permanently changed, but they <strong>can be spoofed</strong>, which can fool poorly implemented security designs that rely solely on MAC filtering.</li>
+      </ul>
+    </div>
+    <div class="qa-divider">Answer the questions below</div>
     <ul class="qa-list">
       <li class="qa-item"><div class="qa-q">What does the term "IP" stand for?</div><div class="qa-a">Internet Protocol</div></li>
       <li class="qa-item"><div class="qa-q">What is each section of an IP address called?</div><div class="qa-a">Octet</div></li>
@@ -136,9 +161,17 @@
 
   <div class="task-block">
     <div class="task-title">Task 4 — Ping (ICMP)</div>
-    <p class="task-desc">Ping is one of the most fundamental network tools. It uses ICMP (Internet Control Message Protocol) packets to determine the performance of a connection between devices — measuring time taken for echo packets to travel and receive an echo reply. Can be used against devices on a local network or websites.</p>
-    <img src="images/image14.png" alt="Ping output" class="room-img">
-    <p class="img-caption">Ping syntax and output</p>
+    <div class="task-notes">
+      <ul class="notes">
+        <li>Ping is one of the most fundamental network tools, pre-installed on operating systems like Windows and Linux.</li>
+        <li>It uses <span class="term">ICMP</span> (Internet Control Message Protocol) packets to determine the performance of a connection between devices — for example, whether a connection exists or is reliable.</li>
+        <li>Ping works by sending <strong>ICMP echo packets</strong> to the target device and measuring the time taken to receive an <strong>echo reply</strong>. This time measurement indicates connection speed and reliability.</li>
+        <li>Ping can be run against devices on a local network or against websites. Syntax: <span class="term">ping &lt;IP address or website URL&gt;</span></li>
+      </ul>
+      <img src="images/image14.png" alt="Ping output" class="room-img">
+      <p class="img-caption">Ping syntax and example output showing round-trip times</p>
+    </div>
+    <div class="qa-divider">Answer the questions below</div>
     <ul class="qa-list">
       <li class="qa-item"><div class="qa-q">What protocol does ping use?</div><div class="qa-a">ICMP</div></li>
       <li class="qa-item"><div class="qa-q">What is the syntax to ping 10.10.10.10?</div><div class="qa-a">ping 10.10.10.10</div></li>
@@ -151,20 +184,19 @@
   </div>
   <footer>Aden's Study Portal · TryHackMe Pre-Security</footer>
 </div>
-
 <script>
-  const btn = document.getElementById('themeBtn');
-  const html = document.documentElement;
-  const sys = window.matchMedia('(prefers-color-scheme: dark)');
-  const saved = localStorage.getItem('theme');
-  const t = saved || (sys.matches ? 'dark' : 'light');
-  html.setAttribute('data-theme', t);
-  btn.textContent = t === 'dark' ? '☀️' : '🌙';
-  btn.addEventListener('click', () => {
-    const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-    html.setAttribute('data-theme', next);
-    localStorage.setItem('theme', next);
-    btn.textContent = next === 'dark' ? '☀️' : '🌙';
+  const btn=document.getElementById('themeBtn');
+  const html=document.documentElement;
+  const sys=window.matchMedia('(prefers-color-scheme: dark)');
+  const saved=localStorage.getItem('theme');
+  const t=saved||(sys.matches?'dark':'light');
+  html.setAttribute('data-theme',t);
+  btn.textContent=t==='dark'?'☀️':'🌙';
+  btn.addEventListener('click',()=>{
+    const next=html.getAttribute('data-theme')==='dark'?'light':'dark';
+    html.setAttribute('data-theme',next);
+    localStorage.setItem('theme',next);
+    btn.textContent=next==='dark'?'☀️':'🌙';
   });
 </script>
 </body>

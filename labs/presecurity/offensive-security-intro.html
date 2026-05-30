@@ -2,10 +2,10 @@
 <html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
-<meta name="description" content="Task completion record for Offensive Security Intro — TryHackMe Pre-Security pathway.">
+<meta name="description" content="Room notes for Offensive Security Intro — TryHackMe Pre-Security pathway.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Offensive Security Intro – Aden's Study Portal">
-<meta property="og:description" content="Task completion record for Offensive Security Intro — TryHackMe Pre-Security pathway.">
+<meta property="og:description" content="Room notes for Offensive Security Intro — TryHackMe Pre-Security pathway.">
 <meta property="og:url" content="https://adengfx.github.io/cybersecurity-study-portal/labs/presecurity/offensive-security-intro.html">
 <meta property="og:site_name" content="Aden's Study Portal">
 <meta name="twitter:card" content="summary">
@@ -69,17 +69,20 @@
 
   .task-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; margin-bottom: 1.25rem; }
   .task-title { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent2); margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
-  .task-desc { font-size: 0.9rem; color: var(--muted); margin-bottom: 1rem; line-height: 1.6; }
+  .task-notes { margin-bottom: 1.25rem; }
+  .qa-divider { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.75rem; padding-top: 0.75rem; border-top: 1px solid var(--border); }
   .qa-list { list-style: none; padding: 0; }
-  .qa-item { padding: 0.6rem 0; border-bottom: 1px solid rgba(48,54,61,0.5); }
+  .qa-item { padding: 0.55rem 0; border-bottom: 1px solid rgba(48,54,61,0.5); }
   .qa-item:last-child { border-bottom: none; }
-  .qa-q { font-size: 0.88rem; color: var(--text); margin-bottom: 0.25rem; }
-  .qa-a { font-family: 'IBM Plex Mono', monospace; font-size: 0.82rem; color: var(--accent3); }
+  .qa-q { font-size: 0.87rem; color: var(--text); margin-bottom: 0.2rem; }
+  .qa-a { font-family: 'IBM Plex Mono', monospace; font-size: 0.81rem; color: var(--accent3); }
   .flag-pill { display: inline-block; font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem; background: rgba(126,231,135,0.08); border: 1px solid rgba(126,231,135,0.25); color: var(--accent3); border-radius: 4px; padding: 0.15rem 0.5rem; }
   .practical-note { font-size: 0.85rem; color: var(--muted); background: var(--surface2); border-radius: 6px; padding: 0.75rem 1rem; margin-bottom: 0.75rem; border-left: 3px solid var(--accent2); }
   .log-block { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 1rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; color: var(--muted); line-height: 1.8; margin: 0.75rem 0; }
   .room-img { width: 100%; max-width: 100%; height: auto; border-radius: 6px; border: 1px solid var(--border); margin-top: 0.75rem; margin-bottom: 0.25rem; display: block; object-fit: contain; }
   .img-caption { font-size: 0.75rem; color: var(--muted); text-align: center; margin-bottom: 0.75rem; font-family: 'IBM Plex Mono', monospace; }
+  .section h3 { font-size: 1rem; font-weight: 700; color: var(--accent); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+  .section h3::before { content: ''; display: inline-block; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; flex-shrink: 0; }
 </style>
 </head>
 <body>
@@ -104,7 +107,14 @@
 
   <div class="task-block">
     <div class="task-title">Task 1 — What is Offensive Security?</div>
-    <p class="task-desc">Offensive security involves breaking into computer systems, exploiting software bugs, and finding loopholes in applications to gain authorised access. The goal is to understand hacker tactics in order to enhance system defences. Core principle: "To outsmart a hacker, you need to think like one."</p>
+    <div class="task-notes">
+      <ul class="notes">
+        <li>The core principle of offensive security is <em>"to outsmart a hacker, you need to think like one."</em></li>
+        <li>Offensive security involves breaking into computer systems, exploiting software bugs, and finding loopholes in applications — all with <strong>authorisation</strong>. The goal is to understand attacker tactics so that system defences can be strengthened.</li>
+        <li>It is the counterpart to defensive security: where defenders protect systems, offensive practitioners probe them to find weaknesses before real attackers do.</li>
+      </ul>
+    </div>
+    <div class="qa-divider">Answer the questions below</div>
     <ul class="qa-list">
       <li class="qa-item"><div class="qa-q">Which of the following options better represents the process where you simulate a hacker's actions to find vulnerabilities in a system?</div><div class="qa-a">Offensive Security</div></li>
     </ul>
@@ -112,8 +122,16 @@
 
   <div class="task-block">
     <div class="task-title">Task 2 — Hacking Your First Machine</div>
-    <p class="task-desc">TryHackMe prepared a fake bank application called FakeBank. Used a command-line tool called Gobuster to brute-force FakeBank's website and find hidden directories and pages. Gobuster takes a list of potential directory names and tries each one — if a page exists, it reports it.</p>
-    <p class="practical-note">Steps: Open terminal → Run Gobuster with -u (target URL) and -w (wordlist) → Found hidden page /bank-transfer → Transferred $2000 from account 2276 to 8881 → Flag appeared on account page.</p>
+    <div class="task-notes">
+      <ul class="notes">
+        <li>TryHackMe uses lab machines to create simulated environments as practical complements to lessons. This task used a fake bank application called <strong>FakeBank</strong>.</li>
+        <li><strong>Gobuster</strong> is a command-line tool used to brute-force hidden directories and pages on a website. It takes a wordlist and tries each entry against the target — reporting any pages that exist.</li>
+        <li>Key Gobuster flags: <span class="term">-u</span> specifies the target URL, <span class="term">-w</span> specifies the wordlist to iterate through.</li>
+        <li>Running Gobuster against FakeBank revealed a hidden page: <span class="term">/bank-transfer</span>. Navigating to this page and transferring $2,000 from account 2276 to 8881 completed the task.</li>
+      </ul>
+      <p class="practical-note">Steps: Open terminal → Run Gobuster with -u and -w flags → Discover /bank-transfer → Transfer funds between accounts → Flag appears on account page.</p>
+    </div>
+    <div class="qa-divider">Answer the questions below</div>
     <ul class="qa-list">
       <li class="qa-item"><div class="qa-q">Above your account balance, you should now see a message indicating the answer to this question. Can you find the answer?</div><div class="qa-a"><span class="flag-pill">BANK-HACKED</span></div></li>
     </ul>
@@ -121,7 +139,15 @@
 
   <div class="task-block">
     <div class="task-title">Task 3 — Careers in Cyber Security</div>
-    <p class="task-desc">Offensive security career paths include Penetration Tester (tests technology products for exploitable vulnerabilities), Red Teamer (plays adversary role, attacks organisation and provides feedback from enemy's perspective), and Security Engineer (designs, monitors, and maintains security controls and systems).</p>
+    <div class="task-notes">
+      <ul class="notes">
+        <li>A career in cyber security is achievable through consistent learning and hands-on practice — building skills incrementally over time.</li>
+        <li><strong>Penetration Tester:</strong> Responsible for testing technology products for exploitable security vulnerabilities.</li>
+        <li><strong>Red Teamer:</strong> Plays the role of an adversary, attacking an organisation and providing feedback from an enemy's perspective.</li>
+        <li><strong>Security Engineer:</strong> Designs, monitors, and maintains security controls, networks, and systems to help prevent cyberattacks.</li>
+      </ul>
+    </div>
+    <div class="qa-divider">Answer the questions below</div>
     <ul class="qa-list">
       <li class="qa-item"><div class="qa-q">Read the above and continue with the next room!</div><div class="qa-a">No answer needed</div></li>
     </ul>
@@ -132,20 +158,19 @@
   </div>
   <footer>Aden's Study Portal · TryHackMe Pre-Security</footer>
 </div>
-
 <script>
-  const btn = document.getElementById('themeBtn');
-  const html = document.documentElement;
-  const sys = window.matchMedia('(prefers-color-scheme: dark)');
-  const saved = localStorage.getItem('theme');
-  const t = saved || (sys.matches ? 'dark' : 'light');
-  html.setAttribute('data-theme', t);
-  btn.textContent = t === 'dark' ? '☀️' : '🌙';
-  btn.addEventListener('click', () => {
-    const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-    html.setAttribute('data-theme', next);
-    localStorage.setItem('theme', next);
-    btn.textContent = next === 'dark' ? '☀️' : '🌙';
+  const btn=document.getElementById('themeBtn');
+  const html=document.documentElement;
+  const sys=window.matchMedia('(prefers-color-scheme: dark)');
+  const saved=localStorage.getItem('theme');
+  const t=saved||(sys.matches?'dark':'light');
+  html.setAttribute('data-theme',t);
+  btn.textContent=t==='dark'?'☀️':'🌙';
+  btn.addEventListener('click',()=>{
+    const next=html.getAttribute('data-theme')==='dark'?'light':'dark';
+    html.setAttribute('data-theme',next);
+    localStorage.setItem('theme',next);
+    btn.textContent=next==='dark'?'☀️':'🌙';
   });
 </script>
 </body>
