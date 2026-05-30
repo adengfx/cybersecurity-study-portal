@@ -38,7 +38,13 @@
   .label { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; letter-spacing: 0.2em; color: var(--accent4); text-transform: uppercase; margin-bottom: 0.6rem; }
   .platform-tag { font-size: 0.72rem; color: var(--accent2); background: rgba(255,107,53,0.08); border: 1px solid rgba(255,107,53,0.2); border-radius: 4px; padding: 0.1rem 0.5rem; font-family: 'IBM Plex Mono', monospace; }
   h1 { font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 700; color: var(--heading); letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 0.5rem; }
-  .subtitle { font-size: 0.88rem; color: var(--muted); margin-bottom: 1.5rem; }
+  .header-links { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-top: 0.75rem; margin-bottom: 1.5rem; }
+  .header-link { display: inline-flex; align-items: center; gap: 0.3rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; text-decoration: none; border-radius: 4px; padding: 0.25rem 0.7rem; transition: opacity 0.15s, border-color 0.15s; opacity: 0.85; }
+  .header-link:hover { opacity: 1; }
+  .header-link.guide { color: var(--accent4); border: 1px solid rgba(210,168,255,0.35); background: rgba(210,168,255,0.07); }
+  .header-link.guide:hover { border-color: var(--accent4); }
+  .header-link.thm { color: var(--muted); border: 1px solid var(--border); background: transparent; }
+  .header-link.thm:hover { border-color: var(--accent); color: var(--accent); }
   .pathway-stats { display: flex; gap: 2rem; flex-wrap: wrap; }
   .pstat-num { font-family: 'IBM Plex Mono', monospace; font-size: 1.3rem; font-weight: 600; color: var(--heading); line-height: 1; }
   .pstat-label { font-size: 0.75rem; color: var(--muted); margin-top: 0.2rem; }
@@ -51,6 +57,7 @@
   .module-group { margin-bottom: 0.5rem; margin-top: 2rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); padding-bottom: 0.4rem; border-bottom: 1px solid var(--border); }
   .module-group:first-of-type { margin-top: 0; }
   .rooms { display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 1rem; }
+  a.room-card { text-decoration: none; }
   .room-card {
     background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
     padding: 1rem 1.25rem; text-decoration: none; color: inherit;
@@ -62,6 +69,7 @@
   .room-card:hover { border-color: var(--accent4); background: var(--surface2); }
   .room-card.locked { opacity: 0.45; pointer-events: none; }
   .room-card.locked::before { background: var(--border); }
+  .room-date { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--muted); }
   .room-title { font-size: 0.95rem; font-weight: 700; color: var(--heading); grid-column: 1; grid-row: 1; }
   .room-meta { font-size: 0.8rem; color: var(--muted); grid-column: 1; grid-row: 2; display: flex; gap: 0.6rem; flex-wrap: wrap; align-items: center; }
   .room-right { grid-column: 2; grid-row: 1 / 3; display: flex; flex-direction: column; align-items: flex-end; justify-content: center; gap: 0.4rem; }
@@ -70,7 +78,8 @@
   .pill.in-progress { background: rgba(210,168,255,0.1); border: 1px solid rgba(210,168,255,0.3); color: var(--accent4); }
   .pill.not-started { background: transparent; border: 1px solid var(--border); color: var(--muted); }
   @media (max-width: 480px) {
-    .room-card { grid-template-columns: 1fr; }
+    a.room-card { text-decoration: none; }
+  .room-card { grid-template-columns: 1fr; }
     .room-right { grid-column: 1; grid-row: 3; flex-direction: row; align-items: center; justify-content: flex-start; gap: 0.5rem; }
     .pathway-stats { gap: 1.25rem; }
   }
@@ -88,7 +97,11 @@
   <header>
     <div class="label">TryHackMe · Lab Pathway</div>
     <h1>Pre-Security</h1>
-    <p class="subtitle">Foundational knowledge before diving into hacking — networking, the web, operating systems, and how attacks work. · 7 modules · 31 rooms</p>
+    <p class="subtitle">Foundational knowledge before diving into hacking — networking, the web, operating systems, and how attacks work. · 7 modules · 31 rooms · Last activity: 29 May 2026</p>
+    <div class="header-links">
+      <a class="header-link guide" href="../../tryhackme_pre_security_study_guide.html">Full Study Guide →</a>
+      <a class="header-link thm" href="https://tryhackme.com/path/outline/presecurity" target="_blank" rel="noopener">View on TryHackMe ↗</a>
+    </div>
     <div class="pathway-stats">
       <div class="pstat"><div class="pstat-num" id="statDone">—</div><div class="pstat-label">Modules done</div></div>
       <div class="pstat"><div class="pstat-num" id="statRooms">—</div><div class="pstat-label">Rooms done</div></div>
@@ -105,18 +118,18 @@
 
   <div class="module-group">Module 1 — Introduction to Cyber Security</div>
   <div class="rooms">
-    <div class="room-card locked"><div class="room-title">Offensive Security Intro</div><div class="room-meta"><span>Hacking your first machine</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
-    <div class="room-card locked"><div class="room-title">Defensive Security Intro</div><div class="room-meta"><span>Blue team fundamentals</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
-    <div class="room-card locked"><div class="room-title">Careers in Cyber</div><div class="room-meta"><span>Security roles overview</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <a class="room-card complete" href="offensive-security-intro.html"><div class="room-title">Offensive Security Intro</div><div class="room-meta"><span>Hacking your first machine</span><span class="room-date">29 May 2026</span></div><div class="room-right"><span class="pill complete">✓ Complete</span></div></a>
+    <a class="room-card complete" href="defensive-security-intro.html"><div class="room-title">Defensive Security Intro</div><div class="room-meta"><span>Blue team fundamentals</span><span class="room-date">29 May 2026</span></div><div class="room-right"><span class="pill complete">✓ Complete</span></div></a>
+    <a class="room-card complete" href="careers-in-cyber.html"><div class="room-title">Careers in Cyber</div><div class="room-meta"><span>Security roles overview</span><span class="room-date">29 May 2026</span></div><div class="room-right"><span class="pill complete">✓ Complete</span></div></a>
   </div>
 
   <div class="module-group">Module 2 — Network Fundamentals</div>
   <div class="rooms">
-    <div class="room-card locked"><div class="room-title">What is Networking?</div><div class="room-meta"><span>Network basics and IP addressing</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
-    <div class="room-card locked"><div class="room-title">Intro to LAN</div><div class="room-meta"><span>Local area network topologies</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
-    <div class="room-card locked"><div class="room-title">OSI Model</div><div class="room-meta"><span>7-layer networking model</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
-    <div class="room-card locked"><div class="room-title">Packets &amp; Frames</div><div class="room-meta"><span>TCP/IP and data encapsulation</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
-    <div class="room-card locked"><div class="room-title">Extending Your Network</div><div class="room-meta"><span>Firewalls, VPNs, routers</span></div><div class="room-right"><span class="pill not-started">Not started</span></div></div>
+    <a class="room-card complete" href="what-is-networking.html"><div class="room-title">What is Networking?</div><div class="room-meta"><span>Network basics and IP addressing</span><span class="room-date">29 May 2026</span></div><div class="room-right"><span class="pill complete">✓ Complete</span></div></a>
+    <a class="room-card complete" href="intro-to-lan.html"><div class="room-title">Intro to LAN</div><div class="room-meta"><span>Local area network topologies</span><span class="room-date">29 May 2026</span></div><div class="room-right"><span class="pill complete">✓ Complete</span></div></a>
+    <a class="room-card complete" href="osi-model.html"><div class="room-title">OSI Model</div><div class="room-meta"><span>7-layer networking model</span><span class="room-date">29 May 2026</span></div><div class="room-right"><span class="pill complete">✓ Complete</span></div></a>
+    <a class="room-card complete" href="packets-and-frames.html"><div class="room-title">Packets &amp; Frames</div><div class="room-meta"><span>TCP/IP and data encapsulation</span><span class="room-date">29 May 2026</span></div><div class="room-right"><span class="pill complete">✓ Complete</span></div></a>
+    <a class="room-card complete" href="extending-your-network.html"><div class="room-title">Extending Your Network</div><div class="room-meta"><span>Firewalls, VPNs, routers</span><span class="room-date">29 May 2026</span></div><div class="room-right"><span class="pill complete">✓ Complete</span></div></a>
   </div>
 
   <div class="module-group">Module 3 — How The Web Works</div>
@@ -164,7 +177,6 @@
 
   <footer>
     <span>Aden's Study Portal · Pre-Security Pathway</span>
-    <a href="https://tryhackme.com/path/outline/presecurity" target="_blank" rel="noopener">View on TryHackMe ↗</a>
   </footer>
 </div>
 <script>
@@ -183,7 +195,7 @@
     });
     document.getElementById('statDone').textContent = modulesDone;
     document.getElementById('statRooms').textContent = done.length;
-    const pct = Math.round((done.length / all.length) * 100);
+    const pct = 25; // Platform-reported progress
     document.getElementById('progressPct').textContent = pct + '%';
     document.getElementById('progressFill').style.width = pct + '%';
   })();

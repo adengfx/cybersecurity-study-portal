@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="Room notes for OSI Model — TryHackMe Pre-Security pathway.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="OSI Model – Aden's Study Portal">
+<meta property="og:description" content="Room notes for OSI Model — TryHackMe Pre-Security pathway.">
+<meta property="og:url" content="https://adengfx.github.io/cybersecurity-study-portal/labs/presecurity/osi-model.html">
+<meta property="og:site_name" content="Aden's Study Portal">
+<meta name="twitter:card" content="summary">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>OSI Model – Aden's Study Portal</title>
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+    --bg: #0d1117; --surface: #161b22; --surface2: #1c2330; --border: #30363d;
+    --accent: #00e5ff; --accent2: #ff6b35; --accent3: #7ee787; --accent4: #d2a8ff;
+    --text: #e6edf3; --muted: #8b949e; --heading: #f0f6fc;
+  }
+  [data-theme="light"] {
+    --bg: #f6f8fa; --surface: #ffffff; --surface2: #f0f2f5; --border: #d0d7de;
+    --accent: #0077aa; --accent2: #d04a00; --accent3: #1a7f37; --accent4: #6e40c9;
+    --text: #24292f; --muted: #57606a; --heading: #1f2328;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 400; line-height: 1.7; padding: 2rem 1rem; }
+  .container { max-width: 860px; margin: 0 auto; }
+  .topbar { display: flex; align-items: center; justify-content: space-between; padding: 1.5rem 0 1rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border); }
+  .topbar-left { display: flex; align-items: center; gap: 1rem; }
+  .topbar-back { display: inline-flex; align-items: center; gap: 0.4rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; color: var(--muted); text-decoration: none; letter-spacing: 0.05em; transition: color 0.15s; }
+  .topbar-back:hover { color: var(--accent); }
+  .theme-btn { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; color: var(--muted); cursor: pointer; font-size: 1rem; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; transition: border-color 0.15s, color 0.15s; flex-shrink: 0; }
+  .theme-btn:hover { border-color: var(--accent); color: var(--accent); }
+  header { padding: 2rem 0 2rem; border-bottom: 1px solid var(--border); margin-bottom: 2rem; }
+  .label { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; letter-spacing: 0.2em; color: var(--accent4); text-transform: uppercase; margin-bottom: 0.5rem; }
+  .room-meta-row { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; margin-bottom: 0.6rem; }
+  .module-tag { font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; color: var(--accent2); background: rgba(255,107,53,0.08); border: 1px solid rgba(255,107,53,0.2); border-radius: 4px; padding: 0.1rem 0.45rem; }
+  .complete-tag { font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; color: var(--accent3); background: rgba(126,231,135,0.08); border: 1px solid rgba(126,231,135,0.2); border-radius: 4px; padding: 0.1rem 0.45rem; }
+  .date-tag { font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; color: var(--muted); border: 1px solid var(--border); border-radius: 4px; padding: 0.1rem 0.45rem; }
+  h1 { font-size: clamp(1.5rem, 4vw, 2.2rem); font-weight: 700; color: var(--heading); letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 0.4rem; }
+  .subtitle { font-size: 0.88rem; color: var(--muted); }
+  .section { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; margin-bottom: 1.25rem; }
+  .section h3 { font-size: 1rem; font-weight: 700; color: var(--accent); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+  .section h3::before { content: ''; display: inline-block; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; flex-shrink: 0; }
+  .term { font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem; background: rgba(0,229,255,0.08); border: 1px solid rgba(0,229,255,0.25); color: var(--accent); border-radius: 4px; padding: 0.1rem 0.45rem; white-space: nowrap; }
+  ul.notes { list-style: none; padding: 0; }
+  ul.notes li { padding: 0.35rem 0 0.35rem 1.2rem; position: relative; font-size: 0.93rem; border-bottom: 1px solid rgba(48,54,61,0.5); }
+  ul.notes li:last-child { border-bottom: none; }
+  ul.notes li::before { content: '›'; position: absolute; left: 0; color: var(--accent2); font-weight: 700; }
+  table.data { width: 100%; border-collapse: collapse; font-size: 0.88rem; margin-top: 0.5rem; }
+  table.data th { font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; text-align: left; padding: 0.4rem 0.75rem; border-bottom: 1px solid var(--border); }
+  table.data td { padding: 0.6rem 0.75rem; border-bottom: 1px solid rgba(48,54,61,0.4); vertical-align: top; }
+  table.data td strong { color: var(--heading); }
+  .stages { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 0.75rem; margin-top: 0.5rem; }
+  .stage-card { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 0.75rem 1rem; }
+  .stage-card .num { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--accent2); margin-bottom: 0.25rem; }
+  .stage-card .name { font-weight: 700; font-size: 0.88rem; color: var(--heading); margin-bottom: 0.25rem; }
+  .stage-card .desc { font-size: 0.8rem; color: var(--muted); line-height: 1.4; }
+  .room-img { width: 100%; max-width: 100%; height: auto; border-radius: 6px; border: 1px solid var(--border); margin-top: 1rem; display: block; }
+  .img-caption { font-size: 0.78rem; color: var(--muted); text-align: center; margin-top: 0.4rem; font-family: 'IBM Plex Mono', monospace; }
+  .nav-row { display: flex; justify-content: space-between; align-items: center; margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); flex-wrap: wrap; gap: 0.75rem; }
+  .nav-btn { font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; color: var(--muted); text-decoration: none; border: 1px solid var(--border); border-radius: 6px; padding: 0.4rem 0.85rem; transition: border-color 0.15s, color 0.15s; }
+  .nav-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .nav-btn.disabled { opacity: 0.3; pointer-events: none; }
+  footer { text-align: center; padding: 2rem; color: var(--muted); font-size: 0.78rem; border-top: 1px solid var(--border); margin-top: 2rem; font-family: 'IBM Plex Mono', monospace; }
+  @media (max-width: 600px) { body { padding-top: 0.5rem; } }
+
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="topbar">
+    <div class="topbar-left">
+      <a class="topbar-back" href="index.html">← Pre-Security</a>
+      <a class="topbar-back" href="../../index.html">← Portal</a>
+    </div>
+    <button class="theme-btn" id="themeBtn" title="Toggle theme">🌙</button>
+  </div>
+  <header>
+    <div class="label">TryHackMe · Pre-Security · Module 2</div>
+    <div class="room-meta-row">
+      <span class="module-tag">Module 2</span>
+      <span class="complete-tag">✓ Complete</span>
+      <span class="date-tag">29 May 2026</span>
+    </div>
+    <h1>OSI Model</h1>
+    <p class="subtitle">Learn about the fundamental networking framework that determines the various stages in which data is handled across a network.</p>
+  </header>
+
+  <div class="section">
+    <h3>What is the OSI Model?</h3>
+    <ul class="notes">
+      <li><span class="term">OSI</span> = Open Systems Interconnection Model — a critical framework that dictates how all networking devices send, receive, and interpret data.</li>
+      <li>Main benefit: devices can have <strong>different functions and designs</strong> on a network while still being able to communicate with each other.</li>
+      <li>Consists of <strong>seven layers</strong> (Layer 7 to Layer 1). As data passes through each layer, specific information is added — this is called <strong>encapsulation</strong>.</li>
+    </ul>
+    <img src="images/image23.png" alt="OSI model seven layers diagram" class="room-img">
+    <p class="img-caption">The seven layers of the OSI model</p>
+  </div>
+
+  <div class="section">
+    <h3>Layer 1 — Physical</h3>
+    <ul class="notes">
+      <li>References the physical hardware components used in networking — the lowest layer.</li>
+      <li>Devices use <strong>electrical signals</strong> to transfer data between each other in binary (1s and 0s).</li>
+      <li>Ethernet cables connect devices at this layer.</li>
+      <li><strong>PDU:</strong> Bits</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h3>Layer 2 — Data Link</h3>
+    <ul class="notes">
+      <li>Focuses on <strong>physical addressing</strong> of transmission.</li>
+      <li>Receives packets from the Network layer and adds the <strong>MAC address</strong> of the receiving endpoint.</li>
+      <li>Every network-enabled device has a <strong>Network Interface Card (NIC)</strong> with a unique MAC address set by the manufacturer — burnt into the card (can be spoofed but not permanently changed).</li>
+      <li>Also responsible for presenting data in a format suitable for transmission.</li>
+      <li><strong>PDU:</strong> Frames</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h3>Layer 3 — Network</h3>
+    <ul class="notes">
+      <li>Where <strong>routing and reassembly</strong> of data takes place.</li>
+      <li>Routing determines the most optimal path for data. Factors: shortest path, reliability, physical connection speed (copper vs fibre).</li>
+      <li>Protocols: <span class="term">OSPF</span> (Open Shortest Path First) and <span class="term">RIP</span> (Routing Information Protocol).</li>
+      <li>Everything dealt with via <strong>IP addresses</strong> at this layer. Routers are Layer 3 devices.</li>
+      <li><strong>PDU:</strong> Packets</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h3>Layer 4 — Transport</h3>
+    <ul class="notes">
+      <li>Transmits data using either <strong>TCP</strong> or <strong>UDP</strong>.</li>
+    </ul>
+    <table class="data" style="margin-top:0.75rem;">
+      <thead><tr><th>Feature</th><th>TCP</th><th>UDP</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Full name</strong></td><td>Transmission Control Protocol</td><td>User Datagram Protocol</td></tr>
+        <tr><td><strong>Reliability</strong></td><td>Guaranteed — error checking built in</td><td>No guarantee — data sent and hoped for</td></tr>
+        <tr><td><strong>Connection</strong></td><td>Reserves a constant connection for duration of transfer</td><td>Stateless — no continuous connection</td></tr>
+        <tr><td><strong>Speed</strong></td><td>Slower — more processes for reliability</td><td>Faster — minimal overhead</td></tr>
+        <tr><td><strong>Synchronisation</strong></td><td>Yes — prevents flooding between devices</td><td>No — application layer controls pacing</td></tr>
+        <tr><td><strong>Use cases</strong></td><td>File sharing, email, web browsing</td><td>Video streaming, ARP, DHCP, voice chat</td></tr>
+      </tbody>
+    </table>
+    <img src="images/image24.png" alt="TCP advantages and disadvantages" class="room-img">
+    <p class="img-caption">TCP — reliable but slower</p>
+    <img src="images/image25.png" alt="UDP characteristics" class="room-img">
+    <p class="img-caption">UDP — fast but no delivery guarantee</p>
+    <p style="font-size:0.88rem; margin-top:0.75rem;"><strong>PDU:</strong> Segments (TCP) / Datagrams (UDP)</p>
+  </div>
+
+  <div class="section">
+    <h3>Layer 5 — Session</h3>
+    <ul class="notes">
+      <li>Creates and maintains connections to other devices once data has been formatted by the Presentation layer.</li>
+      <li>Once a connection is established, a <strong>session</strong> is created — active for the duration of the connection.</li>
+      <li>Responsible for closing connections that are lost or inactive.</li>
+      <li>Sessions can contain <strong>checkpoints</strong> — if data is lost, only the newest pieces need to be re-sent, saving bandwidth.</li>
+      <li>Sessions are unique — data cannot travel across different sessions.</li>
+      <li><strong>PDU:</strong> Data</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h3>Layer 6 — Presentation</h3>
+    <ul class="notes">
+      <li>Where <strong>standardisation</strong> begins. Acts as a <strong>translator</strong> between the Application layer and the rest of the model.</li>
+      <li>Ensures data sent from one format can be understood by a computer using a different format (e.g. data sent across different email clients).</li>
+      <li>Security features such as <strong>data encryption</strong> (e.g. HTTPS) occur here.</li>
+      <li><strong>PDU:</strong> Data</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h3>Layer 7 — Application</h3>
+    <ul class="notes">
+      <li>The layer most familiar to users — where protocols and rules determine how users interact with data.</li>
+      <li>Everyday apps such as browsers and email clients provide a <strong>GUI (Graphical User Interface)</strong> for users to interact with data sent or received.</li>
+      <li>Other protocols include <span class="term">DNS</span> — how website addresses are translated into IP addresses.</li>
+      <li><strong>PDU:</strong> Data</li>
+    </ul>
+  </div>
+  <div class="nav-row">
+    <a class="nav-btn" href="intro-to-lan.html">← Intro to LAN</a>
+    <a class="nav-btn" href="packets-and-frames.html">Packets & Frames →</a>
+  </div>
+  <footer>Aden's Study Portal · TryHackMe Pre-Security</footer>
+</div>
+<script>
+  const btn = document.getElementById('themeBtn');
+  const html = document.documentElement;
+  const sys = window.matchMedia('(prefers-color-scheme: dark)');
+  const saved = localStorage.getItem('theme');
+  const t = saved || (sys.matches ? 'dark' : 'light');
+  html.setAttribute('data-theme', t);
+  btn.textContent = t === 'dark' ? '\u2600\ufe0f' : '\U0001f319';
+  btn.addEventListener('click', () => {
+    const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    btn.textContent = next === 'dark' ? '\u2600\ufe0f' : '\U0001f319';
+  });
+</script>
+</body>
+</html>

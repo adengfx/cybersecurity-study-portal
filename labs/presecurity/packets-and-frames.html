@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="Room notes for Packets & Frames — TryHackMe Pre-Security pathway.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Packets & Frames – Aden's Study Portal">
+<meta property="og:description" content="Room notes for Packets & Frames — TryHackMe Pre-Security pathway.">
+<meta property="og:url" content="https://adengfx.github.io/cybersecurity-study-portal/labs/presecurity/packets-and-frames.html">
+<meta property="og:site_name" content="Aden's Study Portal">
+<meta name="twitter:card" content="summary">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Packets & Frames – Aden's Study Portal</title>
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+    --bg: #0d1117; --surface: #161b22; --surface2: #1c2330; --border: #30363d;
+    --accent: #00e5ff; --accent2: #ff6b35; --accent3: #7ee787; --accent4: #d2a8ff;
+    --text: #e6edf3; --muted: #8b949e; --heading: #f0f6fc;
+  }
+  [data-theme="light"] {
+    --bg: #f6f8fa; --surface: #ffffff; --surface2: #f0f2f5; --border: #d0d7de;
+    --accent: #0077aa; --accent2: #d04a00; --accent3: #1a7f37; --accent4: #6e40c9;
+    --text: #24292f; --muted: #57606a; --heading: #1f2328;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 400; line-height: 1.7; padding: 2rem 1rem; }
+  .container { max-width: 860px; margin: 0 auto; }
+  .topbar { display: flex; align-items: center; justify-content: space-between; padding: 1.5rem 0 1rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border); }
+  .topbar-left { display: flex; align-items: center; gap: 1rem; }
+  .topbar-back { display: inline-flex; align-items: center; gap: 0.4rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; color: var(--muted); text-decoration: none; letter-spacing: 0.05em; transition: color 0.15s; }
+  .topbar-back:hover { color: var(--accent); }
+  .theme-btn { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; color: var(--muted); cursor: pointer; font-size: 1rem; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; transition: border-color 0.15s, color 0.15s; flex-shrink: 0; }
+  .theme-btn:hover { border-color: var(--accent); color: var(--accent); }
+  header { padding: 2rem 0 2rem; border-bottom: 1px solid var(--border); margin-bottom: 2rem; }
+  .label { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; letter-spacing: 0.2em; color: var(--accent4); text-transform: uppercase; margin-bottom: 0.5rem; }
+  .room-meta-row { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; margin-bottom: 0.6rem; }
+  .module-tag { font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; color: var(--accent2); background: rgba(255,107,53,0.08); border: 1px solid rgba(255,107,53,0.2); border-radius: 4px; padding: 0.1rem 0.45rem; }
+  .complete-tag { font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; color: var(--accent3); background: rgba(126,231,135,0.08); border: 1px solid rgba(126,231,135,0.2); border-radius: 4px; padding: 0.1rem 0.45rem; }
+  .date-tag { font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; color: var(--muted); border: 1px solid var(--border); border-radius: 4px; padding: 0.1rem 0.45rem; }
+  h1 { font-size: clamp(1.5rem, 4vw, 2.2rem); font-weight: 700; color: var(--heading); letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 0.4rem; }
+  .subtitle { font-size: 0.88rem; color: var(--muted); }
+  .section { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; margin-bottom: 1.25rem; }
+  .section h3 { font-size: 1rem; font-weight: 700; color: var(--accent); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+  .section h3::before { content: ''; display: inline-block; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; flex-shrink: 0; }
+  .term { font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem; background: rgba(0,229,255,0.08); border: 1px solid rgba(0,229,255,0.25); color: var(--accent); border-radius: 4px; padding: 0.1rem 0.45rem; white-space: nowrap; }
+  ul.notes { list-style: none; padding: 0; }
+  ul.notes li { padding: 0.35rem 0 0.35rem 1.2rem; position: relative; font-size: 0.93rem; border-bottom: 1px solid rgba(48,54,61,0.5); }
+  ul.notes li:last-child { border-bottom: none; }
+  ul.notes li::before { content: '›'; position: absolute; left: 0; color: var(--accent2); font-weight: 700; }
+  table.data { width: 100%; border-collapse: collapse; font-size: 0.88rem; margin-top: 0.5rem; }
+  table.data th { font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; text-align: left; padding: 0.4rem 0.75rem; border-bottom: 1px solid var(--border); }
+  table.data td { padding: 0.6rem 0.75rem; border-bottom: 1px solid rgba(48,54,61,0.4); vertical-align: top; }
+  table.data td strong { color: var(--heading); }
+  .stages { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 0.75rem; margin-top: 0.5rem; }
+  .stage-card { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 0.75rem 1rem; }
+  .stage-card .num { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--accent2); margin-bottom: 0.25rem; }
+  .stage-card .name { font-weight: 700; font-size: 0.88rem; color: var(--heading); margin-bottom: 0.25rem; }
+  .stage-card .desc { font-size: 0.8rem; color: var(--muted); line-height: 1.4; }
+  .room-img { width: 100%; max-width: 100%; height: auto; border-radius: 6px; border: 1px solid var(--border); margin-top: 1rem; display: block; }
+  .img-caption { font-size: 0.78rem; color: var(--muted); text-align: center; margin-top: 0.4rem; font-family: 'IBM Plex Mono', monospace; }
+  .nav-row { display: flex; justify-content: space-between; align-items: center; margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); flex-wrap: wrap; gap: 0.75rem; }
+  .nav-btn { font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; color: var(--muted); text-decoration: none; border: 1px solid var(--border); border-radius: 6px; padding: 0.4rem 0.85rem; transition: border-color 0.15s, color 0.15s; }
+  .nav-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .nav-btn.disabled { opacity: 0.3; pointer-events: none; }
+  footer { text-align: center; padding: 2rem; color: var(--muted); font-size: 0.78rem; border-top: 1px solid var(--border); margin-top: 2rem; font-family: 'IBM Plex Mono', monospace; }
+  @media (max-width: 600px) { body { padding-top: 0.5rem; } }
+
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="topbar">
+    <div class="topbar-left">
+      <a class="topbar-back" href="index.html">← Pre-Security</a>
+      <a class="topbar-back" href="../../index.html">← Portal</a>
+    </div>
+    <button class="theme-btn" id="themeBtn" title="Toggle theme">🌙</button>
+  </div>
+  <header>
+    <div class="label">TryHackMe · Pre-Security · Module 2</div>
+    <div class="room-meta-row">
+      <span class="module-tag">Module 2</span>
+      <span class="complete-tag">✓ Complete</span>
+      <span class="date-tag">29 May 2026</span>
+    </div>
+    <h1>Packets & Frames</h1>
+    <p class="subtitle">Understand how data is divided into smaller pieces and transmitted across a network — packets, frames, TCP/IP, the three-way handshake, UDP, and ports.</p>
+  </header>
+
+  <div class="section">
+    <h3>Packets and Frames</h3>
+    <ul class="notes">
+      <li><strong>Packet:</strong> A piece of data from <strong>Layer 3 (Network)</strong> — contains IP header and payload. Used when talking about IP addresses.</li>
+      <li><strong>Frame:</strong> Used at <strong>Layer 2 (Data Link)</strong> — encapsulates the packet and adds additional info such as MAC address.</li>
+      <li>Analogy: the frame is the envelope, the packet is the letter inside. Once the recipient opens the envelope (frame) they know how to forward the letter (packet).</li>
+      <li>Packets are an efficient way of communicating data — small pieces reduce the chance of bottlenecks compared to sending large messages at once.</li>
+      <li>This process of wrapping data with additional information at each layer is called <strong>encapsulation</strong>.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h3>IP Packet Headers</h3>
+    <table class="data">
+      <thead><tr><th>Header</th><th>Purpose</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Time to Live (TTL)</strong></td><td>Sets an expiry timer for the packet so it doesn't clog the network if it never reaches its destination.</td></tr>
+        <tr><td><strong>Checksum</strong></td><td>Provides integrity checking — if any data has changed, the checksum will be different and the packet discarded.</td></tr>
+        <tr><td><strong>Source address</strong></td><td>IP address of the device sending the packet — so data knows where to return to.</td></tr>
+        <tr><td><strong>Destination address</strong></td><td>IP address of the device receiving the packet — so data knows where to travel next.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <h3>TCP/IP Model</h3>
+    <ul class="notes">
+      <li>TCP/IP consists of <strong>4 layers</strong> — an arguably simplified version of the OSI model.</li>
+      <li>Layers: <strong>Application, Transport, Internet, Network Interface</strong>.</li>
+      <li>Information is added to each layer of the TCP model as the packet traverses it — similar to OSI encapsulation.</li>
+      <li>TCP is <strong>connection-based</strong> — must establish a connection before any data is sent. This guarantees data sent will be received on the other end.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h3>TCP Packet Headers</h3>
+    <table class="data">
+      <thead><tr><th>Header</th><th>Purpose</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Source Port</strong></td><td>Randomly chosen port (0–65535) opened by the sender to send the TCP packet from.</td></tr>
+        <tr><td><strong>Destination Port</strong></td><td>Port number the app/service is running on the remote host (e.g. port 80 for a web server).</td></tr>
+        <tr><td><strong>Source IP</strong></td><td>IP address of the device that sent the packet.</td></tr>
+        <tr><td><strong>Destination IP</strong></td><td>IP address the packet is destined for.</td></tr>
+        <tr><td><strong>Sequence Number</strong></td><td>First piece of data given a random number when connection occurs.</td></tr>
+        <tr><td><strong>Acknowledgement Number</strong></td><td>After data is given a sequence number, the next piece will have sequence number + 1.</td></tr>
+        <tr><td><strong>Checksum</strong></td><td>Provides TCP integrity — if the receiving device's calculation differs, the data has been corrupted.</td></tr>
+        <tr><td><strong>Data</strong></td><td>Where the actual data (e.g. bytes of a file) is stored.</td></tr>
+        <tr><td><strong>Flag</strong></td><td>Determines how the packet should be handled during the handshake process (SYN, ACK, FIN, RST etc.).</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <h3>TCP Three-Way Handshake</h3>
+    <ul class="notes">
+      <li>TCP must establish a connection before transmitting data — this is the <strong>three-way handshake</strong>.</li>
+      <li>Any sent data is given a random sequence number and reconstructed using that number, incrementing by 1. Both computers agree on the order during the handshake.</li>
+    </ul>
+    <div class="stages">
+      <div class="stage-card"><div class="num">STEP 1</div><div class="name">SYN</div><div class="desc">Client sends initial packet to initiate connection and synchronise sequence numbers.</div></div>
+      <div class="stage-card"><div class="num">STEP 2</div><div class="name">SYN/ACK</div><div class="desc">Server acknowledges the SYN attempt and sends its own ISN back to the client.</div></div>
+      <div class="stage-card"><div class="num">STEP 3</div><div class="name">ACK</div><div class="desc">Client acknowledges the server's ISN — connection is now established.</div></div>
+      <div class="stage-card"><div class="num">STEP 4</div><div class="name">DATA</div><div class="desc">Data (e.g. bytes of a file) is transmitted across the established connection.</div></div>
+      <div class="stage-card"><div class="num">STEP 5</div><div class="name">FIN</div><div class="desc">Used to cleanly close the connection once all data has been received.</div></div>
+      <div class="stage-card"><div class="num">RST</div><div class="name">Reset</div><div class="desc">Abruptly ends all communication — a last resort indicating a problem in the process.</div></div>
+    </div>
+    <img src="images/image26.png" alt="TCP three-way handshake diagram" class="room-img">
+    <p class="img-caption">TCP three-way handshake between two devices</p>
+    <img src="images/image27.png" alt="TCP connection close diagram" class="room-img">
+    <p class="img-caption">TCP closing a connection with FIN packets</p>
+  </div>
+
+  <div class="section">
+    <h3>UDP (User Datagram Protocol)</h3>
+    <ul class="notes">
+      <li>Unlike TCP, UDP is <strong>stateless</strong> — no connection required before sending data, no three-way handshake, no synchronisation.</li>
+      <li>Used where applications can tolerate data loss (video streaming, voice chat) or where an unstable connection is expected.</li>
+      <li>UDP packets are simpler than TCP — fewer headers. No checksum for data integrity.</li>
+      <li><strong>Advantages:</strong> Much faster than TCP; leaves the application layer to control packet pacing; doesn't reserve a continuous connection.</li>
+      <li><strong>Disadvantages:</strong> Doesn't care if data is received; unstable connections result in poor user experience.</li>
+    </ul>
+    <img src="images/image28.png" alt="UDP packet structure diagram" class="room-img">
+    <p class="img-caption">UDP packet structure — simpler than TCP with fewer headers</p>
+  </div>
+
+  <div class="section">
+    <h3>Ports</h3>
+    <ul class="notes">
+      <li>Ports are the points through which data is exchanged — like a harbour where ships (data) dock at specific berths (ports).</li>
+      <li>In computing, ports are numerical values between <strong>0–65535</strong>.</li>
+      <li>Ports <strong>0–1024</strong> are known as <strong>common ports</strong> — standardised for specific protocols.</li>
+    </ul>
+    <table class="data" style="margin-top:0.75rem;">
+      <thead><tr><th>Protocol</th><th>Port</th><th>Purpose</th></tr></thead>
+      <tbody>
+        <tr><td><strong>FTP</strong></td><td>21</td><td>File Transfer Protocol — client-server file sharing.</td></tr>
+        <tr><td><strong>SSH</strong></td><td>22</td><td>Secure Shell — securely login to systems via text-based interface.</td></tr>
+        <tr><td><strong>HTTP</strong></td><td>80</td><td>HyperText Transfer Protocol — powers the World Wide Web.</td></tr>
+        <tr><td><strong>HTTPS</strong></td><td>443</td><td>Secure HTTP — encrypted version using TLS/SSL.</td></tr>
+        <tr><td><strong>SMB</strong></td><td>445</td><td>Server Message Block — file and device (e.g. printer) sharing.</td></tr>
+        <tr><td><strong>RDP</strong></td><td>3389</td><td>Remote Desktop Protocol — virtual desktop access to a system.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="nav-row">
+    <a class="nav-btn" href="osi-model.html">← OSI Model</a>
+    <a class="nav-btn" href="extending-your-network.html">Extending Your Network →</a>
+  </div>
+  <footer>Aden's Study Portal · TryHackMe Pre-Security</footer>
+</div>
+<script>
+  const btn = document.getElementById('themeBtn');
+  const html = document.documentElement;
+  const sys = window.matchMedia('(prefers-color-scheme: dark)');
+  const saved = localStorage.getItem('theme');
+  const t = saved || (sys.matches ? 'dark' : 'light');
+  html.setAttribute('data-theme', t);
+  btn.textContent = t === 'dark' ? '\u2600\ufe0f' : '\U0001f319';
+  btn.addEventListener('click', () => {
+    const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    btn.textContent = next === 'dark' ? '\u2600\ufe0f' : '\U0001f319';
+  });
+</script>
+</body>
+</html>

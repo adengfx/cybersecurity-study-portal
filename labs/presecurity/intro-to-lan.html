@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="Room notes for Intro to LAN — TryHackMe Pre-Security pathway.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Intro to LAN – Aden's Study Portal">
+<meta property="og:description" content="Room notes for Intro to LAN — TryHackMe Pre-Security pathway.">
+<meta property="og:url" content="https://adengfx.github.io/cybersecurity-study-portal/labs/presecurity/intro-to-lan.html">
+<meta property="og:site_name" content="Aden's Study Portal">
+<meta name="twitter:card" content="summary">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Intro to LAN – Aden's Study Portal</title>
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+    --bg: #0d1117; --surface: #161b22; --surface2: #1c2330; --border: #30363d;
+    --accent: #00e5ff; --accent2: #ff6b35; --accent3: #7ee787; --accent4: #d2a8ff;
+    --text: #e6edf3; --muted: #8b949e; --heading: #f0f6fc;
+  }
+  [data-theme="light"] {
+    --bg: #f6f8fa; --surface: #ffffff; --surface2: #f0f2f5; --border: #d0d7de;
+    --accent: #0077aa; --accent2: #d04a00; --accent3: #1a7f37; --accent4: #6e40c9;
+    --text: #24292f; --muted: #57606a; --heading: #1f2328;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 400; line-height: 1.7; padding: 2rem 1rem; }
+  .container { max-width: 860px; margin: 0 auto; }
+  .topbar { display: flex; align-items: center; justify-content: space-between; padding: 1.5rem 0 1rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border); }
+  .topbar-left { display: flex; align-items: center; gap: 1rem; }
+  .topbar-back { display: inline-flex; align-items: center; gap: 0.4rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; color: var(--muted); text-decoration: none; letter-spacing: 0.05em; transition: color 0.15s; }
+  .topbar-back:hover { color: var(--accent); }
+  .theme-btn { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; color: var(--muted); cursor: pointer; font-size: 1rem; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; transition: border-color 0.15s, color 0.15s; flex-shrink: 0; }
+  .theme-btn:hover { border-color: var(--accent); color: var(--accent); }
+  header { padding: 2rem 0 2rem; border-bottom: 1px solid var(--border); margin-bottom: 2rem; }
+  .label { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; letter-spacing: 0.2em; color: var(--accent4); text-transform: uppercase; margin-bottom: 0.5rem; }
+  .room-meta-row { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; margin-bottom: 0.6rem; }
+  .module-tag { font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; color: var(--accent2); background: rgba(255,107,53,0.08); border: 1px solid rgba(255,107,53,0.2); border-radius: 4px; padding: 0.1rem 0.45rem; }
+  .complete-tag { font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; color: var(--accent3); background: rgba(126,231,135,0.08); border: 1px solid rgba(126,231,135,0.2); border-radius: 4px; padding: 0.1rem 0.45rem; }
+  .date-tag { font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; color: var(--muted); border: 1px solid var(--border); border-radius: 4px; padding: 0.1rem 0.45rem; }
+  h1 { font-size: clamp(1.5rem, 4vw, 2.2rem); font-weight: 700; color: var(--heading); letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 0.4rem; }
+  .subtitle { font-size: 0.88rem; color: var(--muted); }
+  .section { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; margin-bottom: 1.25rem; }
+  .section h3 { font-size: 1rem; font-weight: 700; color: var(--accent); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+  .section h3::before { content: ''; display: inline-block; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; flex-shrink: 0; }
+  .term { font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem; background: rgba(0,229,255,0.08); border: 1px solid rgba(0,229,255,0.25); color: var(--accent); border-radius: 4px; padding: 0.1rem 0.45rem; white-space: nowrap; }
+  ul.notes { list-style: none; padding: 0; }
+  ul.notes li { padding: 0.35rem 0 0.35rem 1.2rem; position: relative; font-size: 0.93rem; border-bottom: 1px solid rgba(48,54,61,0.5); }
+  ul.notes li:last-child { border-bottom: none; }
+  ul.notes li::before { content: '›'; position: absolute; left: 0; color: var(--accent2); font-weight: 700; }
+  table.data { width: 100%; border-collapse: collapse; font-size: 0.88rem; margin-top: 0.5rem; }
+  table.data th { font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; text-align: left; padding: 0.4rem 0.75rem; border-bottom: 1px solid var(--border); }
+  table.data td { padding: 0.6rem 0.75rem; border-bottom: 1px solid rgba(48,54,61,0.4); vertical-align: top; }
+  table.data td strong { color: var(--heading); }
+  .stages { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 0.75rem; margin-top: 0.5rem; }
+  .stage-card { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 0.75rem 1rem; }
+  .stage-card .num { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--accent2); margin-bottom: 0.25rem; }
+  .stage-card .name { font-weight: 700; font-size: 0.88rem; color: var(--heading); margin-bottom: 0.25rem; }
+  .stage-card .desc { font-size: 0.8rem; color: var(--muted); line-height: 1.4; }
+  .room-img { width: 100%; max-width: 100%; height: auto; border-radius: 6px; border: 1px solid var(--border); margin-top: 1rem; display: block; }
+  .img-caption { font-size: 0.78rem; color: var(--muted); text-align: center; margin-top: 0.4rem; font-family: 'IBM Plex Mono', monospace; }
+  .nav-row { display: flex; justify-content: space-between; align-items: center; margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); flex-wrap: wrap; gap: 0.75rem; }
+  .nav-btn { font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; color: var(--muted); text-decoration: none; border: 1px solid var(--border); border-radius: 6px; padding: 0.4rem 0.85rem; transition: border-color 0.15s, color 0.15s; }
+  .nav-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .nav-btn.disabled { opacity: 0.3; pointer-events: none; }
+  footer { text-align: center; padding: 2rem; color: var(--muted); font-size: 0.78rem; border-top: 1px solid var(--border); margin-top: 2rem; font-family: 'IBM Plex Mono', monospace; }
+  @media (max-width: 600px) { body { padding-top: 0.5rem; } }
+
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="topbar">
+    <div class="topbar-left">
+      <a class="topbar-back" href="index.html">← Pre-Security</a>
+      <a class="topbar-back" href="../../index.html">← Portal</a>
+    </div>
+    <button class="theme-btn" id="themeBtn" title="Toggle theme">🌙</button>
+  </div>
+  <header>
+    <div class="label">TryHackMe · Pre-Security · Module 2</div>
+    <div class="room-meta-row">
+      <span class="module-tag">Module 2</span>
+      <span class="complete-tag">✓ Complete</span>
+      <span class="date-tag">29 May 2026</span>
+    </div>
+    <h1>Intro to LAN</h1>
+    <p class="subtitle">Learn about the technologies and designs that power private networks — topologies, switches, routers, subnetting, ARP, and DHCP.</p>
+  </header>
+
+  <div class="section">
+    <h3>LAN Topologies</h3>
+    <table class="data">
+      <thead><tr><th>Topology</th><th>How it works</th><th>Advantages</th><th>Disadvantages</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Star</strong></td><td>Devices individually connected via a central switch or hub. Most common today.</td><td>Scalable; robust; easy to add devices</td><td>Expensive (more cabling + hardware); harder to maintain at scale; fails if central device fails</td></tr>
+        <tr><td><strong>Bus</strong></td><td>All devices stem from a single backbone cable like leaves on a tree branch.</td><td>Easy to implement; cost efficient</td><td>Prone to bottlenecks; single point of failure along backbone cable; little redundancy</td></tr>
+        <tr><td><strong>Ring (Token)</strong></td><td>Devices connected in a loop. Data travels in one direction, forwarded by each device. Device only sends received data if it has nothing of its own to send.</td><td>Little cabling; less dependence on dedicated hardware; easy to troubleshoot direction of fault</td><td>Inefficient — data may pass many devices; a cut cable breaks the entire network</td></tr>
+      </tbody>
+    </table>
+    <img src="images/image15.png" alt="Star topology diagram" class="room-img">
+    <p class="img-caption">Star topology — most common in modern networks</p>
+    <img src="images/image16.png" alt="Ring topology diagram" class="room-img">
+    <p class="img-caption">Ring (token) topology — data travels in one direction around the loop</p>
+  </div>
+
+  <div class="section">
+    <h3>Switches</h3>
+    <ul class="notes">
+      <li>Dedicated devices that aggregate multiple devices (computers, printers, etc.) using ethernet cables.</li>
+      <li>Available in 4, 8, 16, 24, 32, and 64 port variants — usually found in larger networks such as businesses and schools.</li>
+      <li>Much more efficient than hubs/repeaters — they <strong>keep track of which device is on which port</strong> and send packets directly, reducing unnecessary network traffic.</li>
+      <li>Switches and routers can connect to one another, increasing network redundancy — if one path goes down, another can be used (may reduce performance but no downtime).</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h3>Routers</h3>
+    <ul class="notes">
+      <li>Connect networks and pass data between them via <strong>routing</strong> — the process of creating a path between networks so data can be successfully delivered.</li>
+      <li>Operate at <strong>Layer 3 of the OSI model</strong>.</li>
+      <li>Useful when devices are connected by many paths — routing protocols determine the most optimal path based on: shortest path, reliability, and physical connection speed (copper vs fibre).</li>
+    </ul>
+    <img src="images/image17.png" alt="Router diagram" class="room-img">
+    <p class="img-caption">Router connecting multiple networks and choosing optimal paths</p>
+  </div>
+
+  <div class="section">
+    <h3>Subnetting</h3>
+    <ul class="notes">
+      <li><span class="term">Subnetting</span> = splitting a network into smaller networks. Achieved by splitting the number of hosts using a <strong>subnet mask</strong>.</li>
+      <li>Both IP address and subnet mask are made up of <strong>four octets</strong> ranging from 0–255. A subnet mask is <strong>32 bits</strong> total.</li>
+      <li>Benefits: efficiency, security, full control over network segments.</li>
+      <li>Businesses use subnetting to separate departments (e.g. Accounting, Finance, HR) — each gets its own subnet so traffic is isolated.</li>
+    </ul>
+    <table class="data" style="margin-top:1rem;">
+      <thead><tr><th>Address Type</th><th>Purpose</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Network address</strong></td><td>Identifies the start of the actual network — used to identify the network's existence.</td><td>192.168.1.0</td></tr>
+        <tr><td><strong>Host address</strong></td><td>IP address used to identify a specific device on the subnet.</td><td>192.168.1.100</td></tr>
+        <tr><td><strong>Default gateway</strong></td><td>Special address assigned to the device capable of sending data to another network. Usually .1 or .254.</td><td>192.168.1.1</td></tr>
+      </tbody>
+    </table>
+    <img src="images/image18.png" alt="Subnet diagram" class="room-img">
+    <p class="img-caption">Subnetting — splitting a network into smaller segments</p>
+    <img src="images/image20.png" alt="Subnetting business example" class="room-img">
+    <p class="img-caption">Business subnetting example — departments on separate subnets</p>
+  </div>
+
+  <div class="section">
+    <h3>ARP (Address Resolution Protocol)</h3>
+    <ul class="notes">
+      <li>Technology responsible for allowing devices to associate a <strong>MAC address</strong> with an <strong>IP address</strong> on a network.</li>
+      <li>Each device maintains an <strong>ARP cache</strong> — a ledger storing MAC-to-IP mappings for other devices.</li>
+      <li><strong>ARP Request:</strong> Broadcast to the entire network — "Which device owns this IP address?"</li>
+      <li><strong>ARP Reply:</strong> The device with the matching IP responds with its MAC address. The requesting device stores this in its ARP cache.</li>
+    </ul>
+    <img src="images/image21.png" alt="ARP request and reply diagram" class="room-img">
+    <p class="img-caption">ARP request and reply process</p>
+  </div>
+
+  <div class="section">
+    <h3>DHCP (Dynamic Host Configuration Protocol)</h3>
+    <ul class="notes">
+      <li>IP addresses can be assigned <strong>manually</strong> (static) or <strong>automatically</strong> via DHCP.</li>
+    </ul>
+    <div class="stages">
+      <div class="stage-card"><div class="num">STEP 1</div><div class="name">DHCP Discover</div><div class="desc">Device connects and broadcasts a request to find any DHCP server on the network.</div></div>
+      <div class="stage-card"><div class="num">STEP 2</div><div class="name">DHCP Offer</div><div class="desc">DHCP server replies with an IP address the device can use.</div></div>
+      <div class="stage-card"><div class="num">STEP 3</div><div class="name">DHCP Request</div><div class="desc">Device sends a reply confirming it wants to use the offered IP address.</div></div>
+      <div class="stage-card"><div class="num">STEP 4</div><div class="name">DHCP Ack</div><div class="desc">Server confirms the assignment is complete — device can now use the IP address.</div></div>
+    </div>
+    <img src="images/image22.png" alt="DHCP process diagram" class="room-img">
+    <p class="img-caption">DHCP four-step process — Discover, Offer, Request, Ack</p>
+  </div>
+  <div class="nav-row">
+    <a class="nav-btn" href="what-is-networking.html">← What is Networking?</a>
+    <a class="nav-btn" href="osi-model.html">OSI Model →</a>
+  </div>
+  <footer>Aden's Study Portal · TryHackMe Pre-Security</footer>
+</div>
+<script>
+  const btn = document.getElementById('themeBtn');
+  const html = document.documentElement;
+  const sys = window.matchMedia('(prefers-color-scheme: dark)');
+  const saved = localStorage.getItem('theme');
+  const t = saved || (sys.matches ? 'dark' : 'light');
+  html.setAttribute('data-theme', t);
+  btn.textContent = t === 'dark' ? '\u2600\ufe0f' : '\U0001f319';
+  btn.addEventListener('click', () => {
+    const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    btn.textContent = next === 'dark' ? '\u2600\ufe0f' : '\U0001f319';
+  });
+</script>
+</body>
+</html>

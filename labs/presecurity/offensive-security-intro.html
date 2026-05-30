@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="Room notes for Offensive Security Intro — TryHackMe Pre-Security pathway.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Offensive Security Intro – Aden's Study Portal">
+<meta property="og:description" content="Room notes for Offensive Security Intro — TryHackMe Pre-Security pathway.">
+<meta property="og:url" content="https://adengfx.github.io/cybersecurity-study-portal/labs/presecurity/offensive-security-intro.html">
+<meta property="og:site_name" content="Aden's Study Portal">
+<meta name="twitter:card" content="summary">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Offensive Security Intro – Aden's Study Portal</title>
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+    --bg: #0d1117; --surface: #161b22; --surface2: #1c2330; --border: #30363d;
+    --accent: #00e5ff; --accent2: #ff6b35; --accent3: #7ee787; --accent4: #d2a8ff;
+    --text: #e6edf3; --muted: #8b949e; --heading: #f0f6fc;
+  }
+  [data-theme="light"] {
+    --bg: #f6f8fa; --surface: #ffffff; --surface2: #f0f2f5; --border: #d0d7de;
+    --accent: #0077aa; --accent2: #d04a00; --accent3: #1a7f37; --accent4: #6e40c9;
+    --text: #24292f; --muted: #57606a; --heading: #1f2328;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 400; line-height: 1.7; padding: 2rem 1rem; }
+  .container { max-width: 860px; margin: 0 auto; }
+  .topbar { display: flex; align-items: center; justify-content: space-between; padding: 1.5rem 0 1rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border); }
+  .topbar-left { display: flex; align-items: center; gap: 1rem; }
+  .topbar-back { display: inline-flex; align-items: center; gap: 0.4rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; color: var(--muted); text-decoration: none; letter-spacing: 0.05em; transition: color 0.15s; }
+  .topbar-back:hover { color: var(--accent); }
+  .theme-btn { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; color: var(--muted); cursor: pointer; font-size: 1rem; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; transition: border-color 0.15s, color 0.15s; flex-shrink: 0; }
+  .theme-btn:hover { border-color: var(--accent); color: var(--accent); }
+  header { padding: 2rem 0 2rem; border-bottom: 1px solid var(--border); margin-bottom: 2rem; }
+  .label { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; letter-spacing: 0.2em; color: var(--accent4); text-transform: uppercase; margin-bottom: 0.5rem; }
+  .room-meta-row { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; margin-bottom: 0.6rem; }
+  .module-tag { font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; color: var(--accent2); background: rgba(255,107,53,0.08); border: 1px solid rgba(255,107,53,0.2); border-radius: 4px; padding: 0.1rem 0.45rem; }
+  .complete-tag { font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; color: var(--accent3); background: rgba(126,231,135,0.08); border: 1px solid rgba(126,231,135,0.2); border-radius: 4px; padding: 0.1rem 0.45rem; }
+  .date-tag { font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; color: var(--muted); border: 1px solid var(--border); border-radius: 4px; padding: 0.1rem 0.45rem; }
+  h1 { font-size: clamp(1.5rem, 4vw, 2.2rem); font-weight: 700; color: var(--heading); letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 0.4rem; }
+  .subtitle { font-size: 0.88rem; color: var(--muted); }
+  .section { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; margin-bottom: 1.25rem; }
+  .section h3 { font-size: 1rem; font-weight: 700; color: var(--accent); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+  .section h3::before { content: ''; display: inline-block; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; flex-shrink: 0; }
+  .term { font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem; background: rgba(0,229,255,0.08); border: 1px solid rgba(0,229,255,0.25); color: var(--accent); border-radius: 4px; padding: 0.1rem 0.45rem; white-space: nowrap; }
+  ul.notes { list-style: none; padding: 0; }
+  ul.notes li { padding: 0.35rem 0 0.35rem 1.2rem; position: relative; font-size: 0.93rem; border-bottom: 1px solid rgba(48,54,61,0.5); }
+  ul.notes li:last-child { border-bottom: none; }
+  ul.notes li::before { content: '›'; position: absolute; left: 0; color: var(--accent2); font-weight: 700; }
+  table.data { width: 100%; border-collapse: collapse; font-size: 0.88rem; margin-top: 0.5rem; }
+  table.data th { font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; text-align: left; padding: 0.4rem 0.75rem; border-bottom: 1px solid var(--border); }
+  table.data td { padding: 0.6rem 0.75rem; border-bottom: 1px solid rgba(48,54,61,0.4); vertical-align: top; }
+  table.data td strong { color: var(--heading); }
+  .stages { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 0.75rem; margin-top: 0.5rem; }
+  .stage-card { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 0.75rem 1rem; }
+  .stage-card .num { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--accent2); margin-bottom: 0.25rem; }
+  .stage-card .name { font-weight: 700; font-size: 0.88rem; color: var(--heading); margin-bottom: 0.25rem; }
+  .stage-card .desc { font-size: 0.8rem; color: var(--muted); line-height: 1.4; }
+  .room-img { width: 100%; max-width: 100%; height: auto; border-radius: 6px; border: 1px solid var(--border); margin-top: 1rem; display: block; }
+  .img-caption { font-size: 0.78rem; color: var(--muted); text-align: center; margin-top: 0.4rem; font-family: 'IBM Plex Mono', monospace; }
+  .nav-row { display: flex; justify-content: space-between; align-items: center; margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); flex-wrap: wrap; gap: 0.75rem; }
+  .nav-btn { font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; color: var(--muted); text-decoration: none; border: 1px solid var(--border); border-radius: 6px; padding: 0.4rem 0.85rem; transition: border-color 0.15s, color 0.15s; }
+  .nav-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .nav-btn.disabled { opacity: 0.3; pointer-events: none; }
+  footer { text-align: center; padding: 2rem; color: var(--muted); font-size: 0.78rem; border-top: 1px solid var(--border); margin-top: 2rem; font-family: 'IBM Plex Mono', monospace; }
+  @media (max-width: 600px) { body { padding-top: 0.5rem; } }
+
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="topbar">
+    <div class="topbar-left">
+      <a class="topbar-back" href="index.html">← Pre-Security</a>
+      <a class="topbar-back" href="../../index.html">← Portal</a>
+    </div>
+    <button class="theme-btn" id="themeBtn" title="Toggle theme">🌙</button>
+  </div>
+  <header>
+    <div class="label">TryHackMe · Pre-Security · Module 1</div>
+    <div class="room-meta-row">
+      <span class="module-tag">Module 1</span>
+      <span class="complete-tag">✓ Complete</span>
+      <span class="date-tag">29 May 2026</span>
+    </div>
+    <h1>Offensive Security Intro</h1>
+    <p class="subtitle">Hack your first website legally in a safe environment and experience an ethical hacker's job.</p>
+  </header>
+
+  <div class="section">
+    <h3>What is Offensive Security?</h3>
+    <ul class="notes">
+      <li><em>"To outsmart a hacker, you need to think like one"</em> — the core principle of offensive security.</li>
+      <li>Involves breaking into computer systems, exploiting software bugs, and finding loopholes in applications to gain <strong>authorised</strong> access.</li>
+      <li>Goal is to understand hacker tactics in order to enhance system defences.</li>
+      <li>The counterpart to defensive security — where defenders protect systems, offensive security practitioners probe them to find weaknesses first.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h3>Offensive Security Roles</h3>
+    <table class="data">
+      <thead><tr><th>Role</th><th>Responsibility</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Penetration Tester</strong></td><td>Tests technology products for exploitable security vulnerabilities.</td></tr>
+        <tr><td><strong>Red Teamer</strong></td><td>Plays the role of an adversary, attacking an organisation and providing feedback from an enemy's perspective.</td></tr>
+        <tr><td><strong>Security Engineer</strong></td><td>Designs, monitors, and maintains security controls, networks, and systems to help prevent cyberattacks.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="nav-row">
+    <span class="nav-btn disabled">← Previous</span>
+    <a class="nav-btn" href="defensive-security-intro.html">Defensive Security Intro →</a>
+  </div>
+  <footer>Aden's Study Portal · TryHackMe Pre-Security</footer>
+</div>
+<script>
+  const btn = document.getElementById('themeBtn');
+  const html = document.documentElement;
+  const sys = window.matchMedia('(prefers-color-scheme: dark)');
+  const saved = localStorage.getItem('theme');
+  const t = saved || (sys.matches ? 'dark' : 'light');
+  html.setAttribute('data-theme', t);
+  btn.textContent = t === 'dark' ? '\u2600\ufe0f' : '\U0001f319';
+  btn.addEventListener('click', () => {
+    const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    btn.textContent = next === 'dark' ? '\u2600\ufe0f' : '\U0001f319';
+  });
+</script>
+</body>
+</html>

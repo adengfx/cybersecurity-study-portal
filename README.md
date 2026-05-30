@@ -10,13 +10,14 @@ A personal study portal for tracking progress through cybersecurity courses, cer
 |---|---|---|---|
 | Cybersecurity Foundations | [View notes](https://adengfx.github.io/cybersecurity-study-portal/cybersecurity_foundations_study_guide.html) | 77% | NASBA |
 | Networking Basics | [View notes](https://adengfx.github.io/cybersecurity-study-portal/networking_basics_study_guide.html) | N/A | — |
+| TryHackMe Pre-Security | [View notes](https://adengfx.github.io/cybersecurity-study-portal/tryhackme_pre_security_study_guide.html) | In Progress | — |
 | IT Security Foundations: Core Concepts | [View notes](https://adengfx.github.io/cybersecurity-study-portal/it_security_foundations_study_guide.html) | 100% | NASBA |
 
 ## Lab Pathways
 
 | Platform | Pathway | Status | Rooms |
 |---|---|---|---|
-| TryHackMe | [Pre-Security](https://adengfx.github.io/cybersecurity-study-portal/labs/presecurity/) | In Progress | 31 rooms · 7 modules |
+| TryHackMe | [Pre-Security](https://adengfx.github.io/cybersecurity-study-portal/labs/presecurity/) | In Progress (25%) | 31 rooms · 7 modules |
 | TryHackMe | [Cyber Security 101](https://adengfx.github.io/cybersecurity-study-portal/labs/cybersecurity101/) | Not started | 47 rooms · 14 sections |
 | TryHackMe | [SOC Level 1](https://adengfx.github.io/cybersecurity-study-portal/labs/soc1/) | Not started | 55 rooms · 14 sections |
 
