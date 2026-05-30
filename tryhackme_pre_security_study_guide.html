@@ -2,10 +2,10 @@
 <html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
-<meta name="description" content="Study notes for the TryHackMe Pre-Security pathway — covering offensive and defensive security, networking fundamentals, packets and frames, and extending your network.">
+<meta name="description" content="Full study guide for the TryHackMe Pre-Security pathway — consolidated reference covering all modules.">
 <meta property="og:type" content="website">
-<meta property="og:title" content="TryHackMe Pre-Security – Study Notes">
-<meta property="og:description" content="Study notes for the TryHackMe Pre-Security pathway.">
+<meta property="og:title" content="TryHackMe Pre-Security – Study Guide">
+<meta property="og:description" content="Full study guide for the TryHackMe Pre-Security pathway.">
 <meta property="og:url" content="https://adengfx.github.io/cybersecurity-study-portal/tryhackme_pre_security_study_guide.html">
 <meta property="og:site_name" content="Aden's Study Portal">
 <meta name="twitter:card" content="summary">
@@ -14,8 +14,8 @@
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
-:root { --bg:#0d1117;--surface:#161b22;--surface2:#1c2330;--border:#30363d;--accent:#00e5ff;--accent2:#ff6b35;--accent3:#7ee787;--accent4:#d2a8ff;--text:#e6edf3;--muted:#8b949e;--heading:#f0f6fc; }
-[data-theme="light"] { --bg:#f6f8fa;--surface:#ffffff;--surface2:#f0f2f5;--border:#d0d7de;--accent:#0077aa;--accent2:#d04a00;--accent3:#1a7f37;--accent4:#6e40c9;--text:#24292f;--muted:#57606a;--heading:#1f2328; }
+:root{--bg:#0d1117;--surface:#161b22;--surface2:#1c2330;--border:#30363d;--accent:#00e5ff;--accent2:#ff6b35;--accent3:#7ee787;--accent4:#d2a8ff;--text:#e6edf3;--muted:#8b949e;--heading:#f0f6fc;}
+[data-theme="light"]{--bg:#f6f8fa;--surface:#ffffff;--surface2:#f0f2f5;--border:#d0d7de;--accent:#0077aa;--accent2:#d04a00;--accent3:#1a7f37;--accent4:#6e40c9;--text:#24292f;--muted:#57606a;--heading:#1f2328;}
 *{box-sizing:border-box;margin:0;padding:0;}
 body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:400;line-height:1.7;padding:2rem 1rem;}
 .container{max-width:960px;margin:0 auto;}
@@ -28,11 +28,8 @@ header{text-align:center;padding:3rem 1rem 2rem;border-bottom:1px solid var(--bo
 header .label{font-family:'IBM Plex Mono',monospace;font-size:0.75rem;letter-spacing:0.2em;color:var(--accent);text-transform:uppercase;margin-bottom:0.75rem;}
 header h1{font-size:clamp(1.8rem,5vw,3rem);font-weight:700;color:var(--heading);letter-spacing:-0.02em;margin-bottom:0.5rem;}
 header .subtitle{color:var(--muted);font-size:0.95rem;}
-.view-course-link{display:inline-flex;align-items:center;gap:0.3rem;font-family:'IBM Plex Mono',monospace;font-size:0.75rem;color:var(--accent);text-decoration:none;opacity:0.75;border:1px solid rgba(0,229,255,0.25);border-radius:4px;padding:0.2rem 0.6rem;margin-top:0.5rem;transition:opacity 0.15s,border-color 0.15s;width:fit-content;}
-.view-course-link:hover{opacity:1;border-color:var(--accent);}
-.share-btn{display:inline-flex;align-items:center;gap:0.35rem;font-family:'IBM Plex Mono',monospace;font-size:0.75rem;color:var(--muted);background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:0.2rem 0.6rem;cursor:pointer;transition:border-color 0.15s,color 0.15s;margin-top:0.5rem;}
-.share-btn:hover{border-color:var(--accent);color:var(--accent);}
-.share-btn.copied{border-color:var(--accent3);color:var(--accent3);}
+.view-course-link{display:inline-flex;align-items:center;gap:0.3rem;font-family:'IBM Plex Mono',monospace;font-size:0.75rem;color:var(--accent);text-decoration:none;opacity:0.75;border:1px solid rgba(0,229,255,0.25);border-radius:4px;padding:0.2rem 0.6rem;margin-top:0.5rem;transition:opacity 0.15s;width:fit-content;}
+.view-course-link:hover{opacity:1;}
 .toc{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:1.5rem 2rem;margin-bottom:3rem;}
 .toc h2{font-family:'IBM Plex Mono',monospace;font-size:0.8rem;color:var(--accent);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:1rem;}
 .toc ul{columns:2;column-gap:2rem;padding-left:0;list-style:none;}
@@ -43,6 +40,8 @@ header .subtitle{color:var(--muted);font-size:0.95rem;}
 .chapter-header{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;padding-bottom:0.75rem;border-bottom:1px solid var(--border);}
 .chapter-num{font-family:'IBM Plex Mono',monospace;font-size:0.7rem;color:var(--accent2);background:rgba(255,107,53,0.12);border:1px solid rgba(255,107,53,0.3);border-radius:4px;padding:0.15rem 0.5rem;white-space:nowrap;}
 .chapter h2{font-size:1.4rem;font-weight:700;color:var(--heading);letter-spacing:-0.01em;}
+.room-link{display:inline-flex;align-items:center;gap:0.3rem;font-family:'IBM Plex Mono',monospace;font-size:0.7rem;color:var(--accent4);text-decoration:none;border:1px solid rgba(210,168,255,0.25);border-radius:4px;padding:0.15rem 0.5rem;margin-bottom:1.25rem;transition:border-color 0.15s,color 0.15s;}
+.room-link:hover{border-color:var(--accent4);color:var(--accent4);}
 .section{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1.5rem;margin-bottom:1.25rem;}
 .section h3{font-size:1rem;font-weight:700;color:var(--accent);margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem;}
 .section h3::before{content:'';display:inline-block;width:6px;height:6px;background:var(--accent);border-radius:50%;flex-shrink:0;}
@@ -70,8 +69,8 @@ table.data td strong{color:var(--heading);}
 .osi-card .layer-desc{font-size:0.78rem;color:var(--muted);line-height:1.4;margin-top:0.25rem;}
 .pending-section{background:var(--surface);border:1px dashed var(--border);border-radius:8px;padding:1.5rem;margin-bottom:1.25rem;display:flex;align-items:center;gap:0.75rem;color:var(--muted);font-size:0.9rem;}
 .pending-section::before{content:'⏳';font-size:1.1rem;flex-shrink:0;}
-.room-img{width:100%;max-width:100%;height:auto;border-radius:6px;border:1px solid var(--border);margin-top:1rem;display:block;object-fit:contain;}
-.img-caption{font-size:0.78rem;color:var(--muted);text-align:center;margin-top:0.4rem;font-family:'IBM Plex Mono',monospace;}
+.room-img{width:100%;max-width:640px;height:auto;border-radius:6px;border:1px solid var(--border);margin:0.75rem auto 0.25rem;display:block;object-fit:contain;}
+.img-caption{font-size:0.75rem;color:var(--muted);text-align:center;margin-bottom:0.75rem;font-family:'IBM Plex Mono',monospace;}
 footer{text-align:center;padding:2rem;color:var(--muted);font-size:0.8rem;border-top:1px solid var(--border);margin-top:3rem;}
 @media(max-width:600px){body{padding-top:0.5rem;}.toc ul{columns:1;}}
 </style>
@@ -82,286 +81,166 @@ footer{text-align:center;padding:2rem;color:var(--muted);font-size:0.8rem;border
   <a class="topbar-back" href="index.html">← Back to Portal</a>
   <button class="theme-btn" id="themeBtn" title="Toggle theme">🌙</button>
 </div>
-
 <header>
   <div class="label">TryHackMe · Pre-Security Pathway</div>
   <h1>Pre-Security</h1>
-  <p class="subtitle">7 Modules · 31 Rooms · 35 min read</p>
+  <p class="subtitle">7 Modules · 31 Rooms · Consolidated reference guide</p>
   <a class="view-course-link" href="https://tryhackme.com/path/outline/presecurity" target="_blank">View pathway on TryHackMe →</a>
-  <button class="share-btn" id="shareBtn">⎘ Copy notes link</button>
 </header>
 
 <nav class="toc">
   <h2>Contents</h2>
   <ul>
-    <li><a href="#m1-offensive">Offensive Security Intro</a></li>
-    <li><a href="#m1-defensive">Defensive Security Intro</a></li>
-    <li><a href="#m1-careers">Careers in Cyber</a></li>
+    <li><a href="#m1">Module 1 — Intro to Cyber Security</a></li>
     <li><a href="#m2-networking">What is Networking?</a></li>
     <li><a href="#m2-lan">Intro to LAN</a></li>
     <li><a href="#m2-osi">OSI Model</a></li>
     <li><a href="#m2-packets">Packets &amp; Frames</a></li>
     <li><a href="#m2-extending">Extending Your Network</a></li>
-    <li><a href="#m3-web">How The Web Works</a></li>
-    <li><a href="#m4-computer">Computer Fundamentals</a></li>
-    <li><a href="#m5-os">Operating Systems Basics</a></li>
-    <li><a href="#m6-software">Software Basics</a></li>
-    <li><a href="#m7-attacks">Attacks and Defenses</a></li>
+    <li><a href="#m3">Module 3 — How The Web Works</a></li>
+    <li><a href="#m4">Module 4 — Computer Fundamentals</a></li>
+    <li><a href="#m5">Module 5 — Operating Systems</a></li>
+    <li><a href="#m6">Module 6 — Software Basics</a></li>
+    <li><a href="#m7">Module 7 — Attacks and Defenses</a></li>
   </ul>
 </nav>
 
 <!-- MODULE 1 -->
-<div class="chapter" id="m1-offensive">
-  <div class="chapter-header"><span class="chapter-num">MODULE 1</span><h2>Offensive Security Intro</h2></div>
-  <div class="section">
-    <h3>What is Offensive Security?</h3>
-    <ul class="notes">
-      <li><em>"To outsmart a hacker, you need to think like one"</em> — the core principle of offensive security.</li>
-      <li>Involves breaking into computer systems, exploiting software bugs, and finding loopholes to gain <strong>authorised</strong> access.</li>
-      <li>Goal is to understand hacker tactics to enhance system defences.</li>
-    </ul>
-  </div>
-  <div class="section">
-    <h3>Offensive Security Roles</h3>
-    <table class="data">
-      <thead><tr><th>Role</th><th>Responsibility</th></tr></thead>
-      <tbody>
-        <tr><td><strong>Penetration Tester</strong></td><td>Tests technology products for exploitable security vulnerabilities.</td></tr>
-        <tr><td><strong>Red Teamer</strong></td><td>Plays the role of an adversary, attacking an organisation and providing feedback from an enemy's perspective.</td></tr>
-        <tr><td><strong>Security Engineer</strong></td><td>Designs, monitors, and maintains security controls, networks, and systems to help prevent cyberattacks.</td></tr>
-      </tbody>
-    </table>
-  </div>
-</div>
+<div class="chapter" id="m1">
+  <div class="chapter-header"><span class="chapter-num">MODULE 1</span><h2>Introduction to Cyber Security</h2></div>
+  <a class="room-link" href="labs/presecurity/offensive-security-intro.html">Offensive Security Intro →</a>
+  <a class="room-link" href="labs/presecurity/defensive-security-intro.html">Defensive Security Intro →</a>
+  <a class="room-link" href="labs/presecurity/careers-in-cyber.html">Careers in Cyber →</a>
 
-<div class="chapter" id="m1-defensive">
-  <div class="chapter-header"><span class="chapter-num">MODULE 1</span><h2>Defensive Security Intro</h2></div>
   <div class="section">
-    <h3>What is Defensive Security?</h3>
-    <ul class="notes">
-      <li>Concerned with two main tasks: <strong>preventing intrusions</strong> and <strong>detecting and responding</strong> to intrusions when they occur.</li>
-      <li><strong>Blue teams</strong> are the core of the defensive security landscape.</li>
-    </ul>
-    <table class="data" style="margin-top:1rem;">
-      <thead><tr><th>Task</th><th>Description</th></tr></thead>
+    <h3>Offensive vs Defensive Security</h3>
+    <table class="data">
+      <thead><tr><th>Type</th><th>Goal</th><th>Key Teams</th></tr></thead>
       <tbody>
-        <tr><td><strong>User awareness</strong></td><td>Training users about cybersecurity helps protect against attacks targeting human error.</td></tr>
-        <tr><td><strong>Asset management</strong></td><td>Documenting and managing systems and devices so everything needing protection is known.</td></tr>
-        <tr><td><strong>Patching</strong></td><td>Ensuring computers, servers, and network devices are correctly updated against known vulnerabilities.</td></tr>
-        <tr><td><strong>Preventative devices</strong></td><td>Firewalls control network traffic; IPS (Intrusion Prevention Systems) block malicious traffic.</td></tr>
-        <tr><td><strong>Logging &amp; monitoring</strong></td><td>Essential for detecting malicious activity — e.g. new unauthorised devices on the network.</td></tr>
+        <tr><td><strong>Offensive</strong></td><td>Break into systems (with authorisation) to find vulnerabilities before attackers do</td><td>Red Team, Pen Testers</td></tr>
+        <tr><td><strong>Defensive</strong></td><td>Prevent intrusions, detect them when they occur, and respond effectively</td><td>Blue Team, SOC Analysts</td></tr>
       </tbody>
     </table>
   </div>
+
   <div class="section">
-    <h3>Security Operations Center (SOC)</h3>
+    <h3>Defensive Security Areas</h3>
     <ul class="notes">
-      <li>Team of cybersecurity professionals that <strong>monitor a network and its systems</strong> to detect malicious events.</li>
-      <li><strong>Vulnerabilities:</strong> Weaknesses in systems — SOC tracks and ensures they are patched or mitigated.</li>
-      <li><strong>Policy violations:</strong> E.g. a user uploading confidential data to an unauthorised cloud service.</li>
-      <li><strong>Unauthorised activity:</strong> Detecting when stolen credentials are used to log in to the network.</li>
-      <li><strong>Network intrusions:</strong> Detecting intrusions as quickly as possible — can occur via malicious links or exploitation of public servers.</li>
+      <li><strong>SOC</strong> — monitors networks for vulnerabilities, policy violations, unauthorised activity, and intrusions.</li>
+      <li><strong>Threat Intelligence</strong> — collects and analyses data about adversaries to achieve threat-informed defence. Identifies TTPs.</li>
+      <li><strong>DFIR</strong> — investigates file systems, system memory, system logs, and network logs to establish facts about incidents.</li>
+      <li><strong>Malware Analysis</strong> — static analysis (inspect without running) and dynamic analysis (run in controlled environment).</li>
+      <li><strong>SIEM</strong> — aggregates security events into a centralised dashboard for analyst review.</li>
     </ul>
   </div>
+
   <div class="section">
-    <h3>Threat Intelligence</h3>
-    <ul class="notes">
-      <li>Intelligence = information gathered about actual and potential enemies. A <strong>threat</strong> is any action that can disrupt or affect a system.</li>
-      <li>Purpose: achieve <strong>threat-informed defence</strong>. Different organisations face different adversaries.</li>
-      <li><strong>Data collection:</strong> Locally via network logs, or publicly via forums and threat feeds.</li>
-      <li><strong>Analysis:</strong> Identifies TTPs (Tactics, Techniques &amp; Procedures) and produces actionable recommendations.</li>
-    </ul>
-  </div>
-  <div class="section">
-    <h3>Digital Forensics &amp; Incident Response (DFIR)</h3>
-    <ul class="notes">
-      <li><strong>File system:</strong> Forensic image reveals installed programs, created/deleted files.</li>
-      <li><strong>System memory:</strong> If malware runs only in memory, a forensic memory image is the best analysis method.</li>
-      <li><strong>System logs:</strong> Even if an attacker clears their traces, some log entries will remain.</li>
-      <li><strong>Network logs:</strong> Logs of network packets help establish whether an attack is occurring.</li>
-    </ul>
-    <div class="stages" style="margin-top:1rem;">
-      <div class="stage-card"><div class="num">PHASE 1</div><div class="name">Preparation</div><div class="desc">Team trained and ready. Preventative measures in place.</div></div>
-      <div class="stage-card"><div class="num">PHASE 2</div><div class="name">Detection &amp; Analysis</div><div class="desc">Resources to detect and analyse incidents.</div></div>
+    <h3>Incident Response Phases</h3>
+    <div class="stages">
+      <div class="stage-card"><div class="num">PHASE 1</div><div class="name">Preparation</div><div class="desc">Team trained, preventative measures in place.</div></div>
+      <div class="stage-card"><div class="num">PHASE 2</div><div class="name">Detection &amp; Analysis</div><div class="desc">Detect and analyse the severity of incidents.</div></div>
       <div class="stage-card"><div class="num">PHASE 3</div><div class="name">Containment, Eradication &amp; Recovery</div><div class="desc">Stop spread, eliminate threat, restore systems.</div></div>
       <div class="stage-card"><div class="num">PHASE 4</div><div class="name">Post-Incident Activity</div><div class="desc">Report produced, lessons learned shared.</div></div>
     </div>
   </div>
-  <div class="section">
-    <h3>Malware Analysis</h3>
-    <ul class="notes">
-      <li><span class="term">Malware</span> = malicious software.</li>
-      <li><strong>Virus:</strong> Attaches to a program and spreads by altering, overwriting, or deleting files.</li>
-      <li><strong>Ransomware:</strong> Encrypts user files. Attacker demands payment for the decryption key.</li>
-      <li><strong>Trojan horse:</strong> Appears legitimate but hides a malicious payload.</li>
-      <li><strong>Static analysis:</strong> Inspects the program without running it — requires assembly language knowledge.</li>
-      <li><strong>Dynamic analysis:</strong> Runs malware in a controlled environment and monitors its behaviour.</li>
-    </ul>
-  </div>
-  <div class="section">
-    <h3>SIEM</h3>
-    <ul class="notes">
-      <li><span class="term">SIEM</span> (Security Information and Event Management) — gathers security events from various sources and presents them in a centralised dashboard.</li>
-      <li>Not all alerts are malicious — analyst uses expertise to determine which are harmful.</li>
-      <li>SOC workflow: review alert → investigate IP → escalate to team lead → block IP address.</li>
-    </ul>
-  </div>
-</div>
 
-<div class="chapter" id="m1-careers">
-  <div class="chapter-header"><span class="chapter-num">MODULE 1</span><h2>Careers in Cyber</h2></div>
+  <div class="section">
+    <h3>Malware Types</h3>
+    <table class="data">
+      <thead><tr><th>Type</th><th>Behaviour</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Virus</strong></td><td>Attaches to programs, spreads between computers by altering/overwriting/deleting files.</td></tr>
+        <tr><td><strong>Ransomware</strong></td><td>Encrypts user files and demands payment for the decryption key.</td></tr>
+        <tr><td><strong>Trojan Horse</strong></td><td>Appears legitimate but hides a malicious payload underneath.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
   <div class="section">
     <h3>Cyber Security Roles</h3>
     <table class="data">
       <thead><tr><th>Role</th><th>Focus</th></tr></thead>
       <tbody>
-        <tr><td><strong>Security Analyst</strong></td><td>Monitors and analyses security events; investigates incidents.</td></tr>
-        <tr><td><strong>Security Engineer</strong></td><td>Designs, builds, and maintains security systems and controls.</td></tr>
-        <tr><td><strong>Incident Responder</strong></td><td>Responds to active security incidents; contains and eradicates threats.</td></tr>
-        <tr><td><strong>Digital Forensics Examiner</strong></td><td>Investigates systems and digital evidence to establish what happened.</td></tr>
+        <tr><td><strong>Security Analyst</strong></td><td>Monitors and analyses security events, investigates incidents.</td></tr>
+        <tr><td><strong>Security Engineer</strong></td><td>Designs and maintains security systems and controls.</td></tr>
+        <tr><td><strong>Incident Responder</strong></td><td>Responds to active incidents — contains and eradicates threats.</td></tr>
+        <tr><td><strong>Digital Forensics Examiner</strong></td><td>Investigates digital evidence to establish facts.</td></tr>
         <tr><td><strong>Malware Analyst</strong></td><td>Analyses malicious software using static and dynamic techniques.</td></tr>
-        <tr><td><strong>Penetration Tester</strong></td><td>Legally attempts to breach systems to find exploitable vulnerabilities.</td></tr>
-        <tr><td><strong>Red Teamer</strong></td><td>Simulates real-world adversarial attacks to test defences and response capabilities.</td></tr>
+        <tr><td><strong>Penetration Tester</strong></td><td>Legally probes systems to find exploitable vulnerabilities.</td></tr>
+        <tr><td><strong>Red Teamer</strong></td><td>Simulates adversarial attacks to test detection and response capabilities.</td></tr>
       </tbody>
     </table>
   </div>
 </div>
 
-<!-- MODULE 2 -->
+<!-- MODULE 2 — NETWORKING -->
 <div class="chapter" id="m2-networking">
   <div class="chapter-header"><span class="chapter-num">MODULE 2</span><h2>What is Networking?</h2></div>
+  <a class="room-link" href="labs/presecurity/what-is-networking.html">What is Networking? →</a>
+
   <div class="section">
-    <h3>Networks and the Internet</h3>
+    <h3>Key Concepts</h3>
     <ul class="notes">
-      <li>A network can be formed from 2 devices to billions — ranging from laptops to security cameras and traffic lights.</li>
-      <li>The <strong>Internet</strong> is a network of networks. Small networks = <strong>private networks</strong>. Networks connecting them = <strong>public networks</strong>.</li>
-      <li>First iteration was <strong>ARPANET</strong> in the late 1960s, funded by the US Department of Defense.</li>
-      <li>The internet as we know it was invented in <strong>1989 by Tim Berners-Lee</strong> — the <strong>World Wide Web</strong>.</li>
+      <li>The <strong>Internet</strong> is a network of networks — private networks connected via public networks. Invented as we know it in 1989 by Tim Berners-Lee (World Wide Web). First documented network: <strong>ARPANET</strong> (late 1960s, US Dept of Defense).</li>
+      <li><strong>IP address</strong> = name. Divided into four octets. Public (internet-facing) or private (local network). IPv4 exhausted — IPv6 supports 340 trillion+ addresses.</li>
+      <li><strong>MAC address</strong> = fingerprint. 12-character hex. First half: vendor. Second half: unique to device. Can be spoofed.</li>
+      <li><strong>Ping</strong> uses <span class="term">ICMP</span> to test connection performance via echo packets. Syntax: <span class="term">ping &lt;IP/URL&gt;</span></li>
     </ul>
-    <img src="labs/presecurity/images/image12.png" alt="Internet network diagram" class="room-img">
-    <p class="img-caption">Private networks joined together via the public internet</p>
-  </div>
-  <div class="section">
-    <h3>IP Addresses</h3>
-    <ul class="notes">
-      <li>IP address = <strong>name</strong>. MAC address = <strong>fingerprint</strong>.</li>
-      <li>Divided into <strong>four octets</strong>. Cannot be active more than once within the same network.</li>
-      <li><strong>Public IP:</strong> Identifies a device on the internet. <strong>Private IP:</strong> Identifies a device on a local network.</li>
-      <li><span class="term">IPv4</span> is exhausted. <span class="term">IPv6</span> supports <strong>340 trillion+</strong> addresses.</li>
-    </ul>
-  </div>
-  <div class="section">
-    <h3>MAC Addresses</h3>
-    <ul class="notes">
-      <li>12-character hexadecimal number. <strong>First half:</strong> vendor-specific. <strong>Second half:</strong> unique to the device.</li>
-      <li>Burnt into the NIC by the manufacturer. Can be <strong>spoofed</strong>.</li>
-    </ul>
-  </div>
-  <div class="section">
-    <h3>Ping (ICMP)</h3>
-    <ul class="notes">
-      <li>Uses <span class="term">ICMP</span> packets to determine connection performance between devices.</li>
-      <li>Syntax: <span class="term">ping &lt;IP address or URL&gt;</span></li>
-    </ul>
-    <img src="labs/presecurity/images/image14.png" alt="Ping command output" class="room-img">
-    <p class="img-caption">Ping syntax and example output</p>
   </div>
 </div>
 
 <div class="chapter" id="m2-lan">
   <div class="chapter-header"><span class="chapter-num">MODULE 2</span><h2>Intro to LAN</h2></div>
+  <a class="room-link" href="labs/presecurity/intro-to-lan.html">Intro to LAN →</a>
+
   <div class="section">
-    <h3>LAN Topologies</h3>
+    <h3>Topologies</h3>
     <table class="data">
-      <thead><tr><th>Topology</th><th>How it works</th><th>Advantages</th><th>Disadvantages</th></tr></thead>
+      <thead><tr><th>Topology</th><th>Structure</th><th>Pro</th><th>Con</th></tr></thead>
       <tbody>
-        <tr><td><strong>Star</strong></td><td>Devices individually connected via a central switch/hub. Most common today.</td><td>Scalable; robust</td><td>Expensive; harder to maintain at scale; fails if central device fails</td></tr>
-        <tr><td><strong>Bus</strong></td><td>All devices stem from a single backbone cable.</td><td>Easy to implement; cost efficient</td><td>Prone to bottlenecks; single point of failure; little redundancy</td></tr>
-        <tr><td><strong>Ring (Token)</strong></td><td>Devices connected in a loop. Data travels in one direction.</td><td>Little cabling; easy to troubleshoot</td><td>Inefficient — data may pass many devices; cut cable breaks entire network</td></tr>
+        <tr><td><strong>Star</strong></td><td>All devices connect to central switch/hub</td><td>Scalable, robust</td><td>Expensive; fails if central device fails</td></tr>
+        <tr><td><strong>Bus</strong></td><td>Single backbone cable</td><td>Cheap, easy</td><td>Bottlenecks; single point of failure</td></tr>
+        <tr><td><strong>Ring</strong></td><td>Devices in a loop, one direction</td><td>Little cabling</td><td>Cut cable breaks entire network</td></tr>
       </tbody>
     </table>
-    <img src="labs/presecurity/images/image15.png" alt="Star topology" class="room-img">
-    <p class="img-caption">Star topology — most common in modern networks</p>
   </div>
+
   <div class="section">
-    <h3>Switches &amp; Routers</h3>
+    <h3>Switches, Routers, Subnetting, ARP &amp; DHCP</h3>
     <ul class="notes">
-      <li><strong>Switch:</strong> Aggregates devices. Tracks which device is on which port — sends packets directly rather than broadcasting. Available in 4–64 port variants.</li>
-      <li><strong>Router:</strong> Connects networks. Operates at <strong>Layer 3 of OSI</strong>. Creates paths between networks for data delivery.</li>
-      <li>Switches and routers can connect to each other for redundancy — if one path fails, another can be used.</li>
+      <li><strong>Switch:</strong> Aggregates devices, tracks which device is on each port, sends packets directly. Available 4–64 ports.</li>
+      <li><strong>Router:</strong> Connects networks via routing (Layer 3 OSI). Chooses optimal path by shortest, reliability, speed.</li>
+      <li><strong>Subnetting:</strong> Splits network into smaller segments using a 32-bit subnet mask. Three address types: Network (192.168.1.0), Host (192.168.1.100), Default gateway (192.168.1.1).</li>
+      <li><strong>ARP:</strong> Maps MAC address to IP address. ARP Request (broadcast) → ARP Reply (device responds with MAC) → stored in ARP cache.</li>
+      <li><strong>DHCP:</strong> Auto-assigns IPs. Process: Discover → Offer → Request → Ack.</li>
     </ul>
-    <img src="labs/presecurity/images/image17.png" alt="Router diagram" class="room-img">
-    <p class="img-caption">Router selecting the optimal path between networks</p>
-  </div>
-  <div class="section">
-    <h3>Subnetting</h3>
-    <ul class="notes">
-      <li>Splitting a network into smaller networks using a <strong>subnet mask</strong> (32-bit, four octets, 0–255).</li>
-      <li>Benefits: efficiency, security, full control.</li>
-    </ul>
-    <table class="data" style="margin-top:0.75rem;">
-      <thead><tr><th>Address Type</th><th>Purpose</th><th>Example</th></tr></thead>
-      <tbody>
-        <tr><td><strong>Network address</strong></td><td>Identifies the start of the network.</td><td>192.168.1.0</td></tr>
-        <tr><td><strong>Host address</strong></td><td>Identifies a specific device on the subnet.</td><td>192.168.1.100</td></tr>
-        <tr><td><strong>Default gateway</strong></td><td>Device capable of sending data to another network.</td><td>192.168.1.1</td></tr>
-      </tbody>
-    </table>
-    <img src="labs/presecurity/images/image18.png" alt="Subnetting diagram" class="room-img">
-    <p class="img-caption">Subnetting — dividing a network into smaller segments</p>
-  </div>
-  <div class="section">
-    <h3>ARP</h3>
-    <ul class="notes">
-      <li>Associates a <strong>MAC address</strong> with an <strong>IP address</strong>. Each device maintains an <strong>ARP cache</strong>.</li>
-      <li><strong>ARP Request:</strong> Broadcast — "Which device owns this IP?" <strong>ARP Reply:</strong> Device responds with its MAC address.</li>
-    </ul>
-    <img src="labs/presecurity/images/image21.png" alt="ARP diagram" class="room-img">
-    <p class="img-caption">ARP request and reply process</p>
-  </div>
-  <div class="section">
-    <h3>DHCP</h3>
-    <div class="stages">
-      <div class="stage-card"><div class="num">STEP 1</div><div class="name">DHCP Discover</div><div class="desc">Device broadcasts to find a DHCP server.</div></div>
-      <div class="stage-card"><div class="num">STEP 2</div><div class="name">DHCP Offer</div><div class="desc">Server offers an IP address.</div></div>
-      <div class="stage-card"><div class="num">STEP 3</div><div class="name">DHCP Request</div><div class="desc">Device confirms it wants the offered IP.</div></div>
-      <div class="stage-card"><div class="num">STEP 4</div><div class="name">DHCP Ack</div><div class="desc">Server confirms assignment is complete.</div></div>
-    </div>
-    <img src="labs/presecurity/images/image22.png" alt="DHCP process" class="room-img">
-    <p class="img-caption">DHCP four-step process</p>
   </div>
 </div>
 
 <div class="chapter" id="m2-osi">
   <div class="chapter-header"><span class="chapter-num">MODULE 2</span><h2>OSI Model</h2></div>
-  <div class="section">
-    <h3>Overview</h3>
-    <ul class="notes">
-      <li>Seven-layer framework dictating how devices send, receive, and interpret data. Key benefit: devices with different designs can still communicate.</li>
-      <li>Each layer adds information to data as it passes down — this is called <strong>encapsulation</strong>.</li>
-    </ul>
-    <img src="labs/presecurity/images/image23.png" alt="OSI model diagram" class="room-img">
-    <p class="img-caption">The seven layers of the OSI model</p>
-  </div>
+  <a class="room-link" href="labs/presecurity/osi-model.html">OSI Model →</a>
+
   <div class="section">
     <h3>The Seven Layers</h3>
     <div class="osi-grid">
-      <div class="osi-card l7"><div class="layer-num">Layer 7</div><div class="layer-name">Application</div><div class="layer-pdu">Data</div><div class="layer-desc">Protocols and rules for user interaction with data. Browsers, email clients, DNS operate here.</div></div>
-      <div class="osi-card l6"><div class="layer-num">Layer 6</div><div class="layer-name">Presentation</div><div class="layer-pdu">Data</div><div class="layer-desc">Standardisation and translation. Encryption (e.g. HTTPS) occurs here.</div></div>
-      <div class="osi-card l5"><div class="layer-num">Layer 5</div><div class="layer-name">Session</div><div class="layer-pdu">Data</div><div class="layer-desc">Creates and maintains connections. Sessions are unique — data cannot travel across different sessions. Supports checkpoints.</div></div>
-      <div class="osi-card l4"><div class="layer-num">Layer 4</div><div class="layer-name">Transport</div><div class="layer-pdu">Segments / Datagrams</div><div class="layer-desc">TCP (reliable, error-checked) or UDP (fast, no guarantee). TCP for file sharing/email; UDP for streaming/ARP/DHCP.</div></div>
-      <div class="osi-card l3"><div class="layer-num">Layer 3</div><div class="layer-name">Network</div><div class="layer-pdu">Packets</div><div class="layer-desc">Routing and reassembly. Uses IP addresses. Routers operate here. Protocols: OSPF, RIP.</div></div>
-      <div class="osi-card l2"><div class="layer-num">Layer 2</div><div class="layer-name">Data Link</div><div class="layer-pdu">Frames</div><div class="layer-desc">Physical addressing. Adds MAC address of receiving endpoint. NIC operates here.</div></div>
-      <div class="osi-card l1"><div class="layer-num">Layer 1</div><div class="layer-name">Physical</div><div class="layer-pdu">Bits</div><div class="layer-desc">Physical hardware — electrical signals transferring data in binary (1s and 0s). Ethernet cables connect devices here.</div></div>
+      <div class="osi-card l7"><div class="layer-num">Layer 7</div><div class="layer-name">Application</div><div class="layer-pdu">Data</div><div class="layer-desc">User interaction with data. Browsers, email clients, DNS.</div></div>
+      <div class="osi-card l6"><div class="layer-num">Layer 6</div><div class="layer-name">Presentation</div><div class="layer-pdu">Data</div><div class="layer-desc">Standardisation and translation. Encryption (HTTPS) occurs here.</div></div>
+      <div class="osi-card l5"><div class="layer-num">Layer 5</div><div class="layer-name">Session</div><div class="layer-pdu">Data</div><div class="layer-desc">Creates and maintains connections. Unique sessions with checkpoints.</div></div>
+      <div class="osi-card l4"><div class="layer-num">Layer 4</div><div class="layer-name">Transport</div><div class="layer-pdu">Segments / Datagrams</div><div class="layer-desc">TCP (reliable, error-checked) or UDP (fast, stateless).</div></div>
+      <div class="osi-card l3"><div class="layer-num">Layer 3</div><div class="layer-name">Network</div><div class="layer-pdu">Packets</div><div class="layer-desc">Routing and reassembly. IP addresses. Routers. OSPF, RIP.</div></div>
+      <div class="osi-card l2"><div class="layer-num">Layer 2</div><div class="layer-name">Data Link</div><div class="layer-pdu">Frames</div><div class="layer-desc">Physical addressing. Adds MAC address. NIC operates here.</div></div>
+      <div class="osi-card l1"><div class="layer-num">Layer 1</div><div class="layer-name">Physical</div><div class="layer-pdu">Bits</div><div class="layer-desc">Electrical signals, binary. Ethernet cables.</div></div>
     </div>
   </div>
+
   <div class="section">
     <h3>TCP vs UDP</h3>
     <table class="data">
       <thead><tr><th>Feature</th><th>TCP</th><th>UDP</th></tr></thead>
       <tbody>
-        <tr><td><strong>Reliability</strong></td><td>Guaranteed — error checking built in</td><td>No guarantee — data sent and hoped for</td></tr>
-        <tr><td><strong>Connection</strong></td><td>Reserves constant connection for duration</td><td>Stateless — no continuous connection</td></tr>
+        <tr><td><strong>Connection</strong></td><td>Connection-based, reserves constant connection</td><td>Stateless, no reserved connection</td></tr>
+        <tr><td><strong>Reliability</strong></td><td>Guaranteed delivery, error checking</td><td>No guarantee — send and hope</td></tr>
         <tr><td><strong>Speed</strong></td><td>Slower</td><td>Faster</td></tr>
         <tr><td><strong>Use cases</strong></td><td>File sharing, email, web browsing</td><td>Video streaming, ARP, DHCP, voice chat</td></tr>
       </tbody>
@@ -371,61 +250,26 @@ footer{text-align:center;padding:2rem;color:var(--muted);font-size:0.8rem;border
 
 <div class="chapter" id="m2-packets">
   <div class="chapter-header"><span class="chapter-num">MODULE 2</span><h2>Packets &amp; Frames</h2></div>
+  <a class="room-link" href="labs/presecurity/packets-and-frames.html">Packets &amp; Frames →</a>
+
   <div class="section">
-    <h3>Packets and Frames</h3>
+    <h3>Key Concepts</h3>
     <ul class="notes">
-      <li><strong>Packet:</strong> Layer 3 unit — contains IP header and payload. Used when discussing IP addresses.</li>
-      <li><strong>Frame:</strong> Layer 2 unit — encapsulates the packet and adds MAC address information. Like an envelope around a letter.</li>
-      <li>Small pieces of data reduce bottlenecks compared to sending large messages — e.g. an image is sent in pieces and reassembled.</li>
+      <li><strong>Packet</strong> (Layer 3) — contains IP header and payload. <strong>Frame</strong> (Layer 2) — encapsulates packet and adds MAC address. Frame = envelope, packet = letter.</li>
+      <li>Notable IP headers: TTL (expiry timer), Checksum (integrity), Source address, Destination address.</li>
+      <li><strong>TCP/IP model</strong> — 4 layers: Application, Transport, Internet, Network Interface.</li>
+      <li><strong>Three-way handshake:</strong> SYN → SYN/ACK → ACK → DATA → FIN. RST = abrupt termination.</li>
+      <li><strong>UDP</strong> — stateless, no handshake, no guaranteed delivery. Simpler headers than TCP.</li>
     </ul>
     <table class="data" style="margin-top:0.75rem;">
-      <thead><tr><th>IP Header</th><th>Purpose</th></tr></thead>
-      <tbody>
-        <tr><td><strong>TTL</strong></td><td>Expiry timer — packet discarded if it never reaches destination.</td></tr>
-        <tr><td><strong>Checksum</strong></td><td>Integrity check — if data changed, value differs and packet is discarded.</td></tr>
-        <tr><td><strong>Source address</strong></td><td>IP of sending device — so data knows where to return.</td></tr>
-        <tr><td><strong>Destination address</strong></td><td>IP of receiving device — so data knows where to travel.</td></tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="section">
-    <h3>TCP Three-Way Handshake</h3>
-    <ul class="notes">
-      <li>TCP is connection-based — must establish connection before sending data. Guarantees data is received.</li>
-      <li>TCP/IP model has 4 layers: Application, Transport, Internet, Network Interface.</li>
-    </ul>
-    <div class="stages" style="margin-top:0.75rem;">
-      <div class="stage-card"><div class="num">STEP 1</div><div class="name">SYN</div><div class="desc">Client initiates and synchronises sequence numbers.</div></div>
-      <div class="stage-card"><div class="num">STEP 2</div><div class="name">SYN/ACK</div><div class="desc">Server acknowledges and sends its own ISN.</div></div>
-      <div class="stage-card"><div class="num">STEP 3</div><div class="name">ACK</div><div class="desc">Client acknowledges server's ISN — connection established.</div></div>
-      <div class="stage-card"><div class="num">STEP 4</div><div class="name">DATA</div><div class="desc">Data transmitted across the connection.</div></div>
-      <div class="stage-card"><div class="num">STEP 5</div><div class="name">FIN</div><div class="desc">Cleanly closes the connection.</div></div>
-      <div class="stage-card"><div class="num">RST</div><div class="name">Reset</div><div class="desc">Abruptly ends communication — indicates a problem.</div></div>
-    </div>
-    <img src="labs/presecurity/images/image26.png" alt="Three-way handshake diagram" class="room-img">
-    <p class="img-caption">TCP three-way handshake between two devices</p>
-  </div>
-  <div class="section">
-    <h3>UDP</h3>
-    <ul class="notes">
-      <li><strong>Stateless</strong> — no handshake, no synchronisation, no guaranteed delivery.</li>
-      <li>Used where speed matters over accuracy: video streaming, voice chat, ARP, DHCP.</li>
-      <li>Simpler packet structure — fewer headers than TCP.</li>
-    </ul>
-    <img src="labs/presecurity/images/image28.png" alt="UDP packet structure" class="room-img">
-    <p class="img-caption">UDP packet — simpler than TCP with fewer headers</p>
-  </div>
-  <div class="section">
-    <h3>Common Ports</h3>
-    <table class="data">
       <thead><tr><th>Protocol</th><th>Port</th><th>Purpose</th></tr></thead>
       <tbody>
-        <tr><td><strong>FTP</strong></td><td>21</td><td>File transfer — client-server model.</td></tr>
-        <tr><td><strong>SSH</strong></td><td>22</td><td>Secure remote login via text interface.</td></tr>
-        <tr><td><strong>HTTP</strong></td><td>80</td><td>World Wide Web.</td></tr>
-        <tr><td><strong>HTTPS</strong></td><td>443</td><td>Encrypted HTTP.</td></tr>
-        <tr><td><strong>SMB</strong></td><td>445</td><td>File and device sharing.</td></tr>
-        <tr><td><strong>RDP</strong></td><td>3389</td><td>Remote desktop access.</td></tr>
+        <tr><td><strong>FTP</strong></td><td>21</td><td>File transfer</td></tr>
+        <tr><td><strong>SSH</strong></td><td>22</td><td>Secure remote login</td></tr>
+        <tr><td><strong>HTTP</strong></td><td>80</td><td>World Wide Web</td></tr>
+        <tr><td><strong>HTTPS</strong></td><td>443</td><td>Encrypted HTTP</td></tr>
+        <tr><td><strong>SMB</strong></td><td>445</td><td>File and device sharing</td></tr>
+        <tr><td><strong>RDP</strong></td><td>3389</td><td>Remote desktop access</td></tr>
       </tbody>
     </table>
   </div>
@@ -433,98 +277,48 @@ footer{text-align:center;padding:2rem;color:var(--muted);font-size:0.8rem;border
 
 <div class="chapter" id="m2-extending">
   <div class="chapter-header"><span class="chapter-num">MODULE 2</span><h2>Extending Your Network</h2></div>
+  <a class="room-link" href="labs/presecurity/extending-your-network.html">Extending Your Network →</a>
+
   <div class="section">
-    <h3>Port Forwarding</h3>
+    <h3>Port Forwarding, Firewalls, VPNs &amp; Switches</h3>
     <ul class="notes">
-      <li>Opens specific ports on a router so internet traffic can reach internal servers.</li>
-      <li>Without it, servers are only accessible within the same network (intranet).</li>
-      <li>Port forwarding <strong>opens</strong> ports; firewalls <strong>control</strong> whether traffic can pass through those ports.</li>
+      <li><strong>Port forwarding</strong> — opens ports on a router so internet traffic can reach internal servers. Port forwarding opens; firewalls control.</li>
+      <li><strong>Stateful firewall</strong> — uses full connection context for dynamic decisions. Resource-intensive but intelligent.</li>
+      <li><strong>Stateless firewall</strong> — applies static rules to individual packets. Less resource-intensive but only as good as rules defined.</li>
+      <li><strong>VPN</strong> — creates encrypted tunnel between devices on separate networks. Technologies: PPP (auth + encryption, non-routable), PPTP (allows PPP to leave network, weakly encrypted), IPSec (strong encryption, uses IP framework).</li>
+      <li><strong>Layer 2 switch</strong> — forwards frames by MAC address only. <strong>Layer 3 switch</strong> — can also route packets via IP. Exclusive — cannot do both.</li>
+      <li><strong>VLAN</strong> — virtually splits devices into separate segments on same physical infrastructure for security isolation.</li>
     </ul>
-    <img src="labs/presecurity/images/image30.png" alt="Port forwarding intranet" class="room-img">
-    <p class="img-caption">Without port forwarding — server accessible to local network only</p>
-    <img src="labs/presecurity/images/image31.png" alt="Port forwarding public" class="room-img">
-    <p class="img-caption">With port forwarding — server accessible from the internet</p>
-  </div>
-  <div class="section">
-    <h3>Firewalls</h3>
-    <ul class="notes">
-      <li>Determines what traffic is allowed to enter or exit a network based on: source, destination, port, protocol.</li>
-      <li>Performs <strong>packet inspection</strong> to apply rules.</li>
-    </ul>
-    <table class="data" style="margin-top:0.75rem;">
-      <thead><tr><th>Type</th><th>How it works</th></tr></thead>
-      <tbody>
-        <tr><td><strong>Stateful</strong></td><td>Uses the entire connection context to make dynamic decisions. More intelligent but resource-intensive.</td></tr>
-        <tr><td><strong>Stateless</strong></td><td>Uses static rules to evaluate individual packets in isolation. Less resource-intensive but only as effective as the rules defined.</td></tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="section">
-    <h3>VPN Basics</h3>
-    <ul class="notes">
-      <li>Allows devices on separate networks to communicate securely via a dedicated encrypted tunnel.</li>
-      <li>Devices remain part of their original networks but also form a private network together.</li>
-    </ul>
-    <table class="data" style="margin-top:0.75rem;">
-      <thead><tr><th>Technology</th><th>Description</th></tr></thead>
-      <tbody>
-        <tr><td><strong>PPP</strong></td><td>Allows authentication and provides data encryption. Used by PPTP.</td></tr>
-        <tr><td><strong>PPTP</strong></td><td>Allows PPP data to leave a network. Easy to set up but weakly encrypted.</td></tr>
-        <tr><td><strong>IPSec</strong></td><td>Encrypts data using the existing IP framework. Difficult to set up but strongly encrypted.</td></tr>
-      </tbody>
-    </table>
-    <img src="labs/presecurity/images/image34.png" alt="VPN diagram" class="room-img">
-    <p class="img-caption">VPN connecting two separate office networks</p>
-  </div>
-  <div class="section">
-    <h3>Layer 2 vs Layer 3 Switches</h3>
-    <table class="data">
-      <thead><tr><th>Type</th><th>OSI Layer</th><th>Function</th></tr></thead>
-      <tbody>
-        <tr><td><strong>Layer 2 Switch</strong></td><td>Data Link</td><td>Forwards frames by MAC address. Cannot route between networks.</td></tr>
-        <tr><td><strong>Layer 3 Switch</strong></td><td>Network</td><td>Can perform some routing responsibilities in addition to switching. Supports VLANs.</td></tr>
-      </tbody>
-    </table>
-    <ul class="notes" style="margin-top:0.75rem;">
-      <li><span class="term">VLAN</span> — virtually splits devices into separate segments on the same physical infrastructure. Provides security through isolation.</li>
-    </ul>
-    <img src="labs/presecurity/images/image37.png" alt="VLAN diagram" class="room-img">
-    <p class="img-caption">VLAN segregation — departments isolated on separate virtual networks</p>
   </div>
 </div>
 
 <!-- PLACEHOLDER MODULES -->
-<div class="chapter" id="m3-web">
+<div class="chapter" id="m3">
   <div class="chapter-header"><span class="chapter-num">MODULE 3</span><h2>How The Web Works</h2></div>
   <div class="pending-section">DNS in Detail, HTTP in Detail, How Websites Work, Putting it all together — notes not yet added.</div>
 </div>
-<div class="chapter" id="m4-computer">
+<div class="chapter" id="m4">
   <div class="chapter-header"><span class="chapter-num">MODULE 4</span><h2>Computer Fundamentals</h2></div>
   <div class="pending-section">Inside a Computer System, Computer Types, Client-Server Basics, Virtualisation Basics, Cloud Computing Fundamentals — notes not yet added.</div>
 </div>
-<div class="chapter" id="m5-os">
+<div class="chapter" id="m5">
   <div class="chapter-header"><span class="chapter-num">MODULE 5</span><h2>Operating Systems Basics</h2></div>
   <div class="pending-section">OS Introduction, Windows Basics, Linux CLI Basics, Windows CLI Basics, OS Security — notes not yet added.</div>
 </div>
-<div class="chapter" id="m6-software">
+<div class="chapter" id="m6">
   <div class="chapter-header"><span class="chapter-num">MODULE 6</span><h2>Software Basics</h2></div>
-  <div class="pending-section">Data Representation, Data Encoding, Python: Simple Demo, JavaScript: Simple Demo, Database SQL Basics — notes not yet added.</div>
+  <div class="pending-section">Data Representation, Data Encoding, Python, JavaScript, Database SQL Basics — notes not yet added.</div>
 </div>
-<div class="chapter" id="m7-attacks">
+<div class="chapter" id="m7">
   <div class="chapter-header"><span class="chapter-num">MODULE 7</span><h2>Attacks and Defenses</h2></div>
   <div class="pending-section">The CIA Triad, Cryptography Concepts, Become a Hacker, Become a Defender — notes not yet added.</div>
 </div>
 
 <div style="text-align:center;padding:1rem 0 0.5rem;">
-  <a href="#" style="font-family:'IBM Plex Mono',monospace;font-size:0.75rem;color:var(--muted);text-decoration:none;letter-spacing:0.05em;transition:color 0.15s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--muted)'">↑ Back to top</a>
+  <a href="#" style="font-family:'IBM Plex Mono',monospace;font-size:0.75rem;color:var(--muted);text-decoration:none;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--muted)'">↑ Back to top</a>
 </div>
-<footer>
-  <span>Aden's Study Portal · TryHackMe Pre-Security</span>
-  &nbsp;·&nbsp;
-  <span>Updated 29 May 2026</span>
-</footer>
+<footer>Aden's Study Portal · TryHackMe Pre-Security · Updated 29 May 2026</footer>
 </div>
-
 <script>
   const _btn=document.getElementById('themeBtn');
   const _html=document.documentElement;
@@ -538,20 +332,6 @@ footer{text-align:center;padding:2rem;color:var(--muted);font-size:0.8rem;border
     _html.setAttribute('data-theme',next);
     localStorage.setItem('theme',next);
     _btn.textContent=next==='dark'?'☀️':'🌙';
-  });
-  _sys.addEventListener('change',e=>{
-    if(!localStorage.getItem('theme')){
-      const next=e.matches?'dark':'light';
-      _html.setAttribute('data-theme',next);
-      _btn.textContent=next==='dark'?'☀️':'🌙';
-    }
-  });
-  document.getElementById('shareBtn').addEventListener('click',function(){
-    navigator.clipboard.writeText(window.location.href).then(()=>{
-      this.classList.add('copied');
-      this.innerHTML='✓ Link copied';
-      setTimeout(()=>{this.classList.remove('copied');this.innerHTML='⎘ Copy notes link';},2000);
-    });
   });
 </script>
 </body>

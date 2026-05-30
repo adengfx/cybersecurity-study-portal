@@ -2,10 +2,10 @@
 <html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
-<meta name="description" content="Room notes for Defensive Security Intro — TryHackMe Pre-Security pathway.">
+<meta name="description" content="Task completion record for Defensive Security Intro — TryHackMe Pre-Security pathway.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Defensive Security Intro – Aden's Study Portal">
-<meta property="og:description" content="Room notes for Defensive Security Intro — TryHackMe Pre-Security pathway.">
+<meta property="og:description" content="Task completion record for Defensive Security Intro — TryHackMe Pre-Security pathway.">
 <meta property="og:url" content="https://adengfx.github.io/cybersecurity-study-portal/labs/presecurity/defensive-security-intro.html">
 <meta property="og:site_name" content="Aden's Study Portal">
 <meta name="twitter:card" content="summary">
@@ -67,6 +67,19 @@
   footer { text-align: center; padding: 2rem; color: var(--muted); font-size: 0.78rem; border-top: 1px solid var(--border); margin-top: 2rem; font-family: 'IBM Plex Mono', monospace; }
   @media (max-width: 600px) { body { padding-top: 0.5rem; } }
 
+  .task-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; margin-bottom: 1.25rem; }
+  .task-title { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent2); margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
+  .task-desc { font-size: 0.9rem; color: var(--muted); margin-bottom: 1rem; line-height: 1.6; }
+  .qa-list { list-style: none; padding: 0; }
+  .qa-item { padding: 0.6rem 0; border-bottom: 1px solid rgba(48,54,61,0.5); }
+  .qa-item:last-child { border-bottom: none; }
+  .qa-q { font-size: 0.88rem; color: var(--text); margin-bottom: 0.25rem; }
+  .qa-a { font-family: 'IBM Plex Mono', monospace; font-size: 0.82rem; color: var(--accent3); }
+  .flag-pill { display: inline-block; font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem; background: rgba(126,231,135,0.08); border: 1px solid rgba(126,231,135,0.25); color: var(--accent3); border-radius: 4px; padding: 0.15rem 0.5rem; }
+  .practical-note { font-size: 0.85rem; color: var(--muted); background: var(--surface2); border-radius: 6px; padding: 0.75rem 1rem; margin-bottom: 0.75rem; border-left: 3px solid var(--accent2); }
+  .log-block { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 1rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; color: var(--muted); line-height: 1.8; margin: 0.75rem 0; }
+  .room-img { width: 100%; max-width: 100%; height: auto; border-radius: 6px; border: 1px solid var(--border); margin-top: 0.75rem; margin-bottom: 0.25rem; display: block; object-fit: contain; }
+  .img-caption { font-size: 0.75rem; color: var(--muted); text-align: center; margin-bottom: 0.75rem; font-family: 'IBM Plex Mono', monospace; }
 </style>
 </head>
 <body>
@@ -86,88 +99,33 @@
       <span class="date-tag">29 May 2026</span>
     </div>
     <h1>Defensive Security Intro</h1>
-    <p class="subtitle">Introducing defensive security and related topics — Threat Intelligence, SOC, DFIR, Malware Analysis, and SIEM.</p>
+    <p class="subtitle">Introducing defensive security — Threat Intelligence, SOC, DFIR, Malware Analysis, and SIEM.</p>
   </header>
 
-  <div class="section">
-    <h3>What is Defensive Security?</h3>
-    <ul class="notes">
-      <li>Concerned with two main tasks: <strong>preventing intrusions</strong> from occurring and <strong>detecting and responding</strong> to intrusions when they do occur.</li>
-      <li><strong>Blue teams</strong> are the core of the defensive security landscape.</li>
-    </ul>
-    <table class="data" style="margin-top:1rem;">
-      <thead><tr><th>Task</th><th>Description</th></tr></thead>
-      <tbody>
-        <tr><td><strong>User awareness</strong></td><td>Training users about cybersecurity helps protect against attacks targeting human error.</td></tr>
-        <tr><td><strong>Asset management</strong></td><td>Documenting and managing systems and devices so everything that needs protecting is known.</td></tr>
-        <tr><td><strong>Patching</strong></td><td>Ensuring computers, servers, and network devices are correctly updated against known vulnerabilities.</td></tr>
-        <tr><td><strong>Preventative devices</strong></td><td>Firewalls control network traffic; Intrusion Prevention Systems (IPS) block malicious traffic.</td></tr>
-        <tr><td><strong>Logging &amp; monitoring</strong></td><td>Essential for detecting malicious activity — e.g. new unauthorised devices appearing on the network.</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="section">
-    <h3>Security Operations Center (SOC)</h3>
-    <ul class="notes">
-      <li>Team of cybersecurity professionals that <strong>monitor a network and its systems</strong> to detect malicious events.</li>
-      <li><strong>Vulnerabilities:</strong> Weaknesses in systems — SOC tracks and ensures they are patched or mitigated.</li>
-      <li><strong>Policy violations:</strong> E.g. a user uploading confidential data to an unauthorised cloud storage service.</li>
-      <li><strong>Unauthorised activity:</strong> Detecting when stolen credentials are used to log in to the network.</li>
-      <li><strong>Network intrusions:</strong> Detecting intrusions as quickly as possible — can occur via malicious links or exploitation of public servers.</li>
+  <div class="task-block">
+    <div class="task-title">Task 1 — Introduction to Defensive Security</div>
+    <p class="task-desc">Defensive security is concerned with preventing intrusions and detecting/responding to them when they occur. Blue teams form the core of the defensive security landscape. Key tasks include: user awareness training, asset management, patching systems, setting up firewalls and IPS, and logging and monitoring.</p>
+    <ul class="qa-list">
+      <li class="qa-item"><div class="qa-q">Which team focuses on defensive security?</div><div class="qa-a">Blue Team</div></li>
     </ul>
   </div>
 
-  <div class="section">
-    <h3>Threat Intelligence</h3>
-    <ul class="notes">
-      <li>Intelligence = information gathered about actual and potential enemies. A <strong>threat</strong> is any action that can disrupt or affect a system.</li>
-      <li>Purpose: achieve <strong>threat-informed defence</strong>. Different companies face different adversaries (e.g. nation-state actors vs. ransomware groups).</li>
-      <li><strong>Data collection:</strong> Locally via network logs, or publicly via forums and threat feeds.</li>
-      <li><strong>Data processing:</strong> Arranges raw data into a format suitable for analysis.</li>
-      <li><strong>Analysis:</strong> Finds information about attacks and motives, produces actionable recommendations, identifies TTPs (Tactics, Techniques &amp; Procedures) of threat actors.</li>
+  <div class="task-block">
+    <div class="task-title">Task 2 — Areas of Defensive Security</div>
+    <p class="task-desc">Covers the Security Operations Center (SOC) and threat intelligence, plus Digital Forensics and Incident Response (DFIR) and malware analysis. SOC monitors networks for vulnerabilities, policy violations, unauthorised activity, and intrusions. Threat intelligence collects and analyses data about adversaries to achieve threat-informed defence. DFIR covers file system, memory, system logs, and network log analysis. Incident response follows four phases: Preparation → Detection & Analysis → Containment, Eradication & Recovery → Post-Incident Activity. Malware types: Virus (spreads via programs), Ransomware (encrypts files for ransom), Trojan horse (hides malicious function). Analysis methods: Static (inspect without running) and Dynamic (run in controlled environment).</p>
+    <ul class="qa-list">
+      <li class="qa-item"><div class="qa-q">What would you call a team of cyber security professionals that monitors a network and its systems for malicious events?</div><div class="qa-a">Security Operations Center</div></li>
+      <li class="qa-item"><div class="qa-q">What does DFIR stand for?</div><div class="qa-a">Digital Forensics and Incident Response</div></li>
+      <li class="qa-item"><div class="qa-q">Which kind of malware requires the user to pay money to regain access to their files?</div><div class="qa-a">Ransomware</div></li>
     </ul>
   </div>
 
-  <div class="section">
-    <h3>Digital Forensics</h3>
-    <ul class="notes">
-      <li>Application of science to investigate crimes and establish facts using digital evidence.</li>
-      <li><strong>File system:</strong> Forensic image of storage reveals installed programs, created/deleted files.</li>
-      <li><strong>System memory:</strong> If malware runs in memory without saving to disk, a forensic memory image is the best way to analyse it.</li>
-      <li><strong>System logs:</strong> Even if an attacker clears their traces, some log entries will remain.</li>
-      <li><strong>Network logs:</strong> Logs of network packets help answer whether an attack is occurring and what it entails.</li>
-    </ul>
-  </div>
-
-  <div class="section">
-    <h3>Incident Response — Four Phases</h3>
-    <div class="stages">
-      <div class="stage-card"><div class="num">PHASE 1</div><div class="name">Preparation</div><div class="desc">Team trained and ready to handle incidents. Preventative measures in place.</div></div>
-      <div class="stage-card"><div class="num">PHASE 2</div><div class="name">Detection &amp; Analysis</div><div class="desc">Necessary resources to detect incidents and analyse their severity.</div></div>
-      <div class="stage-card"><div class="num">PHASE 3</div><div class="name">Containment, Eradication &amp; Recovery</div><div class="desc">Stop the spread, eliminate the threat, restore affected systems.</div></div>
-      <div class="stage-card"><div class="num">PHASE 4</div><div class="name">Post-Incident Activity</div><div class="desc">Report produced, lessons learned shared to prevent similar future incidents.</div></div>
-    </div>
-  </div>
-
-  <div class="section">
-    <h3>Malware Analysis</h3>
-    <ul class="notes">
-      <li><span class="term">Malware</span> = malicious software.</li>
-      <li><strong>Virus:</strong> Attaches to a program and spreads computer to computer by altering, overwriting, or deleting files.</li>
-      <li><strong>Ransomware:</strong> Encrypts user files, making them unreadable. Attacker demands payment for the decryption key.</li>
-      <li><strong>Trojan horse:</strong> Appears to perform a desirable function but hides a malicious payload underneath.</li>
-      <li><strong>Static analysis:</strong> Inspects the malicious program without running it — requires knowledge of assembly language.</li>
-      <li><strong>Dynamic analysis:</strong> Runs the malware in a controlled environment and monitors its behaviour.</li>
-    </ul>
-  </div>
-
-  <div class="section">
-    <h3>SIEM in Practice</h3>
-    <ul class="notes">
-      <li><span class="term">SIEM</span> (Security Information and Event Management) — gathers security-related info and events from various sources into a centralised dashboard.</li>
-      <li>Not all alerts are malicious — the analyst uses expertise to determine which ones are harmful.</li>
-      <li>SOC workflow: review alert → investigate IP in threat intelligence scanner → escalate to team lead → block IP address.</li>
+  <div class="task-block">
+    <div class="task-title">Task 3 — Practical Example of Defensive Security</div>
+    <p class="task-desc">Simulated being a SOC analyst at a bank using a SIEM tool. Reviewed alerts, investigated a suspicious IP address using an IP scanner which confirmed it was malicious, escalated to team lead, then blocked the IP address.</p>
+    <p class="practical-note">Steps: SIEM alert received → Identified potential malicious attempt → IP scanner confirmed malicious → Escalated to team lead → Blocked IP address → Challenge completed.</p>
+    <ul class="qa-list">
+      <li class="qa-item"><div class="qa-q">What is the flag that you obtained by following along?</div><div class="qa-a"><span class="flag-pill">THM{THREAT-BLOCKED}</span></div></li>
     </ul>
   </div>
   <div class="nav-row">
@@ -176,6 +134,7 @@
   </div>
   <footer>Aden's Study Portal · TryHackMe Pre-Security</footer>
 </div>
+
 <script>
   const btn = document.getElementById('themeBtn');
   const html = document.documentElement;
@@ -183,12 +142,12 @@
   const saved = localStorage.getItem('theme');
   const t = saved || (sys.matches ? 'dark' : 'light');
   html.setAttribute('data-theme', t);
-  btn.textContent = t === 'dark' ? '\u2600\ufe0f' : '\U0001f319';
+  btn.textContent = t === 'dark' ? '☀️' : '🌙';
   btn.addEventListener('click', () => {
     const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
     html.setAttribute('data-theme', next);
     localStorage.setItem('theme', next);
-    btn.textContent = next === 'dark' ? '\u2600\ufe0f' : '\U0001f319';
+    btn.textContent = next === 'dark' ? '☀️' : '🌙';
   });
 </script>
 </body>

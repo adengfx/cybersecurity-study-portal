@@ -2,10 +2,10 @@
 <html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
-<meta name="description" content="Room notes for Packets & Frames — TryHackMe Pre-Security pathway.">
+<meta name="description" content="Task completion record for Packets & Frames — TryHackMe Pre-Security pathway.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Packets & Frames – Aden's Study Portal">
-<meta property="og:description" content="Room notes for Packets & Frames — TryHackMe Pre-Security pathway.">
+<meta property="og:description" content="Task completion record for Packets & Frames — TryHackMe Pre-Security pathway.">
 <meta property="og:url" content="https://adengfx.github.io/cybersecurity-study-portal/labs/presecurity/packets-and-frames.html">
 <meta property="og:site_name" content="Aden's Study Portal">
 <meta name="twitter:card" content="summary">
@@ -67,6 +67,19 @@
   footer { text-align: center; padding: 2rem; color: var(--muted); font-size: 0.78rem; border-top: 1px solid var(--border); margin-top: 2rem; font-family: 'IBM Plex Mono', monospace; }
   @media (max-width: 600px) { body { padding-top: 0.5rem; } }
 
+  .task-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; margin-bottom: 1.25rem; }
+  .task-title { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent2); margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
+  .task-desc { font-size: 0.9rem; color: var(--muted); margin-bottom: 1rem; line-height: 1.6; }
+  .qa-list { list-style: none; padding: 0; }
+  .qa-item { padding: 0.6rem 0; border-bottom: 1px solid rgba(48,54,61,0.5); }
+  .qa-item:last-child { border-bottom: none; }
+  .qa-q { font-size: 0.88rem; color: var(--text); margin-bottom: 0.25rem; }
+  .qa-a { font-family: 'IBM Plex Mono', monospace; font-size: 0.82rem; color: var(--accent3); }
+  .flag-pill { display: inline-block; font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem; background: rgba(126,231,135,0.08); border: 1px solid rgba(126,231,135,0.25); color: var(--accent3); border-radius: 4px; padding: 0.15rem 0.5rem; }
+  .practical-note { font-size: 0.85rem; color: var(--muted); background: var(--surface2); border-radius: 6px; padding: 0.75rem 1rem; margin-bottom: 0.75rem; border-left: 3px solid var(--accent2); }
+  .log-block { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 1rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; color: var(--muted); line-height: 1.8; margin: 0.75rem 0; }
+  .room-img { width: 100%; max-width: 100%; height: auto; border-radius: 6px; border: 1px solid var(--border); margin-top: 0.75rem; margin-bottom: 0.25rem; display: block; object-fit: contain; }
+  .img-caption { font-size: 0.75rem; color: var(--muted); text-align: center; margin-bottom: 0.75rem; font-family: 'IBM Plex Mono', monospace; }
 </style>
 </head>
 <body>
@@ -86,112 +99,60 @@
       <span class="date-tag">29 May 2026</span>
     </div>
     <h1>Packets & Frames</h1>
-    <p class="subtitle">Understand how data is divided into smaller pieces and transmitted across a network — packets, frames, TCP/IP, the three-way handshake, UDP, and ports.</p>
+    <p class="subtitle">Understand how data is divided into smaller pieces and transmitted across a network — packets, frames, TCP/IP, handshake, UDP, and ports.</p>
   </header>
 
-  <div class="section">
-    <h3>Packets and Frames</h3>
-    <ul class="notes">
-      <li><strong>Packet:</strong> A piece of data from <strong>Layer 3 (Network)</strong> — contains IP header and payload. Used when talking about IP addresses.</li>
-      <li><strong>Frame:</strong> Used at <strong>Layer 2 (Data Link)</strong> — encapsulates the packet and adds additional info such as MAC address.</li>
-      <li>Analogy: the frame is the envelope, the packet is the letter inside. Once the recipient opens the envelope (frame) they know how to forward the letter (packet).</li>
-      <li>Packets are an efficient way of communicating data — small pieces reduce the chance of bottlenecks compared to sending large messages at once.</li>
-      <li>This process of wrapping data with additional information at each layer is called <strong>encapsulation</strong>.</li>
+  <div class="task-block">
+    <div class="task-title">Task 1 — What are Packets and Frames?</div>
+    <p class="task-desc">Packets (Layer 3 — Network) contain IP header and payload. Frames (Layer 2 — Data Link) encapsulate packets and add MAC address information. Analogy: frame is the envelope, packet is the letter inside. Packets are efficient — data exchanged in small pieces reduces bottlenecks. Notable IP headers: Time to Live (expiry timer), Checksum (integrity check), Source address, Destination address.</p>
+    <ul class="qa-list">
+      <li class="qa-item"><div class="qa-q">What is the name for a piece of data when it does have IP addressing information?</div><div class="qa-a">Packet</div></li>
+      <li class="qa-item"><div class="qa-q">What is the name for a piece of data when it does not have IP addressing information?</div><div class="qa-a">Frame</div></li>
     </ul>
   </div>
 
-  <div class="section">
-    <h3>IP Packet Headers</h3>
-    <table class="data">
-      <thead><tr><th>Header</th><th>Purpose</th></tr></thead>
-      <tbody>
-        <tr><td><strong>Time to Live (TTL)</strong></td><td>Sets an expiry timer for the packet so it doesn't clog the network if it never reaches its destination.</td></tr>
-        <tr><td><strong>Checksum</strong></td><td>Provides integrity checking — if any data has changed, the checksum will be different and the packet discarded.</td></tr>
-        <tr><td><strong>Source address</strong></td><td>IP address of the device sending the packet — so data knows where to return to.</td></tr>
-        <tr><td><strong>Destination address</strong></td><td>IP address of the device receiving the packet — so data knows where to travel next.</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="section">
-    <h3>TCP/IP Model</h3>
-    <ul class="notes">
-      <li>TCP/IP consists of <strong>4 layers</strong> — an arguably simplified version of the OSI model.</li>
-      <li>Layers: <strong>Application, Transport, Internet, Network Interface</strong>.</li>
-      <li>Information is added to each layer of the TCP model as the packet traverses it — similar to OSI encapsulation.</li>
-      <li>TCP is <strong>connection-based</strong> — must establish a connection before any data is sent. This guarantees data sent will be received on the other end.</li>
-    </ul>
-  </div>
-
-  <div class="section">
-    <h3>TCP Packet Headers</h3>
-    <table class="data">
-      <thead><tr><th>Header</th><th>Purpose</th></tr></thead>
-      <tbody>
-        <tr><td><strong>Source Port</strong></td><td>Randomly chosen port (0–65535) opened by the sender to send the TCP packet from.</td></tr>
-        <tr><td><strong>Destination Port</strong></td><td>Port number the app/service is running on the remote host (e.g. port 80 for a web server).</td></tr>
-        <tr><td><strong>Source IP</strong></td><td>IP address of the device that sent the packet.</td></tr>
-        <tr><td><strong>Destination IP</strong></td><td>IP address the packet is destined for.</td></tr>
-        <tr><td><strong>Sequence Number</strong></td><td>First piece of data given a random number when connection occurs.</td></tr>
-        <tr><td><strong>Acknowledgement Number</strong></td><td>After data is given a sequence number, the next piece will have sequence number + 1.</td></tr>
-        <tr><td><strong>Checksum</strong></td><td>Provides TCP integrity — if the receiving device's calculation differs, the data has been corrupted.</td></tr>
-        <tr><td><strong>Data</strong></td><td>Where the actual data (e.g. bytes of a file) is stored.</td></tr>
-        <tr><td><strong>Flag</strong></td><td>Determines how the packet should be handled during the handshake process (SYN, ACK, FIN, RST etc.).</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="section">
-    <h3>TCP Three-Way Handshake</h3>
-    <ul class="notes">
-      <li>TCP must establish a connection before transmitting data — this is the <strong>three-way handshake</strong>.</li>
-      <li>Any sent data is given a random sequence number and reconstructed using that number, incrementing by 1. Both computers agree on the order during the handshake.</li>
-    </ul>
-    <div class="stages">
-      <div class="stage-card"><div class="num">STEP 1</div><div class="name">SYN</div><div class="desc">Client sends initial packet to initiate connection and synchronise sequence numbers.</div></div>
-      <div class="stage-card"><div class="num">STEP 2</div><div class="name">SYN/ACK</div><div class="desc">Server acknowledges the SYN attempt and sends its own ISN back to the client.</div></div>
-      <div class="stage-card"><div class="num">STEP 3</div><div class="name">ACK</div><div class="desc">Client acknowledges the server's ISN — connection is now established.</div></div>
-      <div class="stage-card"><div class="num">STEP 4</div><div class="name">DATA</div><div class="desc">Data (e.g. bytes of a file) is transmitted across the established connection.</div></div>
-      <div class="stage-card"><div class="num">STEP 5</div><div class="name">FIN</div><div class="desc">Used to cleanly close the connection once all data has been received.</div></div>
-      <div class="stage-card"><div class="num">RST</div><div class="name">Reset</div><div class="desc">Abruptly ends all communication — a last resort indicating a problem in the process.</div></div>
-    </div>
-    <img src="images/image26.png" alt="TCP three-way handshake diagram" class="room-img">
+  <div class="task-block">
+    <div class="task-title">Task 2 — TCP/IP (The Three-Way Handshake)</div>
+    <p class="task-desc">TCP/IP consists of 4 layers: Application, Transport, Internet, Network Interface. TCP is connection-based — must establish a connection before sending data, guaranteeing delivery. The three-way handshake: SYN (client initiates) → SYN/ACK (server acknowledges) → ACK (client confirms) → DATA (transmission) → FIN (clean close). RST abruptly ends communication. Key TCP headers: Source Port, Destination Port, Source IP, Destination IP, Sequence Number, Acknowledgement Number, Checksum, Data, Flag. Data is given random sequence numbers and reconstructed in order — both devices agree on this during the handshake.</p>
+    <img src="images/image26.png" alt="Three-way handshake" class="room-img">
     <p class="img-caption">TCP three-way handshake between two devices</p>
-    <img src="images/image27.png" alt="TCP connection close diagram" class="room-img">
+    <img src="images/image27.png" alt="TCP connection close" class="room-img">
     <p class="img-caption">TCP closing a connection with FIN packets</p>
+    <ul class="qa-list">
+      <li class="qa-item"><div class="qa-q">What is the header in a TCP packet that ensures the integrity of data?</div><div class="qa-a">Checksum</div></li>
+      <li class="qa-item"><div class="qa-q">Provide the order of a normal three-way handshake</div><div class="qa-a">SYN, SYN/ACK, ACK</div></li>
+    </ul>
   </div>
 
-  <div class="section">
-    <h3>UDP (User Datagram Protocol)</h3>
-    <ul class="notes">
-      <li>Unlike TCP, UDP is <strong>stateless</strong> — no connection required before sending data, no three-way handshake, no synchronisation.</li>
-      <li>Used where applications can tolerate data loss (video streaming, voice chat) or where an unstable connection is expected.</li>
-      <li>UDP packets are simpler than TCP — fewer headers. No checksum for data integrity.</li>
-      <li><strong>Advantages:</strong> Much faster than TCP; leaves the application layer to control packet pacing; doesn't reserve a continuous connection.</li>
-      <li><strong>Disadvantages:</strong> Doesn't care if data is received; unstable connections result in poor user experience.</li>
+  <div class="task-block">
+    <div class="task-title">Task 3 — Practical: Handshake</div>
+    <p class="task-desc">A conversation between two people following the TCP handshake process. Had to follow the correct sequence — SYN, SYN/ACK, ACK — to establish the connection and receive the flag.</p>
+    <ul class="qa-list">
+      <li class="qa-item"><div class="qa-q">What is the value of the flag given at the end of the conversation?</div><div class="qa-a"><span class="flag-pill">THM{WIRESHARK_CAPTURE}</span></div></li>
     </ul>
-    <img src="images/image28.png" alt="UDP packet structure diagram" class="room-img">
-    <p class="img-caption">UDP packet structure — simpler than TCP with fewer headers</p>
   </div>
 
-  <div class="section">
-    <h3>Ports</h3>
-    <ul class="notes">
-      <li>Ports are the points through which data is exchanged — like a harbour where ships (data) dock at specific berths (ports).</li>
-      <li>In computing, ports are numerical values between <strong>0–65535</strong>.</li>
-      <li>Ports <strong>0–1024</strong> are known as <strong>common ports</strong> — standardised for specific protocols.</li>
+  <div class="task-block">
+    <div class="task-title">Task 4 — UDP/IP</div>
+    <p class="task-desc">UDP is a stateless protocol — no three-way handshake, no synchronisation, no guaranteed delivery. Much faster than TCP. Used where apps can tolerate data loss (video streaming, voice chat) or where unstable connections are fine. UDP packets are simpler with fewer headers. Shared headers with TCP: TTL, Source address, Destination address, Source port, Destination port, Data.</p>
+    <img src="images/image28.png" alt="UDP packet" class="room-img">
+    <p class="img-caption">UDP packet structure — simpler than TCP</p>
+    <ul class="qa-list">
+      <li class="qa-item"><div class="qa-q">What does the term "UDP" stand for?</div><div class="qa-a">User Datagram Protocol</div></li>
+      <li class="qa-item"><div class="qa-q">What type of connection is "UDP"?</div><div class="qa-a">Stateless</div></li>
+      <li class="qa-item"><div class="qa-q">What protocol would you use to transfer a file?</div><div class="qa-a">TCP</div></li>
+      <li class="qa-item"><div class="qa-q">What protocol would you use to have a video call?</div><div class="qa-a">UDP</div></li>
     </ul>
-    <table class="data" style="margin-top:0.75rem;">
-      <thead><tr><th>Protocol</th><th>Port</th><th>Purpose</th></tr></thead>
-      <tbody>
-        <tr><td><strong>FTP</strong></td><td>21</td><td>File Transfer Protocol — client-server file sharing.</td></tr>
-        <tr><td><strong>SSH</strong></td><td>22</td><td>Secure Shell — securely login to systems via text-based interface.</td></tr>
-        <tr><td><strong>HTTP</strong></td><td>80</td><td>HyperText Transfer Protocol — powers the World Wide Web.</td></tr>
-        <tr><td><strong>HTTPS</strong></td><td>443</td><td>Secure HTTP — encrypted version using TLS/SSL.</td></tr>
-        <tr><td><strong>SMB</strong></td><td>445</td><td>Server Message Block — file and device (e.g. printer) sharing.</td></tr>
-        <tr><td><strong>RDP</strong></td><td>3389</td><td>Remote Desktop Protocol — virtual desktop access to a system.</td></tr>
-      </tbody>
-    </table>
+  </div>
+
+  <div class="task-block">
+    <div class="task-title">Task 5 — Ports 101 (Practical)</div>
+    <p class="task-desc">Ports are the points through which data is exchanged — like a harbour where ships dock at specific berths. Port range: 0–65535. Common ports (0–1024) are standardised for specific protocols: FTP (21), SSH (22), HTTP (80), HTTPS (443), SMB (445), RDP (3389). Practical: connected to IP address on port 1234 using the attached static site.</p>
+    <ul class="qa-list">
+      <li class="qa-item"><div class="qa-q">How many ports are there in total?</div><div class="qa-a">65535</div></li>
+      <li class="qa-item"><div class="qa-q">What port would you use to access a web server running HTTP?</div><div class="qa-a">80</div></li>
+      <li class="qa-item"><div class="qa-q">What flag do you get when you connect to the practical?</div><div class="qa-a"><span class="flag-pill">THM{YOU_CONNECTED_TO_A_PORT}</span></div></li>
+    </ul>
   </div>
   <div class="nav-row">
     <a class="nav-btn" href="osi-model.html">← OSI Model</a>
@@ -199,6 +160,7 @@
   </div>
   <footer>Aden's Study Portal · TryHackMe Pre-Security</footer>
 </div>
+
 <script>
   const btn = document.getElementById('themeBtn');
   const html = document.documentElement;
@@ -206,12 +168,12 @@
   const saved = localStorage.getItem('theme');
   const t = saved || (sys.matches ? 'dark' : 'light');
   html.setAttribute('data-theme', t);
-  btn.textContent = t === 'dark' ? '\u2600\ufe0f' : '\U0001f319';
+  btn.textContent = t === 'dark' ? '☀️' : '🌙';
   btn.addEventListener('click', () => {
     const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
     html.setAttribute('data-theme', next);
     localStorage.setItem('theme', next);
-    btn.textContent = next === 'dark' ? '\u2600\ufe0f' : '\U0001f319';
+    btn.textContent = next === 'dark' ? '☀️' : '🌙';
   });
 </script>
 </body>

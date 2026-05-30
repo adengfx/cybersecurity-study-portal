@@ -2,10 +2,10 @@
 <html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
-<meta name="description" content="Room notes for Intro to LAN — TryHackMe Pre-Security pathway.">
+<meta name="description" content="Task completion record for Intro to LAN — TryHackMe Pre-Security pathway.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Intro to LAN – Aden's Study Portal">
-<meta property="og:description" content="Room notes for Intro to LAN — TryHackMe Pre-Security pathway.">
+<meta property="og:description" content="Task completion record for Intro to LAN — TryHackMe Pre-Security pathway.">
 <meta property="og:url" content="https://adengfx.github.io/cybersecurity-study-portal/labs/presecurity/intro-to-lan.html">
 <meta property="og:site_name" content="Aden's Study Portal">
 <meta name="twitter:card" content="summary">
@@ -67,6 +67,19 @@
   footer { text-align: center; padding: 2rem; color: var(--muted); font-size: 0.78rem; border-top: 1px solid var(--border); margin-top: 2rem; font-family: 'IBM Plex Mono', monospace; }
   @media (max-width: 600px) { body { padding-top: 0.5rem; } }
 
+  .task-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; margin-bottom: 1.25rem; }
+  .task-title { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent2); margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
+  .task-desc { font-size: 0.9rem; color: var(--muted); margin-bottom: 1rem; line-height: 1.6; }
+  .qa-list { list-style: none; padding: 0; }
+  .qa-item { padding: 0.6rem 0; border-bottom: 1px solid rgba(48,54,61,0.5); }
+  .qa-item:last-child { border-bottom: none; }
+  .qa-q { font-size: 0.88rem; color: var(--text); margin-bottom: 0.25rem; }
+  .qa-a { font-family: 'IBM Plex Mono', monospace; font-size: 0.82rem; color: var(--accent3); }
+  .flag-pill { display: inline-block; font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem; background: rgba(126,231,135,0.08); border: 1px solid rgba(126,231,135,0.25); color: var(--accent3); border-radius: 4px; padding: 0.15rem 0.5rem; }
+  .practical-note { font-size: 0.85rem; color: var(--muted); background: var(--surface2); border-radius: 6px; padding: 0.75rem 1rem; margin-bottom: 0.75rem; border-left: 3px solid var(--accent2); }
+  .log-block { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 1rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; color: var(--muted); line-height: 1.8; margin: 0.75rem 0; }
+  .room-img { width: 100%; max-width: 100%; height: auto; border-radius: 6px; border: 1px solid var(--border); margin-top: 0.75rem; margin-bottom: 0.25rem; display: block; object-fit: contain; }
+  .img-caption { font-size: 0.75rem; color: var(--muted); text-align: center; margin-bottom: 0.75rem; font-family: 'IBM Plex Mono', monospace; }
 </style>
 </head>
 <body>
@@ -89,90 +102,61 @@
     <p class="subtitle">Learn about the technologies and designs that power private networks — topologies, switches, routers, subnetting, ARP, and DHCP.</p>
   </header>
 
-  <div class="section">
-    <h3>LAN Topologies</h3>
-    <table class="data">
-      <thead><tr><th>Topology</th><th>How it works</th><th>Advantages</th><th>Disadvantages</th></tr></thead>
-      <tbody>
-        <tr><td><strong>Star</strong></td><td>Devices individually connected via a central switch or hub. Most common today.</td><td>Scalable; robust; easy to add devices</td><td>Expensive (more cabling + hardware); harder to maintain at scale; fails if central device fails</td></tr>
-        <tr><td><strong>Bus</strong></td><td>All devices stem from a single backbone cable like leaves on a tree branch.</td><td>Easy to implement; cost efficient</td><td>Prone to bottlenecks; single point of failure along backbone cable; little redundancy</td></tr>
-        <tr><td><strong>Ring (Token)</strong></td><td>Devices connected in a loop. Data travels in one direction, forwarded by each device. Device only sends received data if it has nothing of its own to send.</td><td>Little cabling; less dependence on dedicated hardware; easy to troubleshoot direction of fault</td><td>Inefficient — data may pass many devices; a cut cable breaks the entire network</td></tr>
-      </tbody>
-    </table>
-    <img src="images/image15.png" alt="Star topology diagram" class="room-img">
-    <p class="img-caption">Star topology — most common in modern networks</p>
-    <img src="images/image16.png" alt="Ring topology diagram" class="room-img">
-    <p class="img-caption">Ring (token) topology — data travels in one direction around the loop</p>
-  </div>
-
-  <div class="section">
-    <h3>Switches</h3>
-    <ul class="notes">
-      <li>Dedicated devices that aggregate multiple devices (computers, printers, etc.) using ethernet cables.</li>
-      <li>Available in 4, 8, 16, 24, 32, and 64 port variants — usually found in larger networks such as businesses and schools.</li>
-      <li>Much more efficient than hubs/repeaters — they <strong>keep track of which device is on which port</strong> and send packets directly, reducing unnecessary network traffic.</li>
-      <li>Switches and routers can connect to one another, increasing network redundancy — if one path goes down, another can be used (may reduce performance but no downtime).</li>
-    </ul>
-  </div>
-
-  <div class="section">
-    <h3>Routers</h3>
-    <ul class="notes">
-      <li>Connect networks and pass data between them via <strong>routing</strong> — the process of creating a path between networks so data can be successfully delivered.</li>
-      <li>Operate at <strong>Layer 3 of the OSI model</strong>.</li>
-      <li>Useful when devices are connected by many paths — routing protocols determine the most optimal path based on: shortest path, reliability, and physical connection speed (copper vs fibre).</li>
-    </ul>
+  <div class="task-block">
+    <div class="task-title">Task 1 — Introducing LAN Topologies</div>
+    <p class="task-desc">Star topology: devices individually connected via a central switch/hub. Most common today — scalable and robust but expensive and fails if central device fails. Bus topology: all devices stem from a single backbone cable — easy and cost-efficient but prone to bottlenecks and single point of failure. Ring (token) topology: devices connected in a loop, data travels one direction — little cabling needed but a cut cable breaks the entire network. Switches aggregate devices, track which device is on each port, and send packets directly rather than broadcasting. Routers connect networks and pass data between them via routing — creating paths for data delivery.</p>
+    <img src="images/image15.png" alt="Star topology" class="room-img">
+    <p class="img-caption">Star topology diagram</p>
+    <img src="images/image16.png" alt="Ring topology" class="room-img">
+    <p class="img-caption">Ring (token) topology diagram</p>
     <img src="images/image17.png" alt="Router diagram" class="room-img">
-    <p class="img-caption">Router connecting multiple networks and choosing optimal paths</p>
+    <p class="img-caption">Router connecting networks via optimal paths</p>
+    <ul class="qa-list">
+      <li class="qa-item"><div class="qa-q">What does LAN stand for?</div><div class="qa-a">Local Area Network</div></li>
+      <li class="qa-item"><div class="qa-q">What is the verb given to the job that routers do?</div><div class="qa-a">Routing</div></li>
+    </ul>
   </div>
 
-  <div class="section">
-    <h3>Subnetting</h3>
-    <ul class="notes">
-      <li><span class="term">Subnetting</span> = splitting a network into smaller networks. Achieved by splitting the number of hosts using a <strong>subnet mask</strong>.</li>
-      <li>Both IP address and subnet mask are made up of <strong>four octets</strong> ranging from 0–255. A subnet mask is <strong>32 bits</strong> total.</li>
-      <li>Benefits: efficiency, security, full control over network segments.</li>
-      <li>Businesses use subnetting to separate departments (e.g. Accounting, Finance, HR) — each gets its own subnet so traffic is isolated.</li>
-    </ul>
-    <table class="data" style="margin-top:1rem;">
-      <thead><tr><th>Address Type</th><th>Purpose</th><th>Example</th></tr></thead>
-      <tbody>
-        <tr><td><strong>Network address</strong></td><td>Identifies the start of the actual network — used to identify the network's existence.</td><td>192.168.1.0</td></tr>
-        <tr><td><strong>Host address</strong></td><td>IP address used to identify a specific device on the subnet.</td><td>192.168.1.100</td></tr>
-        <tr><td><strong>Default gateway</strong></td><td>Special address assigned to the device capable of sending data to another network. Usually .1 or .254.</td><td>192.168.1.1</td></tr>
-      </tbody>
-    </table>
-    <img src="images/image18.png" alt="Subnet diagram" class="room-img">
+  <div class="task-block">
+    <div class="task-title">Task 2 — A Primer on Subnetting</div>
+    <p class="task-desc">Subnetting splits a network into smaller networks using a subnet mask (32-bit, four octets, ranging 0–255). Subnets use three address types: Network address (identifies start of network, e.g. 192.168.1.0), Host address (identifies a specific device, e.g. 192.168.1.100), Default gateway (device capable of sending data to another network, usually .1 or .254). Benefits: efficiency, security, full control.</p>
+    <img src="images/image18.png" alt="Subnetting diagram" class="room-img">
     <p class="img-caption">Subnetting — splitting a network into smaller segments</p>
-    <img src="images/image20.png" alt="Subnetting business example" class="room-img">
+    <img src="images/image20.png" alt="Business subnetting" class="room-img">
     <p class="img-caption">Business subnetting example — departments on separate subnets</p>
+    <ul class="qa-list">
+      <li class="qa-item"><div class="qa-q">What is the technical term for dividing a network up into smaller pieces?</div><div class="qa-a">Subnetting</div></li>
+      <li class="qa-item"><div class="qa-q">How many bits are in a subnet mask?</div><div class="qa-a">32</div></li>
+      <li class="qa-item"><div class="qa-q">What is the range of a section (octet) of a subnet mask?</div><div class="qa-a">0–255</div></li>
+      <li class="qa-item"><div class="qa-q">What address is used to identify the start of a network?</div><div class="qa-a">Network Address</div></li>
+      <li class="qa-item"><div class="qa-q">What address is used to identify devices within a network?</div><div class="qa-a">Host Address</div></li>
+      <li class="qa-item"><div class="qa-q">What is the name used to identify the device responsible for sending data to another network?</div><div class="qa-a">Default Gateway</div></li>
+    </ul>
   </div>
 
-  <div class="section">
-    <h3>ARP (Address Resolution Protocol)</h3>
-    <ul class="notes">
-      <li>Technology responsible for allowing devices to associate a <strong>MAC address</strong> with an <strong>IP address</strong> on a network.</li>
-      <li>Each device maintains an <strong>ARP cache</strong> — a ledger storing MAC-to-IP mappings for other devices.</li>
-      <li><strong>ARP Request:</strong> Broadcast to the entire network — "Which device owns this IP address?"</li>
-      <li><strong>ARP Reply:</strong> The device with the matching IP responds with its MAC address. The requesting device stores this in its ARP cache.</li>
-    </ul>
-    <img src="images/image21.png" alt="ARP request and reply diagram" class="room-img">
+  <div class="task-block">
+    <div class="task-title">Task 3 — ARP (Address Resolution Protocol)</div>
+    <p class="task-desc">ARP allows devices to associate a MAC address with an IP address on a network. Each device maintains an ARP cache — a ledger of MAC-to-IP mappings. ARP Request: broadcast to entire network asking which device owns a specific IP. ARP Reply: device with matching IP responds with its MAC address, which is stored in the requester's cache.</p>
+    <img src="images/image21.png" alt="ARP diagram" class="room-img">
     <p class="img-caption">ARP request and reply process</p>
+    <ul class="qa-list">
+      <li class="qa-item"><div class="qa-q">What does ARP stand for?</div><div class="qa-a">Address Resolution Protocol</div></li>
+      <li class="qa-item"><div class="qa-q">What category of ARP packet asks a device whether or not it has a specific IP address?</div><div class="qa-a">Request</div></li>
+      <li class="qa-item"><div class="qa-q">What address is used as a physical identifier for a device on a network?</div><div class="qa-a">MAC Address</div></li>
+      <li class="qa-item"><div class="qa-q">What address is used as a logical identifier for a device on a network?</div><div class="qa-a">IP Address</div></li>
+    </ul>
   </div>
 
-  <div class="section">
-    <h3>DHCP (Dynamic Host Configuration Protocol)</h3>
-    <ul class="notes">
-      <li>IP addresses can be assigned <strong>manually</strong> (static) or <strong>automatically</strong> via DHCP.</li>
+  <div class="task-block">
+    <div class="task-title">Task 4 — DHCP</div>
+    <p class="task-desc">IP addresses can be assigned manually or automatically via DHCP (Dynamic Host Configuration Protocol). The four-step process: DHCP Discover (device broadcasts to find a DHCP server) → DHCP Offer (server offers an IP address) → DHCP Request (device confirms it wants the offered IP) → DHCP Ack (server confirms assignment is complete).</p>
+    <img src="images/image22.png" alt="DHCP process" class="room-img">
+    <p class="img-caption">DHCP four-step process</p>
+    <ul class="qa-list">
+      <li class="qa-item"><div class="qa-q">What type of DHCP packet is used by a device to retrieve an IP address?</div><div class="qa-a">DHCP Discover</div></li>
+      <li class="qa-item"><div class="qa-q">What type of DHCP packet does a device send once it has been offered an IP address?</div><div class="qa-a">DHCP Request</div></li>
+      <li class="qa-item"><div class="qa-q">Finally, what is the last DHCP packet sent to a device from a DHCP server?</div><div class="qa-a">DHCP Ack</div></li>
     </ul>
-    <div class="stages">
-      <div class="stage-card"><div class="num">STEP 1</div><div class="name">DHCP Discover</div><div class="desc">Device connects and broadcasts a request to find any DHCP server on the network.</div></div>
-      <div class="stage-card"><div class="num">STEP 2</div><div class="name">DHCP Offer</div><div class="desc">DHCP server replies with an IP address the device can use.</div></div>
-      <div class="stage-card"><div class="num">STEP 3</div><div class="name">DHCP Request</div><div class="desc">Device sends a reply confirming it wants to use the offered IP address.</div></div>
-      <div class="stage-card"><div class="num">STEP 4</div><div class="name">DHCP Ack</div><div class="desc">Server confirms the assignment is complete — device can now use the IP address.</div></div>
-    </div>
-    <img src="images/image22.png" alt="DHCP process diagram" class="room-img">
-    <p class="img-caption">DHCP four-step process — Discover, Offer, Request, Ack</p>
   </div>
   <div class="nav-row">
     <a class="nav-btn" href="what-is-networking.html">← What is Networking?</a>
@@ -180,6 +164,7 @@
   </div>
   <footer>Aden's Study Portal · TryHackMe Pre-Security</footer>
 </div>
+
 <script>
   const btn = document.getElementById('themeBtn');
   const html = document.documentElement;
@@ -187,12 +172,12 @@
   const saved = localStorage.getItem('theme');
   const t = saved || (sys.matches ? 'dark' : 'light');
   html.setAttribute('data-theme', t);
-  btn.textContent = t === 'dark' ? '\u2600\ufe0f' : '\U0001f319';
+  btn.textContent = t === 'dark' ? '☀️' : '🌙';
   btn.addEventListener('click', () => {
     const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
     html.setAttribute('data-theme', next);
     localStorage.setItem('theme', next);
-    btn.textContent = next === 'dark' ? '\u2600\ufe0f' : '\U0001f319';
+    btn.textContent = next === 'dark' ? '☀️' : '🌙';
   });
 </script>
 </body>

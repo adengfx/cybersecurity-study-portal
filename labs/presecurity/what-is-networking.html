@@ -2,10 +2,10 @@
 <html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
-<meta name="description" content="Room notes for What is Networking? — TryHackMe Pre-Security pathway. Covers networks, the internet, IP and MAC addresses, and ICMP ping.">
+<meta name="description" content="Task completion record for What is Networking? — TryHackMe Pre-Security pathway.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="What is Networking? – Aden's Study Portal">
-<meta property="og:description" content="Room notes for What is Networking? — TryHackMe Pre-Security pathway.">
+<meta property="og:description" content="Task completion record for What is Networking? — TryHackMe Pre-Security pathway.">
 <meta property="og:url" content="https://adengfx.github.io/cybersecurity-study-portal/labs/presecurity/what-is-networking.html">
 <meta property="og:site_name" content="Aden's Study Portal">
 <meta name="twitter:card" content="summary">
@@ -67,6 +67,19 @@
   footer { text-align: center; padding: 2rem; color: var(--muted); font-size: 0.78rem; border-top: 1px solid var(--border); margin-top: 2rem; font-family: 'IBM Plex Mono', monospace; }
   @media (max-width: 600px) { body { padding-top: 0.5rem; } }
 
+  .task-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; margin-bottom: 1.25rem; }
+  .task-title { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent2); margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
+  .task-desc { font-size: 0.9rem; color: var(--muted); margin-bottom: 1rem; line-height: 1.6; }
+  .qa-list { list-style: none; padding: 0; }
+  .qa-item { padding: 0.6rem 0; border-bottom: 1px solid rgba(48,54,61,0.5); }
+  .qa-item:last-child { border-bottom: none; }
+  .qa-q { font-size: 0.88rem; color: var(--text); margin-bottom: 0.25rem; }
+  .qa-a { font-family: 'IBM Plex Mono', monospace; font-size: 0.82rem; color: var(--accent3); }
+  .flag-pill { display: inline-block; font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem; background: rgba(126,231,135,0.08); border: 1px solid rgba(126,231,135,0.25); color: var(--accent3); border-radius: 4px; padding: 0.15rem 0.5rem; }
+  .practical-note { font-size: 0.85rem; color: var(--muted); background: var(--surface2); border-radius: 6px; padding: 0.75rem 1rem; margin-bottom: 0.75rem; border-left: 3px solid var(--accent2); }
+  .log-block { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 1rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; color: var(--muted); line-height: 1.8; margin: 0.75rem 0; }
+  .room-img { width: 100%; max-width: 100%; height: auto; border-radius: 6px; border: 1px solid var(--border); margin-top: 0.75rem; margin-bottom: 0.25rem; display: block; object-fit: contain; }
+  .img-caption { font-size: 0.75rem; color: var(--muted); text-align: center; margin-bottom: 0.75rem; font-family: 'IBM Plex Mono', monospace; }
 </style>
 </head>
 <body>
@@ -89,62 +102,56 @@
     <p class="subtitle">Begin learning the fundamentals of computer networking — networks, the internet, IP addresses, MAC addresses, and ping.</p>
   </header>
 
-  <div class="section">
-    <h3>Networks and the Internet</h3>
-    <ul class="notes">
-      <li>A network can be formed from 2 devices to billions — ranging from laptops and phones to security cameras, traffic lights, and farming equipment.</li>
-      <li>The <strong>Internet</strong> is a network of networks. Small networks = <strong>private networks</strong>. Networks connecting small networks = <strong>public networks</strong> (the internet).</li>
-      <li>First iteration of the internet was <strong>ARPANET</strong> in the late 1960s, funded by the US Department of Defense — the first documented network in action.</li>
-      <li>The internet as we know it was invented in <strong>1989 by Tim Berners-Lee</strong> with the creation of the <strong>World Wide Web</strong> — making the internet a repository for storing and sharing information.</li>
+  <div class="task-block">
+    <div class="task-title">Task 1 — What is Networking?</div>
+    <p class="task-desc">A network can be formed from 2 devices to billions — ranging from laptops and phones to security cameras, traffic lights, and farming equipment. Networks are integrated into everyday life.</p>
+    <ul class="qa-list">
+      <li class="qa-item"><div class="qa-q">What is the key term for when devices are connected?</div><div class="qa-a">Network</div></li>
     </ul>
+  </div>
+
+  <div class="task-block">
+    <div class="task-title">Task 2 — What is the Internet?</div>
+    <p class="task-desc">The internet is a network of networks. The first iteration was ARPANET in the late 1960s, funded by the US Department of Defense — the first documented network in action. In 1989, Tim Berners-Lee invented the World Wide Web, making the internet a repository for storing and sharing information. Small networks are called private networks; networks connecting them are public networks (the internet).</p>
     <img src="images/image12.png" alt="Internet network diagram" class="room-img">
-    <p class="img-caption">Basic internet diagram — private networks joined together via the public internet</p>
-    <img src="images/image13.png" alt="Public vs private networks" class="room-img">
-    <p class="img-caption">Internet made up of many small private networks connected together</p>
-  </div>
-
-  <div class="section">
-    <h3>IP Addresses</h3>
-    <ul class="notes">
-      <li>Devices use a set of labels to identify themselves: an <strong>IP address</strong> (name) and a <strong>MAC address</strong> (fingerprint).</li>
-      <li>IP address divided into <strong>four octets</strong> — e.g. 192.168.1.100. The value of each octet summarises to be the IP address of the device on the network.</li>
-      <li>IP addresses can change from device to device but <strong>cannot be active more than once</strong> within the same network.</li>
-      <li><strong>Public IP:</strong> Used to identify a device on the internet.</li>
-      <li><strong>Private IP:</strong> Used to identify a device amongst other devices on the same local network.</li>
-      <li><span class="term">IPv4</span> is exhausted. <span class="term">IPv6</span> supports <strong>340 trillion+ addresses</strong> and is more efficient due to new methodologies.</li>
+    <p class="img-caption">Basic internet diagram</p>
+    <img src="images/image13.png" alt="Public and private networks" class="room-img">
+    <p class="img-caption">Internet made up of many small private networks</p>
+    <ul class="qa-list">
+      <li class="qa-item"><div class="qa-q">Who invented the World Wide Web?</div><div class="qa-a">Tim Berners-Lee</div></li>
     </ul>
   </div>
 
-  <div class="section">
-    <h3>MAC Addresses</h3>
-    <ul class="notes">
-      <li>The <strong>fingerprint</strong> of the device itself — set by the manufacturer and literally burnt into the network card.</li>
-      <li>A <strong>12-character hexadecimal number</strong> — e.g. <span class="term">a4:c3:f0:85:ac:2d</span>.</li>
-      <li><strong>First half:</strong> vendor-specific (identifies the manufacturer).</li>
-      <li><strong>Second half:</strong> unique address of the network interface.</li>
-      <li>MAC addresses can be <strong>spoofed</strong> — can fool poorly implemented security designs that rely solely on MAC filtering.</li>
+  <div class="task-block">
+    <div class="task-title">Task 3 — Identifying Devices on a Network</div>
+    <p class="task-desc">Devices identify themselves using an IP address (name) and a MAC address (fingerprint). IP addresses are divided into four octets, can be public or private, and cannot be active more than once on the same network. IPv4 is exhausted; IPv6 supports 340 trillion+ addresses. MAC addresses are 12-character hexadecimal numbers — first half vendor-specific, second half unique to the device. Can be spoofed.</p>
+    <ul class="qa-list">
+      <li class="qa-item"><div class="qa-q">What does the term "IP" stand for?</div><div class="qa-a">Internet Protocol</div></li>
+      <li class="qa-item"><div class="qa-q">What is each section of an IP address called?</div><div class="qa-a">Octet</div></li>
+      <li class="qa-item"><div class="qa-q">How many sections (in digits) does an IPv4 address have?</div><div class="qa-a">4</div></li>
+      <li class="qa-item"><div class="qa-q">What does the term "MAC" stand for?</div><div class="qa-a">Media Access Control</div></li>
+      <li class="qa-item"><div class="qa-q">Deploy the interactive lab and spoof your MAC address to access the site. What is the flag?</div><div class="qa-a"><span class="flag-pill">THM{YOU_GOT_ON_TRYHACKME}</span></div></li>
     </ul>
   </div>
 
-  <div class="section">
-    <h3>Ping (ICMP)</h3>
-    <ul class="notes">
-      <li>One of the most fundamental network tools — pre-installed on operating systems like Linux and Windows.</li>
-      <li>Uses <span class="term">ICMP</span> (Internet Control Message Protocol) packets to determine the performance of a connection between devices.</li>
-      <li>Measures the time taken for ICMP echo packets to travel between devices and receive an echo reply.</li>
-      <li>Can be used against devices on a local network or against websites.</li>
-      <li>Syntax: <span class="term">ping &lt;IP address or website URL&gt;</span></li>
+  <div class="task-block">
+    <div class="task-title">Task 4 — Ping (ICMP)</div>
+    <p class="task-desc">Ping is one of the most fundamental network tools. It uses ICMP (Internet Control Message Protocol) packets to determine the performance of a connection between devices — measuring time taken for echo packets to travel and receive an echo reply. Can be used against devices on a local network or websites.</p>
+    <img src="images/image14.png" alt="Ping output" class="room-img">
+    <p class="img-caption">Ping syntax and output</p>
+    <ul class="qa-list">
+      <li class="qa-item"><div class="qa-q">What protocol does ping use?</div><div class="qa-a">ICMP</div></li>
+      <li class="qa-item"><div class="qa-q">What is the syntax to ping 10.10.10.10?</div><div class="qa-a">ping 10.10.10.10</div></li>
+      <li class="qa-item"><div class="qa-q">What flag do you get when you ping 8.8.8.8?</div><div class="qa-a"><span class="flag-pill">THM{I_PINGED_THE_SERVER}</span></div></li>
     </ul>
-    <img src="images/image14.png" alt="Ping command example" class="room-img">
-    <p class="img-caption">Ping syntax and example output</p>
   </div>
-
   <div class="nav-row">
     <a class="nav-btn" href="careers-in-cyber.html">← Careers in Cyber</a>
     <a class="nav-btn" href="intro-to-lan.html">Intro to LAN →</a>
   </div>
   <footer>Aden's Study Portal · TryHackMe Pre-Security</footer>
 </div>
+
 <script>
   const btn = document.getElementById('themeBtn');
   const html = document.documentElement;
